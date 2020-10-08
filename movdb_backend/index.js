@@ -4,30 +4,21 @@ const { ApolloServer, gql } = require("apollo-server");
 // that together define the "shape" of queries that are executed against
 // your data.
 const typeDefs = gql`
-	# Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
-
-	type counters {
-		_id: String
-		seq: String
+	type Movie {
+		_id: ID
+		title: String
 	}
 
-	# The "Query" type is special: it lists all of the available queries that
-	# clients can execute, along with the return type for each.
-
 	type Query {
-		my_query: [counters]
-		hello: String
+		movies: [Movie]
 	}
 `;
 
 const resolvers = {
   Query: {
-		hello: () => {
-			return `hey sup ? `;
-		},
-		my_query: async () => {
+		get_movies: async () => {
 			values = await db
-			.collection("counters")
+			.collection("movies")
 			.find()
 			.toArray()
 			.then((res) => {
@@ -58,5 +49,5 @@ const client = new MongoClient(url, {
 
 client.connect(function (err) {
 	console.log("MONGOdb connected");
-	db = client.db("users"); //mongodb database name
+	db = client.db("mytestdatabase"); //mongodb database name
 });
