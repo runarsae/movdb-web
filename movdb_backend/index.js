@@ -1,16 +1,36 @@
-const { ApolloServer, gql } = require("apollo-server");
+import { ApolloServer, gql } from "apollo-server";
+import { MongoClient } from "mongodb";
 
-// A schema is a collection of type definitions
-// that together define the "shape" of queries that are executed against
-// your data.
 const typeDefs = gql`
 	type Movie {
 		_id: ID
 		title: String
+		description: String
+		poster: String
+		trailer: String
+	}
+
+	type User {
+		_id: ID
+		username: String
+		password: String
+	}
+
+	type MovieRating {
+		_id: ID
+		user: User
+		movie: Movie
+		rating: Int
 	}
 
 	type Query {
 		movies: [Movie]
+		users: [User]
+		movieRatings: [MovieRating]
+	}
+
+	type Mutation {
+		
 	}
 `;
 
@@ -27,20 +47,44 @@ const resolvers = {
 
 			return values;
 		},
+		users: async () => {
+			values = await db
+			.collection("users")
+			.find()
+			.toArray()
+			.then((res) => {
+				return res;
+			});
+
+			return values;
+		},
+		movieRatings: async () => {
+			values = await db
+			.collection("movieRatings")
+			.find()
+			.toArray()
+			.then((res) => {
+				return res;
+			});
+
+			return values;
+		},
+  },
+
+  Mutation: {
+	// Functions that writes content here (addRating, addUser)
   },
 };
 
-// The ApolloServer constructor requires two parameters: your schema
-// definition and your set of resolvers.
+
 // Start with 'node index.js'
 const server = new ApolloServer({ typeDefs, resolvers });
 
-// The `listen` method launches a web server.
 server.listen().then(({ url }) => {
-	console.log(`🚀  Server ready at ${url}`);
+	console.log(`Server ready at ${url}`);
 });
 
-const MongoClient = require("mongodb").MongoClient;
+
 const url = "mongodb://aleksawk:Varmongodb1814@it2810-23.idi.ntnu.no:27017/mytestdatabase";
 const client = new MongoClient(url, {
 	useNewUrlParser: true,
@@ -49,5 +93,5 @@ const client = new MongoClient(url, {
 
 client.connect(function (err) {
 	console.log("MONGOdb connected");
-	db = client.db("mytestdatabase"); //mongodb database name
+	db = client.db("mytestdatabase");
 });
