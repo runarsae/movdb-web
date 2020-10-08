@@ -16,7 +16,7 @@ const typeDefs = gql`
 
 const resolvers = {
   Query: {
-		get_movies: async () => {
+		movies: async () => {
 			values = await db
 			.collection("movies")
 			.find()
