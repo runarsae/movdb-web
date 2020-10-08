@@ -41,7 +41,7 @@ server.listen().then(({ url }) => {
 });
 
 const MongoClient = require("mongodb").MongoClient;
-const url = "mongodb://it2810-23.idi.ntnu.no:27017";
+const url = "mongodb://aleksawk:Varmongodb1814@it2810-23.idi.ntnu.no:27017";
 const client = new MongoClient(url, {
 	useNewUrlParser: true,
 	useUnifiedTopology: true,
