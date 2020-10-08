@@ -1,12 +1,11 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import { useQuery, gql } from '@apollo/client';
 
 const test = gql`
   query movies {
       movies{
-        id
+        _id
         title
       }
     }
