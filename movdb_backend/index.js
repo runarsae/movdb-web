@@ -34,10 +34,6 @@ const resolvers = {
 			return values;
 		},
   },
-
-  Mutation: {
-	// Functions that writes content here (addRating, addUser)
-  },
 };
 
 
