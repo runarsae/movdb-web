@@ -1,26 +1,9 @@
-import React from 'react';
-import './App.css';
-import { useQuery, gql } from '@apollo/client';
+import React from "react";
+import Header from "./components/Header/Header";
+import "./App.css";
 
-const test = gql`
-  query movies {
-      movies{
-        _id
-        title
-      }
-    }
-`
-;
-
-function App() {
-  const { loading, error, data } = useQuery(test);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-    return (
-      <div>
-        {data}
-      </div>
-    )
+function App(): JSX.Element {
+    return <Header />;
 }
 
 export default App;
