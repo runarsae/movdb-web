@@ -1,5 +1,5 @@
 import React, {FormEvent, useState} from "react";
-import {useLazyQuery} from "@apollo/client";
+import {useMutation} from "@apollo/client";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
@@ -10,32 +10,34 @@ import {PersonRounded, VpnKeyRounded} from "@material-ui/icons";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Typography from "@material-ui/core/Typography";
 import {FormTypes, useStyles} from "./UserForm";
-import {LOGIN} from "../../queries";
+import {REGISTER} from "../../queries";
 import Box from "@material-ui/core/Box";
-import { UserFormCloseEvent } from "./UserButton";
+import {UserFormCloseEvent} from "./UserButton";
 
 interface Props {
     handleUserFormClose: (e: UserFormCloseEvent) => void;
     handleFormChange: (form: FormTypes) => void;
 }
 
-function LoginForm(props: Props): JSX.Element {
+function RegisterForm(props: Props): JSX.Element {
     const classes = useStyles();
 
     const [username, setUsername] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [confirmPassword, setConfirmPassword] = useState<string>("");
 
     const [submitted, setSubmitted] = useState<boolean>(false);
 
-    const [login, {called, loading, data, error}] = useLazyQuery(LOGIN, {
+    const [register, {called, loading, data, error}] = useMutation(REGISTER, {
+        onError: () => {},
         onCompleted: (data) => {
             if (data) {
-                const token = data.loginUser.token;
+                const username = data.createUser.username;
 
-                if (token) {
-                    localStorage.setItem("token", token);
-                    props.handleUserFormClose("login");
-                }
+                console.log(username + " successfully registered.");
+
+                props.handleUserFormClose("register");
+                props.handleFormChange("login");
             }
         }
     });
@@ -49,15 +51,24 @@ function LoginForm(props: Props): JSX.Element {
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         setSubmitted(true);
+        
+        if (error) {
+            error.message = "";
+        }
 
-        if (username.length !== 0 && password.length !== 0) {
-            login({variables: {username: username, password: password}});
+        if (
+            username.length !== 0 &&
+            password.length !== 0 &&
+            confirmPassword.length !== 0 &&
+            password === confirmPassword
+        ) {
+            register({variables: {username: username, password: password}});
         }
     };
 
     return (
         <div>
-            <DialogTitle className={classes.dialogTitle}>Log in</DialogTitle>
+            <DialogTitle className={classes.dialogTitle}>Register</DialogTitle>
             <DialogContent className={classes.dialogContent}>
                 <form onSubmit={handleSubmit}>
                     <Grid
@@ -83,7 +94,7 @@ function LoginForm(props: Props): JSX.Element {
                                 helperText={submitted && username.length === 0 ? "Please enter username." : ""}
                                 InputProps={{
                                     classes: {
-                                        underline: classes.underline,
+                                        underline: classes.underline
                                     }
                                 }}
                             />
@@ -113,12 +124,41 @@ function LoginForm(props: Props): JSX.Element {
                                 helperText={submitted && password.length === 0 ? "Please enter password." : ""}
                                 InputProps={{
                                     classes: {
-                                        underline: classes.underline,
+                                        underline: classes.underline
                                     }
                                 }}
                             />
                         </Grid>
                     </Grid>
+                    <Box pl={5}>
+                        <TextField
+                            className={classes.formElement}
+                            placeholder="Confirm password"
+                            type="password"
+                            margin="dense"
+                            autoComplete="current-password"
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            onKeyDown={keyPress}
+                            value={confirmPassword}
+                            error={
+                                submitted && (confirmPassword.length === 0 || password !== confirmPassword)
+                                    ? true
+                                    : false
+                            }
+                            helperText={
+                                submitted && confirmPassword.length === 0
+                                    ? "Please confirm password."
+                                    : submitted && password !== confirmPassword
+                                    ? "Passwords does not match."
+                                    : ""
+                            }
+                            InputProps={{
+                                classes: {
+                                    underline: classes.underline
+                                }
+                            }}
+                        />
+                    </Box>
 
                     {called && loading && (
                         <Box pt={1}>
@@ -136,21 +176,21 @@ function LoginForm(props: Props): JSX.Element {
                 </form>
             </DialogContent>
             <DialogActions className={classes.actionButtons}>
-                <Button color="secondary" size="small" onClick={() => props.handleFormChange("register")}>
-                    Register
+                <Button color="primary" size="small" onClick={() => props.handleFormChange("login")}>
+                    Log in
                 </Button>
                 <Button
                     onClick={handleSubmit}
                     variant="contained"
-                    color="primary"
+                    color="secondary"
                     size="small"
                     disabled={loading || data ? true : false}
                 >
-                    Log in
+                    Register
                 </Button>
             </DialogActions>
         </div>
     );
 }
 
-export default LoginForm;
+export default RegisterForm;

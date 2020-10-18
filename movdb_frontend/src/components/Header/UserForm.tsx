@@ -5,6 +5,7 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import {CloseRounded} from "@material-ui/icons";
 import LoginForm from "./LoginForm";
 import {UserFormCloseEvent} from "./UserButton";
+import RegisterForm from "./RegisterForm";
 
 export type FormTypes = "login" | "register";
 
@@ -54,24 +55,38 @@ function UserForm(props: Props): JSX.Element {
     const [form, setForm] = useState<FormTypes>("login");
 
     return (
-        <Dialog open={props.open} onClose={() => props.handleUserFormClose(null)}>
+        <Dialog
+            open={props.open}
+            onClose={() => {
+                props.handleUserFormClose(null);
+                setForm("login");
+            }}
+        >
             <IconButton
                 aria-label="close"
                 className={classes.closeButton}
                 size="small"
-                onClick={() => props.handleUserFormClose(null)}
+                onClick={() => {
+                    props.handleUserFormClose(null);
+                    setForm("login");
+                }}
             >
                 <CloseRounded />
             </IconButton>
 
-            {form === "login" && (
+            {props.open && form === "login" && (
                 <LoginForm
                     handleUserFormClose={(e: UserFormCloseEvent) => props.handleUserFormClose(e)}
                     handleFormChange={(form: FormTypes) => setForm(form)}
                 />
             )}
 
-            {form === "register" && <div></div>}
+            {props.open && form === "register" && (
+                <RegisterForm
+                    handleUserFormClose={(e: UserFormCloseEvent) => props.handleUserFormClose(e)}
+                    handleFormChange={(form: FormTypes) => setForm(form)}
+                />
+            )}
         </Dialog>
     );
 }

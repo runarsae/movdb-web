@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import {createStyles, makeStyles} from "@material-ui/core";
+import {createStyles, makeStyles, Theme} from "@material-ui/core";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import ExitToAppRoundedIcon from "@material-ui/icons/ExitToAppRounded";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
@@ -13,10 +13,13 @@ import Alert from "@material-ui/lab/Alert/Alert";
 
 export type UserFormCloseEvent = "login" | "register" | null;
 
-const useStyles = makeStyles(() =>
+type AlertType = "login" | "logout" | "register" | null;
+
+const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         userButton: {
-            gridArea: "userbutton"
+            gridArea: "userbutton",
+            marginLeft: theme.spacing(1)
         }
     })
 );
@@ -32,7 +35,8 @@ function UserButton(): JSX.Element {
 
     const {data, refetch} = useQuery(CURRENT_USER);
 
-    const [snackbarOpen, setSnackbarOpen] = useState(false);
+    const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+    const [alertType, setAlertType] = useState<AlertType>(null);
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
@@ -42,13 +46,17 @@ function UserButton(): JSX.Element {
         localStorage.clear();
         client.resetStore();
         setUserMenuOpen(false);
+        setAlertType("logout");
         setSnackbarOpen(true);
     };
 
     const handleUserFormClose = (e: UserFormCloseEvent) => {
         setUserFormOpen(false);
-        refetch();
         if (e && (e === "login" || e === "register")) {
+            if (e === "login") {
+                refetch();
+            }
+            setAlertType(e);
             setSnackbarOpen(true);
         }
     };
@@ -107,10 +115,18 @@ function UserButton(): JSX.Element {
                 onClose={handleSnackbarClose}
                 anchorOrigin={{vertical: "bottom", horizontal: "right"}}
             >
-                <Alert onClose={handleSnackbarClose} severity={data && data.currentUser ? "success" : "info"}>
-                    {data && data.currentUser
-                        ? <span>Login successful. Welcome, <b>{data.currentUser.username}</b>!</span>
-                        : <span>Logout successful. See you soon!</span>}
+                <Alert onClose={handleSnackbarClose} severity={alertType === "login" ? "success" : "info"}>
+                    {data && data.currentUser && alertType === "login" ? (
+                        <span>
+                            Login successful. Welcome, <b>{data.currentUser.username}</b>!
+                        </span>
+                    ) : alertType === "logout" ? (
+                        <span>Logout successful. See you soon!</span>
+                    ) : alertType === "register" ? (
+                        <span>Registration complete. You can now log in.</span>
+                    ) : (
+                        ""
+                    )}
                 </Alert>
             </Snackbar>
         </div>
