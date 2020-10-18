@@ -11,7 +11,7 @@ class isAuthenticated extends SchemaDirectiveVisitor {
         field.resolve = async function (...args) {
             // Check if username is in context
             if (!args[2].username) {
-                throw new ForbiddenError("You are not authorized for this ressource.");
+                throw new ForbiddenError("You are not authorized for this resource.");
             }
 
             // Resolve field

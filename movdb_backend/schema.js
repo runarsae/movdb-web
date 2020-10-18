@@ -33,10 +33,9 @@ const typeDefs = gql`
     }
 
     type Query {
-        currentUser: User @isAuthenticated
+        currentUser: User
         users: [User] @isAuthenticated
         loginUser(username: String!, password: String!): Token
-        logoutUser: Boolean @isAuthenticated
         movies: [Movie]
     }
 
