@@ -68,7 +68,7 @@ const resolvers = {
                 return {token: token};
             } else {
                 // Throw authentication error
-                throw new AuthenticationError("Login failed.");
+                throw new AuthenticationError("Incorrect username or password.");
             }
         },
 
