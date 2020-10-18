@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
         height: "calc(100% - 132px)",
         top: "132px",
       },
-      backgroundColor: theme.palette.secondary.main
+      backgroundColor: "white"
     },
     btnConfirm: {
       width: "15%",
