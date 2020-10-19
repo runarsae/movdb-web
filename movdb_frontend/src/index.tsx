@@ -62,7 +62,7 @@ function GetMenuValues(){
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <GetMenuValues />
+      <GetMenuValues/>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')

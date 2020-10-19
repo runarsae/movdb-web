@@ -23,7 +23,6 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
       },
       chip: {
         margin: 2,
-        backgroundColor: theme.palette.primary.main,
       },
       noLabel: {
         marginTop: 3,
@@ -31,15 +30,19 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   }));
   
 export interface props{
-    label: String,
-    optionValues: String[],
+    label: string,
+    optionValues: string[] | null,
+    onSelectionChange: (list : string[] | undefined) => void
+    values: string[] | undefined
 }
 
 function Selection(props: props){
     const classes = useStyles();
 
-    const [options, setOptionName] = React.useState<string[]>([]);
-
+    const [options, setOptionName] = React.useState<string[] | undefined>(props.values);
+    React.useEffect(()=>{
+        props.onSelectionChange(options)
+    },[options])
     const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         setOptionName(event.target.value as string[]);
     };
@@ -53,14 +56,13 @@ function Selection(props: props){
             width: 250,
             },
         },
+        getContentAnchorEl: null
     };
 
     return(
         <FormControl className={classes.formControl}>
-                <InputLabel id="mutiple-chip-label">{props.label}</InputLabel>
+                <InputLabel>{props.label}</InputLabel>
                     <Select
-                    labelId="mutiple-chip-label"
-                    id="mutiple-chip"
                     multiple
                     value={options}
                     onChange={handleChange}
@@ -68,13 +70,13 @@ function Selection(props: props){
                     renderValue={(selected) => (
                         <div className={classes.chips}>
                         {(selected as string[]).map((value) => (
-                            <Chip key={value} label={value} className={classes.chip} />
+                            <Chip key={value} label={value} className={classes.chip} color="primary"/>
                         ))}
                         </div>
                     )}
                     MenuProps={MenuProps}
                     >
-                        {props.optionValues.map((option) => (
+                        {props.optionValues?.map((option) => (
                             <MenuItem key={option as string} value={option as string}>
                                 {option}
                             </MenuItem>

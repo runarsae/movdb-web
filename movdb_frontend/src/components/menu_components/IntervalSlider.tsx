@@ -16,11 +16,16 @@ const useStyles = makeStyles({
 export interface props{
     label: string
 	defaultValues: number[]
+	onIntervalChange: (list : number[]) => void
+	values: number[]
 }
 
 function IntervalSlider(props: props){
     const classes = useStyles();
-	const [value, setValue] = React.useState<number[]>(props.defaultValues);
+	const [value, setValue] = React.useState<number[]>(props.values);
+	React.useEffect(()=>{
+        props.onIntervalChange(value)
+    },[value])
 	const MIN = props.defaultValues[0]
 	const MAX = props.defaultValues[1]
   

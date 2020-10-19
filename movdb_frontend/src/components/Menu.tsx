@@ -4,6 +4,7 @@ import Drawer from '@material-ui/core/Drawer';
 import Button from '@material-ui/core/Button';
 import Selection from "./menu_components/Selection";
 import IntervalSlider from "./menu_components/IntervalSlider";
+import { useApolloClient, gql } from '@apollo/client';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
     menuContainer: {
@@ -25,37 +26,71 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
       marginBottom: "50px",
       marginLeft: "auto",
       marginRight: "auto",
-      backgroundColor: theme.palette.primary.main,
     }
   }));
 
+interface menuValues {
+  genres: string[]
+  production_companies: string[]
+  production_countries: string[]
+  release_interval: number[]
+  runtimes_interval: number[]
+}
 
 function Menu(){
     const classes = useStyles();
     const [state, setState] = React.useState({
         open: false,
-  });
-
+    });
+    const client = useApolloClient();
+    const defaultMenuValues : menuValues | null = client.cache.readQuery({
+      query: gql`
+        query menu_parameters{
+          Menu @client
+        }
+      `,
+    })
+    const [menuValues, changeMenuValues] = React.useState<menuValues | null>(defaultMenuValues);
+    React.useEffect(()=>{
+      client.cache.writeQuery({
+        query: gql`
+          query menu_parameters{
+            Menu{
+              genres
+              production_companies
+              production_countries
+              release_interval
+              runtimes_interval
+            }
+          }
+        `,
+        data: {
+          Menu: [menuValues]
+        }
+      })
+    }, [menuValues])
+    
   const toggleDrawer = () => {
     setState({ open: !state.open});
   }
 
   //Prop values that get passed to menu components, only for testing. real data should be given by the provider
-  const Genres : String[] = [
-    'Horror',
-    'Fantasy',
-    'Sci-Fi',
-    'Thriller',
-    'Action',
-  ];
+  const Genres : string[] | null = client.readQuery({
+    query: gql`
+      query movies{
+        genres
+      }
+    `,
+  });
 
-  const Companies : String[] = [
-    'Warner',
-    'Disney',
-    'Universal',
-    'Fox',
-  ];
-  const Countries : String[] = [
+  const Companies : string[] | null = client.readQuery({
+    query: gql`
+      query movies{
+        production_companies
+      }
+    `,
+  });
+  const Countries : string[] = [
     'USA',
     'France',
     'Sweden',
@@ -78,15 +113,26 @@ function Menu(){
                 onClose={toggleDrawer} 
                 classes={{paper: classes.menuContainer}}
                 >
-                    <Selection label="Genre" optionValues={Genres}/>
-                    <Selection label="Country" optionValues={Countries}/>
-                    <Selection label="Production Company" optionValues={Companies}/>
-                    <IntervalSlider label="Realese Date" defaultValues={releaseDates}></IntervalSlider>
-                    <IntervalSlider label="Runtime" defaultValues={runtimes}></IntervalSlider>
+                    <Selection label="Genre" optionValues={Genres} onSelectionChange={(list) => {
+                      changeMenuValues({...menuValues, genres: list})
+                    }} values={menuValues.genres}/>
+                    <Selection label="Country" optionValues={Countries} onSelectionChange={(list) => {
+                      changeMenuValues({...menuValues?, production_countries: list})
+                    }} values={menuValues?.production_countries} />
+                    <Selection label="Production Company" optionValues={Companies} onSelectionChange={(list) => {
+                      changeMenuValues({...menuValues?, production_companies: list})
+                    }} values={menuValues?.production_companies}/>
+                    <IntervalSlider label="Realese Date" defaultValues={releaseDates} onIntervalChange={(list) => {
+                      changeMenuValues({...menuValues?, release_interval: list})
+                    }} values={menuValues?.release_interval}/>
+                    <IntervalSlider label="Runtime" defaultValues={runtimes} onIntervalChange={(list) => {
+                      changeMenuValues({...menuValues?, runtimes_interval: list})
+                    }} values={menuValues?.runtimes_interval}/>
                     <Button 
                       variant="contained"
                       classes={{root: classes.btnConfirm}}
                       onClick={toggleDrawer}
+                      color="primary"
                     >
                       Select
                     </Button>
