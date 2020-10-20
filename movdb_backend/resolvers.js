@@ -1,7 +1,9 @@
 const {AuthenticationError, ForbiddenError} = require("apollo-server");
+const {GraphQLScalarType} = require("graphql");
+const {Kind} = require("graphql/language");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-require('dotenv').config();
+require("dotenv").config();
 
 const BCRYPT_ROUNDS = 12;
 
@@ -18,6 +20,25 @@ client.connect(() => {
 });
 
 const resolvers = {
+    // Custom Date type
+    Date: new GraphQLScalarType({
+        name: "Date",
+        description: "Date type",
+        parseValue(value) {
+            // Value from the client
+            return new Date(value);
+        },
+        serialize(value) {
+            // Value sent to the client
+            return value;
+        },
+        parseLiteral(ast) {
+            if (ast.kind === Kind.INT) {
+                return parseInt(ast.value, 10);
+            }
+            return null;
+        }
+    }),
     Query: {
         users: async () => {
             // Access data layer and get users data
@@ -72,10 +93,68 @@ const resolvers = {
             }
         },
 
-        movies: async () => {
+        movies: async (obj, args, context) => {
+            query = [];
+            sort = {};
+
+            if (args.search) {
+                // AND each word in search string 
+                // (title/overview needs to contain all words in the search string)
+                searchCleaned = args.search.replace(/[^A-Za-z0-9- ]+/g, "");
+
+                search = "";
+
+                searchCleaned.split(" ").forEach((word) => {
+                    search += '"' + word + '" ';
+                });
+
+                query.push({$text: {$search: search.slice(0, -1)}});
+
+                // [Optionally] OR each word in search string 
+                // (title/overview only needs to contain some words in the search string)
+
+                //query.push({$text: {$search: args.search}})
+
+                // Sort according to search result relevance
+                sort = {score: {$meta: "textScore"}};
+            }
+
+            if (args.filter) {
+                if (args.filter.genres && args.filter.genres.length != 0) {
+                    query.push({genres: {$in: args.filter.genres}});
+                }
+
+                if (args.filter.production_companies && args.filter.production_companies.length != 0) {
+                    query.push({production_companies: {$in: args.filter.production_companies}});
+                }
+
+                if (args.filter.production_countries && args.filter.production_countries.length != 0) {
+                    query.push({"production_countries.name": {$in: args.filter.production_countries}});
+                }
+
+                if (args.filter.release_date) {
+                    query.push({
+                        release_date: {
+                            $gte: new Date(args.filter.release_date.start + "-01-01"),
+                            $lte: new Date(args.filter.release_date.end + "-12-31")
+                        }
+                    });
+                }
+
+                if (args.filter.runtime) {
+                    query.push({runtime: {$gte: args.filter.runtime.start, $lte: args.filter.runtime.end}});
+                }
+            }
+
+            if (args.sortBy && args.sortDirection) {
+                sort = {};
+                sort[args.sortBy] = args.sortDirection == "DESC" ? -1 : 1;
+            }
+
             movies = await db
                 .collection("movies")
-                .find()
+                .find({$and: query})
+                .sort(sort)
                 .toArray()
                 .then((res) => {
                     return res;
@@ -118,7 +197,7 @@ const resolvers = {
             return newUser;
         }
     },
-    
+
     User: {
         // Hide password hash
         password() {
