@@ -1,17 +1,17 @@
-import { gql } from '@apollo/client';
+import {gql} from "@apollo/client";
 
 export const typeDefs = gql`
-  type Menu {
-    genres: String
-    production_companies: String
-    production_countries: String
-    release_interval: Int
-    runtimes_interval: Int
-  }
+    type Menu {
+        genres: [String]
+        production_companies: [String]
+        production_countries: [String]
+        release_interval: [Int]
+        runtimes_interval: [Int]
+    }
 
-  type Query {
-    menu_parameters : [Menu]
-  }
+    type Query {
+        MenuValues: Menu
+    }
 `;
 
 export const resolvers = {};
