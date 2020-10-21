@@ -37,12 +37,14 @@ const typeDefs = gql`
         production_countries: [ProductionCountry]
         release_date: Date
         runtime: Int
+        rating: Float
     }
 
     enum SortBy {
         original_title
         release_date
         runtime
+        rating
     }
 
     enum SortDirection {
