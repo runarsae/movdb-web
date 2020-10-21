@@ -50,7 +50,12 @@ const typeDefs = gql`
         DESC
     }
 
-    input Interval {
+    type Interval {
+        start: Int!
+        end: Int!
+    }
+
+    input IntervalInput {
         start: Int!
         end: Int!
     }
@@ -59,8 +64,16 @@ const typeDefs = gql`
         genres: [String]
         production_companies: [String]
         production_countries: [String]
-        release_date: Interval
-        runtime: Interval
+        release_date: IntervalInput
+        runtime: IntervalInput
+    }
+
+    type MenuOptions {
+        genres: [String]
+        productionCompanies: [String]
+        productionCountries: [String]
+        releaseDateInterval: Interval
+        runtimeInterval: Interval
     }
 
     type Query {
@@ -68,6 +81,7 @@ const typeDefs = gql`
         users: [User] @isAuthenticated
         loginUser(username: String!, password: String!): Token
         movies(search: String, filter: Filter, sortBy: SortBy, sortDirection: SortDirection = ASC): [Movie]
+        menuOptions: MenuOptions
     }
 
     type Mutation {

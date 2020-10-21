@@ -98,7 +98,7 @@ const resolvers = {
             sort = {};
 
             if (args.search) {
-                // AND each word in search string 
+                // AND each word in search string
                 // (title/overview needs to contain all words in the search string)
                 searchCleaned = args.search.replace(/[^A-Za-z0-9- ]+/g, "");
 
@@ -110,7 +110,7 @@ const resolvers = {
 
                 query.push({$text: {$search: search.slice(0, -1)}});
 
-                // [Optionally] OR each word in search string 
+                // [Optionally] OR each word in search string
                 // (title/overview only needs to contain some words in the search string)
 
                 //query.push({$text: {$search: args.search}})
@@ -161,6 +161,77 @@ const resolvers = {
                 });
 
             return movies;
+        },
+
+        menuOptions: async (obj, args, context) => {
+            movies = await db.collection("movies");
+
+            genres = [];
+            await movies.distinct("genres", (err, result) => {
+                genres = result;
+            });
+
+            productionCompanies = [];
+            await movies.distinct("production_companies", async (err, result) => {
+                productionCompanies = JSON.parse(JSON.stringify(result));
+            });
+
+            productionCountries = [];
+            await movies.distinct("production_countries.name", (err, result) => {
+                productionCountries = result;
+            });
+
+            releaseDateStart = await movies
+                .find({}, {release_date: 1, _id: 0})
+                .sort({release_date: 1})
+                .limit(1)
+                .toArray()
+                .then((res) => {
+                    return parseInt(res[0].release_date.toDateString().slice(-4));
+                });
+
+            releaseDateEnd = await movies
+                .find({}, {release_date: 1, _id: 0})
+                .sort({release_date: -1})
+                .limit(1)
+                .toArray()
+                .then((res) => {
+                    return parseInt(res[0].release_date.toDateString().slice(-4));
+                });
+
+            runtimeStart = await movies
+                .find({}, {runtime: 1, _id: 0})
+                .sort({runtime: 1})
+                .limit(1)
+                .toArray()
+                .then((res) => {
+                    return res[0].runtime;
+                });
+
+            runtimeEnd = await movies
+                .find({}, {runtime: 1, _id: 0})
+                .sort({runtime: -1})
+                .limit(1)
+                .toArray()
+                .then((res) => {
+                    return res[0].runtime;
+                });
+
+            menuOptions = {
+                genres: genres,
+                productionCompanies: productionCompanies,
+                productionCountries: productionCountries,
+                releaseDateInterval: {
+                    start: releaseDateStart,
+                    end: releaseDateEnd
+                },
+                runtimeInterval: {
+                    start: runtimeStart,
+                    end: runtimeEnd
+                }
+            };
+
+            return menuOptions;
         }
     },
 
