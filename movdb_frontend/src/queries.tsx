@@ -29,7 +29,6 @@ const MENU_VALUES = gql`
     query MenuValues {
         menuValues @client {
             genres
-            production_companies
             production_countries
             release_interval
             runtimes_interval
@@ -37,4 +36,21 @@ const MENU_VALUES = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER, MENU_VALUES};
+const MENU_OPTIONS = gql`
+    query menuOptions{
+        menuOptions{
+            genres
+            productionCountries
+            releaseDateInterval{
+                start
+                end
+            }
+            runtimeInterval{
+                start
+                end
+            }
+        }  
+    }
+`;
+
+export {CURRENT_USER, LOGIN, REGISTER, MENU_VALUES, MENU_OPTIONS};

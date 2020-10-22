@@ -5,7 +5,7 @@ import Button from "@material-ui/core/Button";
 import Selection from "./menu_components/Selection";
 import IntervalSlider from "./menu_components/IntervalSlider";
 import {useApolloClient} from "@apollo/client";
-import {MENU_VALUES} from "../queries";
+import {MENU_VALUES, MENU_OPTIONS} from "../queries";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Parameters {
     genres: string[];
-    production_companies: string[];
     production_countries: string[];
     release_interval: number[];
     runtimes_interval: number[];
@@ -48,6 +47,7 @@ function Menu() {
 
     const [menuOpen, setMenuOpen] = useState(false);
     const [menuValues, setMenuValues] = useState<MenuValues | null>();
+    const [menuOptions, setMenuOptions] = useState<Parameters | null>();
 
     useEffect(() => {
         async function getDefaultMenuValues() {
@@ -94,16 +94,16 @@ function Menu() {
         setMenuValues(updatedMenuValues);
     };
 
-    // Prop values that get passed to menu components, only for testing. real data should be given by the provider
-    const genres: string[] = ["Action", "Drama", "Fantasy"];
-    const companies: string[] = ["Pixar", "Walt Disney", "Warner Bros"];
-    const countries: string[] = ["USA", "France", "Sweden", "Thailand", "Australia"];
-
-    //oldest-movie-newest-movie interval, in years only
-    const releaseDates: number[] = [1950, 2020];
-
-    //shortes-runtime-longest-runtime interval, in minutes
-    const runtimes: number[] = [30, 180];
+    // Empty array in dependancy such that it is only called on mount (and unmount)
+    useEffect(()=>{
+      async function getAllMenuOptions() {
+        const MenuOptions = await client.readQuery({
+          query: MENU_OPTIONS
+        })
+        setMenuOptions(MenuOptions)
+      }
+      getAllMenuOptions()     
+    }, []);
 
     return (
         <div>
@@ -113,35 +113,30 @@ function Menu() {
                 <Drawer anchor="right" open={menuOpen} onClose={toggleDrawer} classes={{paper: classes.menuContainer}}>
                     <Selection
                         label="Genres"
-                        optionValues={genres}
+                        optionValues={menuOptions?.genres}
                         values={menuValues.menuValues.genres}
                         onValueChange={(value: string[]) => handleValueChange("genres", value)}
                     />
 
                     <Selection
                         label="Production Countries"
-                        optionValues={countries}
+                        optionValues={menuOptions?.production_countries}
                         values={menuValues.menuValues.production_countries}
                         onValueChange={(value: string[]) => handleValueChange("production_countries", value)}
                     />
 
-                    <Selection
-                        label="Production Companies"
-                        optionValues={companies}
-						values={menuValues.menuValues.production_companies}
-						onValueChange={(value: string[]) => handleValueChange("production_companies", value)}
-                    />
-
 					<IntervalSlider
 						label="Release Date"
-						interval={releaseDates}
+            MIN={menuOptions?.release_interval[0]}
+            MAX={menuOptions?.release_interval[1]}
 						values={menuValues.menuValues.release_interval}
 						onValueChange={(value: number[]) => handleValueChange("release_interval", value)}
 					/>
 
 					<IntervalSlider
 						label="Runtime"
-						interval={runtimes}
+						MIN={menuOptions?.runtimes_interval[0]}
+            MAX={menuOptions?.runtimes_interval[1]}
 						values={menuValues.menuValues.runtimes_interval}
 						onValueChange={(value: number[]) => handleValueChange("runtimes_interval", value)}
 					/>

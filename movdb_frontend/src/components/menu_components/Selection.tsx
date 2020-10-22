@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface Props {
     label: string;
-    optionValues: string[];
+    optionValues: string[] | null | undefined;
     onValueChange: (value: string[]) => void;
     values: string[];
 }
@@ -96,7 +96,7 @@ function Selection(props: Props) {
                     </div>
                 )}
             >
-                {props.optionValues.map((option) => (
+                {props.optionValues?.map((option) => (
                     <MenuItem key={option as string} value={option as string}>
                         {option}
                     </MenuItem>

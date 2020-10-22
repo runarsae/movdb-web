@@ -28,10 +28,9 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
 // The default menu state to be written to the Apollo cache
 const defaultMenuValues = {
     genres: [],
-    production_companies: [],
     production_countries: [],
     release_interval: [1950, 2020],
-	runtimes_interval: [30, 180]
+	  runtimes_interval: [30, 180]
 };
 
 // Write the default menu values to the cache

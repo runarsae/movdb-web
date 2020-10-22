@@ -12,9 +12,10 @@ const useStyles = makeStyles({
     }
 });
 
-export interface Props {
+interface Props {
     label: string;
-    interval: number[];
+    MIN: number | undefined;
+    MAX: number | undefined
     onValueChange: (value: number[]) => void;
     values: number[];
 }
@@ -23,13 +24,9 @@ function IntervalSlider(props: Props) {
     const classes = useStyles();
 
     const [value, setValue] = useState<number[]>(props.values);    
-
     useEffect(() => {        
         setValue(props.values);
     }, [props.values]);
-
-    const MIN = props.interval[0];
-    const MAX = props.interval[1];
 
     const handleChange = (event: ChangeEvent<{}>, value: number | number[]) => {        
         setValue(value as number[])
@@ -49,8 +46,8 @@ function IntervalSlider(props: Props) {
                 onChangeCommitted={() => props.onValueChange(value)}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
-                min={MIN}
-                max={MAX}
+                min={props.MIN}
+                max={props.MAX}
             />
         </div>
     );
