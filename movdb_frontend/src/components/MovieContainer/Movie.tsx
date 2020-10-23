@@ -4,9 +4,8 @@ import Rating from "./Rating";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardActionArea from "@material-ui/core/CardActionArea";
-import { Tooltip } from "@material-ui/core";
-import Zoom from '@material-ui/core/Zoom';
-
+import {Tooltip} from "@material-ui/core";
+import Zoom from "@material-ui/core/Zoom";
 
 interface Props {
     imdbID: string;
@@ -20,13 +19,12 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             width: 150,
             height: 225,
-            margin: 15,
-            marginTop: 20
+            margin: 20
         },
         media: {
             width: 150,
             height: 225,
-            objectFit: "contain",
+            objectFit: "contain"
         }
     })
 );
@@ -38,10 +36,10 @@ export default function Movie(props: Props) {
         <div>
             <Card raised={true} className={classes.root}>
                 <CardActionArea>
-                    <Tooltip TransitionComponent={Zoom} title={props.title} interactive arrow >
+                    <Tooltip TransitionComponent={Zoom} title={props.title} interactive arrow>
                         <CardMedia className={classes.media} image={props.backgroundImage} />
                     </Tooltip>
-                        <Rating rating={props.rating} />
+                    <Rating rating={props.rating} />
                 </CardActionArea>
             </Card>
         </div>

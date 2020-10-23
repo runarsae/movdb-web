@@ -36,4 +36,47 @@ const MOVIE = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER, MOVIE};
+const MENU_OPTIONS = gql`
+    query menuOptions {
+        menuOptions {
+            genres
+            productionCountries
+            releaseDateInterval {
+                start
+                end
+            }
+            runtimeInterval {
+                start
+                end
+            }
+        }
+    }
+`;
+
+// CACHE-ONLY QUERIES
+const MENU_OPEN = gql`
+    query menuOpen {
+        menuOpen @client {
+            open
+        }
+    }
+`;
+
+const MENU_VALUES = gql`
+    query menuValues {
+        menuValues @client {
+            genres
+            productionCountries {
+                start
+                end
+            }
+            releaseDateInterval {
+                start
+                end
+            }
+            runtimeInterval
+        }
+    }
+`;
+
+export {CURRENT_USER, LOGIN, REGISTER, MENU_OPEN, MENU_VALUES, MENU_OPTIONS, MOVIE};
