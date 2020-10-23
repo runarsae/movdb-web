@@ -9,16 +9,26 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             display: "flex",
             flexWrap: "wrap",
-            marginTop: 100,
-            justifyContent: "center"
+            justifyContent: "center",
+            height: "calc(100% - 132px)",
+            marginTop: "132px",
+            [theme.breakpoints.up("sm")]: {
+                marginTop: "80px",
+                height: "calc(100% - 80px)"
+            }
         }
     })
 );
 
 export default function MovieContainer() {
-    const {data} = useQuery(MOVIE);
+    const classes = useStyles();
+
+    const {loading, data} = useQuery(MOVIE);
+
     let movies = [];
+
     const startPath = "https://image.tmdb.org/t/p/w400/";
+
     if (data) {
         for (let index = 0; index < 20; index++) {
             let currentMovie = data.movies[index];
@@ -33,7 +43,6 @@ export default function MovieContainer() {
             );
         }
     }
-    const classes = useStyles();
 
     return <div className={classes.root}>{movies}</div>;
 }

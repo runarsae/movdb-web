@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -55,39 +55,41 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 // The component takes the id of the movie, and then queries the information using this id.
-interface props {
-    movieID: string;
+interface Props {
+    movieId: string;
     open: boolean;
 }
-interface production_country {
+interface ProductionCountry {
     name: string;
 }
 
-interface movie {
+interface Movie {
     original_title: string;
     overview: string;
     genres: string[];
-    production_country: [production_country];
+    production_country: [ProductionCountry];
     release_date: string;
     runtime: number;
     trailer: string;
 }
 
-function MoviePopup(props: props) {
+function MoviePopup(props: Props) {
     const classes = useStyles();
 
-    //state for the popup
-    const [expanded, setExpanded] = React.useState(false);
-    const [open, setOpen] = React.useState(props.open);
+    const [expanded, setExpanded] = useState(false);
+    const [open, setOpen] = useState(props.open);
+
     const handleClose = () => {
         setOpen(false);
     };
+
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    //movie data
-    const [movieData, setMovieData] = React.useState<movie | null>();
+    // Movie data
+    const [movieData, setMovieData] = useState<Movie>();
+
     const {data} = useQuery(MOVIE_DATA, {
         variables: {imdb_id: "tt0035423"}
     });
