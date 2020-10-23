@@ -40,6 +40,17 @@ const resolvers = {
         }
     }),
     Query: {
+        movie: async (obj, args, context) => {
+            movie = await db
+                .collection("movies")
+                .findOne({imdb_id: args.imdbid})
+                .then((res) => {
+                    return res;
+                });
+
+            return movie;
+        },
+
         users: async () => {
             // Access data layer and get users data
             users = await db

@@ -25,4 +25,20 @@ const REGISTER = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER};
+const MOVIE_DATA = gql`
+    query movie($imdb_id: String!) {
+        movie(imdb_id: $imdb_id) {
+            original_title
+            overview
+            genres
+            production_countries {
+                name
+            }
+            runtime
+            release_date
+            trailer
+        }
+    }
+`;
+
+export {CURRENT_USER, LOGIN, REGISTER, MOVIE_DATA};

@@ -83,6 +83,7 @@ const typeDefs = gql`
         users: [User] @isAuthenticated
         loginUser(username: String!, password: String!): Token
         movies(search: String, filter: Filter, sortBy: SortBy, sortDirection: SortDirection = ASC): [Movie]
+        movie(imdb_id: String!): Movie
         menuOptions: MenuOptions
     }
 
