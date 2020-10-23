@@ -31,6 +31,7 @@ const MOVIE = gql`
             poster_path
             original_title
             rating
+            imdb_id
         }
     }
 `;

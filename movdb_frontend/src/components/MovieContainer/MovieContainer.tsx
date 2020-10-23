@@ -9,7 +9,8 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             display: "flex",
             flexWrap: "wrap",
-            marginTop: 100
+            marginTop: 100,
+            justifyContent: "center"
         }
     })
 );
@@ -17,14 +18,14 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function MovieContainer() {
     const {data} = useQuery(MOVIE);
     let movies = [];
-    const startPath = "https://image.tmdb.org/t/p/original/";
+    const startPath = "https://image.tmdb.org/t/p/w400/";
     if (data) {
-        console.log(data);
-
         for (let index = 0; index < 20; index++) {
             let currentMovie = data.movies[index];
             movies.push(
                 <Movie
+                    key={currentMovie.imdb_id}
+                    imdbID={currentMovie.imdb_id}
                     rating={currentMovie.rating}
                     title={currentMovie.original_title}
                     backgroundImage={startPath + currentMovie.poster_path}
