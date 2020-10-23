@@ -12,7 +12,7 @@ import Typography from "@material-ui/core/Typography";
 import {FormTypes, useStyles} from "./UserForm";
 import {LOGIN} from "../../queries";
 import Box from "@material-ui/core/Box";
-import { UserFormCloseEvent } from "./UserButton";
+import {UserFormCloseEvent} from "./UserButton";
 
 interface Props {
     handleUserFormClose: (e: UserFormCloseEvent) => void;
@@ -83,7 +83,7 @@ function LoginForm(props: Props): JSX.Element {
                                 helperText={submitted && username.length === 0 ? "Please enter username." : ""}
                                 InputProps={{
                                     classes: {
-                                        underline: classes.underline,
+                                        underline: classes.underline
                                     }
                                 }}
                             />
@@ -113,7 +113,7 @@ function LoginForm(props: Props): JSX.Element {
                                 helperText={submitted && password.length === 0 ? "Please enter password." : ""}
                                 InputProps={{
                                     classes: {
-                                        underline: classes.underline,
+                                        underline: classes.underline
                                     }
                                 }}
                             />
