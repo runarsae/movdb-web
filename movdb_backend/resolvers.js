@@ -153,7 +153,7 @@ const resolvers = {
 
             movies = await db
                 .collection("movies")
-                .find({$and: query})
+                .find(query.length==0?{}:{$and: query})
                 .sort(sort)
                 .toArray()
                 .then((res) => {

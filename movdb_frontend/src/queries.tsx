@@ -25,4 +25,14 @@ const REGISTER = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER};
+const MOVIE = gql`
+    query movies($search: String, $filter: Filter, $sortBy: SortBy, $sortDirection: SortDirection) {
+        movies(search: $search, filter: $filter, sortBy: $sortBy, sortDirection: $sortDirection) {
+            poster_path
+            original_title
+            rating
+        }
+    }
+`;
+
+export {CURRENT_USER, LOGIN, REGISTER, MOVIE};
