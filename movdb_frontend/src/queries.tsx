@@ -25,23 +25,6 @@ const REGISTER = gql`
     }
 `;
 
-const MENU_VALUES = gql`
-    query MenuValues {
-        menuValues @client {
-            genres
-            productionCountries {
-                start
-                end
-            }
-            releaseDateInterval {
-                start
-                end
-            }
-            runtimeInterval
-        }
-    }
-`;
-
 const MENU_OPTIONS = gql`
     query menuOptions {
         menuOptions {
@@ -59,4 +42,30 @@ const MENU_OPTIONS = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER, MENU_VALUES, MENU_OPTIONS};
+// CACHE-ONLY QUERIES
+const MENU_OPEN = gql`
+    query menuOpen {
+        menuOpen @client {
+            open
+        }
+    }
+`;
+
+const MENU_VALUES = gql`
+    query menuValues {
+        menuValues @client {
+            genres
+            productionCountries {
+                start
+                end
+            }
+            releaseDateInterval {
+                start
+                end
+            }
+            runtimeInterval
+        }
+    }
+`;
+
+export {CURRENT_USER, LOGIN, REGISTER, MENU_OPEN, MENU_VALUES, MENU_OPTIONS};

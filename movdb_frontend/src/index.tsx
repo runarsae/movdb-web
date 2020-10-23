@@ -32,6 +32,9 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
                 fields: {
                     menuValues: {
                         merge: false
+                    },
+                    menuOpen: {
+                        merge: false
                     }
                 }
             }

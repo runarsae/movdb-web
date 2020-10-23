@@ -2,10 +2,10 @@ import React, {useEffect, useState} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core";
 import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
-import Selection from "./menu_components/Selection";
-import IntervalSlider from "./menu_components/IntervalSlider";
-import {useApolloClient, useLazyQuery} from "@apollo/client";
-import {MENU_VALUES, MENU_OPTIONS} from "../queries";
+import Selection from "./Selection";
+import IntervalSlider from "./IntervalSlider";
+import {useApolloClient, useLazyQuery, useQuery} from "@apollo/client";
+import {MENU_OPEN, MENU_VALUES, MENU_OPTIONS} from "../../queries";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -66,6 +66,14 @@ function Menu() {
     const [menuValues, setMenuValues] = useState<Parameters | null>();
     const [menuOptions, setMenuOptions] = useState<Parameters | null>();
 
+    const {data} = useQuery(MENU_OPEN);
+
+    useEffect(() => {
+        if (data) {
+            setMenuOpen(data.menuOpen.open);
+        }
+    }, [data]);
+
     const [getMenuOptions] = useLazyQuery(MENU_OPTIONS, {
         onCompleted: (data) => {
             setMenuOptions(data.menuOptions);
@@ -98,8 +106,6 @@ function Menu() {
 
         // Write to cache if menu is closed and menu values are defined
         if (!menuOpen && menuValues) {
-            console.log("Writing to cache:", menuValues);
-
             client.cache.writeQuery({
                 query: MENU_VALUES,
                 data: {
@@ -107,10 +113,17 @@ function Menu() {
                 }
             });
         }
-    }, [getMenuOptions, menuOpen, menuValues, client]);
+    }, [getMenuOptions, menuOpen, menuValues, menuOptions, client]);
 
     const toggleDrawer = () => {
-        setMenuOpen(!menuOpen);
+        client.cache.writeQuery({
+            query: MENU_OPEN,
+            data: {
+                menuOpen: {
+                    open: false
+                }
+            }
+        });
     };
 
     const handleValueChange = (type: string, value: string[] | Interval) => {
@@ -126,8 +139,6 @@ function Menu() {
 
     return (
         <div>
-            <Button onClick={toggleDrawer}>Show menu</Button>
-
             {menuValues && menuOptions && (
                 <Drawer anchor="right" open={menuOpen} onClose={toggleDrawer} classes={{paper: classes.menuContainer}}>
                     <Selection
@@ -164,7 +175,7 @@ function Menu() {
                         onClick={toggleDrawer}
                         color="primary"
                     >
-                        Select
+                        Confirm
                     </Button>
                 </Drawer>
             )}

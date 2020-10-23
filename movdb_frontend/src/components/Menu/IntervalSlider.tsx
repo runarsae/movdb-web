@@ -2,7 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
-import {Interval} from "../Menu";
+import {Interval} from "./Menu";
 
 const useStyles = makeStyles({
     root: {

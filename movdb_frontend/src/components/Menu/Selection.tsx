@@ -23,9 +23,6 @@ const useStyles = makeStyles((theme: Theme) =>
         chip: {
             margin: 2
         },
-        input: {
-            minHeight: 49
-        },
         inputLabel: {
             // Prevent label jumping when shrinking due to changed input field sizes
             transform: "translate(0, 34px) scale(1)",
@@ -35,6 +32,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         select: {
             minHeight: 36,
+            height: "auto",
             paddingLeft: 4
         }
     })
@@ -85,7 +83,7 @@ function Selection(props: Props) {
                     }, 60);
                 }}
                 onChange={handleChange}
-                input={<Input className={classes.input} />}
+                input={<Input />}
                 classes={{root: classes.select}}
                 MenuProps={MenuProps}
                 renderValue={(selected) => (
