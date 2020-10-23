@@ -41,12 +41,7 @@ const resolvers = {
     }),
     Query: {
         movie: async (obj, args, context) => {
-            movie = await db
-                .collection("movies")
-                .findOne({imdb_id: args.imdbid})
-                .then((res) => {
-                    return res;
-                });
+            movie = await db.collection("movies").findOne({imdb_id: args.imdb_id});
 
             return movie;
         },
@@ -164,7 +159,7 @@ const resolvers = {
 
             movies = await db
                 .collection("movies")
-                .find(query.length==0?{}:{$and: query})
+                .find(query.length == 0 ? {} : {$and: query})
                 .sort(sort)
                 .toArray()
                 .then((res) => {

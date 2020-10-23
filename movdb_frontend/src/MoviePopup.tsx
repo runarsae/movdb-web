@@ -97,7 +97,6 @@ function MoviePopup(props: Props) {
     useEffect(() => {
         if (data) {
             setMovieData(data);
-            console.log("moviedata:", data);
         }
     }, [data]);
 
