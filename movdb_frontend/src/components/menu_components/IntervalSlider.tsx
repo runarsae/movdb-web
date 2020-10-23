@@ -2,6 +2,7 @@ import React, {ChangeEvent, useEffect, useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
+import {Interval} from "../Menu";
 
 const useStyles = makeStyles({
     root: {
@@ -14,22 +15,22 @@ const useStyles = makeStyles({
 
 interface Props {
     label: string;
-    MIN: number | undefined;
-    MAX: number | undefined
-    onValueChange: (value: number[]) => void;
-    values: number[];
+    optionValues: Interval;
+    onValueChange: (value: Interval) => void;
+    values: Interval;
 }
 
 function IntervalSlider(props: Props) {
     const classes = useStyles();
 
-    const [value, setValue] = useState<number[]>(props.values);    
-    useEffect(() => {        
+    const [value, setValue] = useState<Interval>(props.values);
+
+    useEffect(() => {
         setValue(props.values);
     }, [props.values]);
 
-    const handleChange = (event: ChangeEvent<{}>, value: number | number[]) => {        
-        setValue(value as number[])
+    const handleChange = (event: ChangeEvent<{}>, value: number | number[]) => {
+        setValue({start: (value as number[])[0], end: (value as number[])[1]});
     };
 
     function valuetext(value: number) {
@@ -41,13 +42,13 @@ function IntervalSlider(props: Props) {
             <Typography gutterBottom>{props.label}</Typography>
 
             <Slider
-                value={value}
+                value={[value.start, value.end]}
                 onChange={handleChange}
                 onChangeCommitted={() => props.onValueChange(value)}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
-                min={props.MIN}
-                max={props.MAX}
+                min={props.optionValues.start}
+                max={props.optionValues.end}
             />
         </div>
     );

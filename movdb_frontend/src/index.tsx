@@ -3,42 +3,42 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-import {ApolloProvider} from "@apollo/client";
+import {ApolloProvider, createHttpLink} from "@apollo/client";
 import {ApolloClient, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
+import {setContext} from "@apollo/client/link/context";
 import {resolvers, typeDefs} from "./resolvers";
-import {MENU_VALUES} from "./queries";
 
-const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
-    uri: "http://localhost:4000/",
-    cache: new InMemoryCache({
-		typePolicies: {
-			Query: {
-			  fields: {
-				menuValues: {
-				  merge: false
-				}
-			  }
-			}
-		  }
-	}),
-    typeDefs,
-    resolvers
+const httpLink = createHttpLink({
+    uri: "http://localhost:4000"
 });
 
-// The default menu state to be written to the Apollo cache
-const defaultMenuValues = {
-    genres: [],
-    production_countries: [],
-    release_interval: [1950, 2020],
-	  runtimes_interval: [30, 180]
-};
+const authLink = setContext((_, {headers}) => {
+    // Get the authentication token from local storage if it exists
+    const token = localStorage.getItem("token");
+    // Return the headers to the context so httpLink can read them
+    return {
+        headers: {
+            ...headers,
+            authorization: token ? `Bearer ${token}` : ""
+        }
+    };
+});
 
-// Write the default menu values to the cache
-client.writeQuery({
-    query: MENU_VALUES,
-    data: {
-        menuValues: defaultMenuValues
-    }
+const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: new InMemoryCache({
+        typePolicies: {
+            Query: {
+                fields: {
+                    menuValues: {
+                        merge: false
+                    }
+                }
+            }
+        }
+    }),
+    typeDefs,
+    resolvers
 });
 
 ReactDOM.render(

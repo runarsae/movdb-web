@@ -29,27 +29,33 @@ const MENU_VALUES = gql`
     query MenuValues {
         menuValues @client {
             genres
-            production_countries
-            release_interval
-            runtimes_interval
+            productionCountries {
+                start
+                end
+            }
+            releaseDateInterval {
+                start
+                end
+            }
+            runtimeInterval
         }
     }
 `;
 
 const MENU_OPTIONS = gql`
-    query menuOptions{
-        menuOptions{
+    query menuOptions {
+        menuOptions {
             genres
             productionCountries
-            releaseDateInterval{
+            releaseDateInterval {
                 start
                 end
             }
-            runtimeInterval{
+            runtimeInterval {
                 start
                 end
             }
-        }  
+        }
     }
 `;
 

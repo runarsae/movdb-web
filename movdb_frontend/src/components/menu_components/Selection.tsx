@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export interface Props {
     label: string;
-    optionValues: string[] | null | undefined;
+    optionValues: string[];
     onValueChange: (value: string[]) => void;
     values: string[];
 }
