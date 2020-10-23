@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {useQuery} from "@apollo/client";
-import {MOVIE_DATA} from "./queries";
+import {MOVIE_DATA, MOVIE} from "./queries";
 import Backdrop from "@material-ui/core/Backdrop";
 import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
@@ -114,7 +114,7 @@ function MoviePopup(props: props) {
                             </IconButton>
                         }
                     />
-                    <CardMedia className={classes.media} image="/static/images/cards/paella.jpg" title="Paella dish" />
+                    <CardMedia className={classes.media} component={"iframe"} height={"140"} image={"https://www.youtube.com/embed/TcMBFSGVi1c&t"}/>
                     <CardContent>
                         <Typography variant="body2" color="textSecondary" component="p">
                             This impressive paella is a perfect party dish and a fun meal to cook together with your
