@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./components/Header/Header";
+import MovieContainer from "./components/MovieContainer/MovieContainer";
 import "./App.css";
 import MoviePopup from "./MoviePopup";
 
