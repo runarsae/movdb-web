@@ -3,19 +3,22 @@ import Movie from "./Movie";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
 import {useQuery} from "@apollo/client";
 import {MOVIE} from "../../queries";
+import Sort from "./Sort";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
-            display: "flex",
-            flexWrap: "wrap",
-            justifyContent: "center",
             height: "calc(100% - 132px)",
             marginTop: "132px",
             [theme.breakpoints.up("sm")]: {
                 marginTop: "80px",
                 height: "calc(100% - 80px)"
             }
+        },
+        movies: {
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center"
         }
     })
 );
@@ -23,7 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export default function MovieContainer() {
     const classes = useStyles();
 
-    const {loading, data} = useQuery(MOVIE);
+    const {data} = useQuery(MOVIE);
 
     let movies = [];
 
@@ -44,5 +47,10 @@ export default function MovieContainer() {
         }
     }
 
-    return <div className={classes.root}>{movies}</div>;
+    return (
+        <div className={classes.root}>
+            <Sort />
+            <div className={classes.movies}>{movies}</div>
+        </div>
+    );
 }

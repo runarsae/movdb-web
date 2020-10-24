@@ -79,4 +79,20 @@ const MENU_VALUES = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER, MENU_OPEN, MENU_VALUES, MENU_OPTIONS, MOVIE};
+const SORT = gql`
+    query sort {
+        sort @client {
+            sort
+        }
+    }
+`;
+
+const SORT_DIRECTION = gql`
+    query sortDirection {
+        sortDirection @client {
+            sortDirection
+        }
+    }
+`;
+
+export {CURRENT_USER, LOGIN, REGISTER, MENU_OPEN, MENU_VALUES, MENU_OPTIONS, MOVIE, SORT, SORT_DIRECTION};
