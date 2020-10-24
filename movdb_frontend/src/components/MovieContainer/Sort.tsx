@@ -12,6 +12,7 @@ import {
     ArrowUpwardRounded,
     ArrowDownwardRounded
 } from "@material-ui/icons";
+import ScrollContainer from "react-indiana-drag-scroll";
 import {SORT, SORT_DIRECTION} from "../../queries";
 
 type Sort = "rating" | "original_title" | "runtime" | "release_date";
@@ -28,20 +29,23 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: theme.spacing(2),
             margin: 0,
             boxSizing: "border-box",
-            width: "100%"
+            width: "100%",
+            "& .MuiGrid-item": {
+                width: "100%"
+            }
         },
         sortContainer: {
+            display: "flex",
             flexWrap: "nowrap",
             width: "auto",
-            overflowX: "scroll",
-            msOverflowStyle: "none",
-            scrollbarWidth: "none",
-            "&::-webkit-scrollbar": {
-                display: "none"
-            }
+            padding: theme.spacing(1)
         },
         chip: {
             marginRight: theme.spacing(1),
+            WebkitUserSelect: "none",
+            MozUserSelect: "none",
+            msUserSelect: "none",
+            userSelect: "none",
             "&:last-child": {
                 marginRight: 0
             }
@@ -89,7 +93,7 @@ function Sort(props: Props): JSX.Element {
 
     return (
         <Grid container className={classes.sort} justify="space-between" alignItems="center" spacing={2}>
-            <Grid item container className={classes.sortContainer}>
+            <ScrollContainer vertical={false} className={classes.sortContainer}>
                 <Chip
                     label="Rating"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
@@ -126,9 +130,9 @@ function Sort(props: Props): JSX.Element {
                     onClick={() => handleSortByClick("release_date")}
                     clickable={sort !== "release_date"}
                 />
-            </Grid>
+            </ScrollContainer>
 
-            <Grid item container className={classes.sortContainer}>
+            <ScrollContainer vertical={false} className={classes.sortContainer}>
                 <Chip
                     label="ASC"
                     size="small"
@@ -147,7 +151,7 @@ function Sort(props: Props): JSX.Element {
                     onClick={() => handleSortDirectionClick("DESC")}
                     clickable={sortDirection !== "DESC"}
                 />
-            </Grid>
+            </ScrollContainer>
         </Grid>
     );
 }
