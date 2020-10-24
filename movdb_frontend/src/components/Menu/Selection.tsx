@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -51,12 +51,8 @@ function Selection(props: Props) {
     const [selected, setSelected] = useState<string[]>(props.values);
 
     const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
-        props.onValueChange(event.target.value as string[]);
+        setSelected(event.target.value as string[]);
     };
-
-    useEffect(() => {
-        setSelected(props.values);
-    }, [props.values]);
 
     const MenuProps = {
         PaperProps: {
@@ -77,6 +73,8 @@ function Selection(props: Props) {
                 displayEmpty
                 value={selected}
                 onClose={() => {
+                    props.onValueChange(selected);
+
                     // Remove input field focus when selection is closed
                     setTimeout(() => {
                         (document.activeElement! as HTMLElement).blur();
