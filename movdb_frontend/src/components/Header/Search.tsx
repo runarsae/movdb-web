@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import SearchRoundedIcon from "@material-ui/icons/SearchRounded";
 import {createStyles, makeStyles, Theme} from "@material-ui/core";
 import InputBase from "@material-ui/core/InputBase/InputBase";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import Paper from "@material-ui/core/Paper/Paper";
+import {useApolloClient} from "@apollo/client";
+import {SEARCH} from "../../queries";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,14 +33,53 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 function Search(): JSX.Element {
+    const client = useApolloClient();
+
     const classes = useStyles();
+
+    const [search, setSearch] = useState<string>();
+
+    useEffect(() => {
+        // Write default value
+        client.cache.writeQuery({
+            query: SEARCH,
+            data: {
+                search: ""
+            }
+        });
+    }, [client.cache]);
+
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        (document.activeElement! as HTMLElement).blur();
+
+        client.cache.writeQuery({
+            query: SEARCH,
+            data: {
+                search: search
+            }
+        });
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setSearch(event.target.value);
+    };
 
     return (
         <Paper className={classes.search}>
-            <InputBase className={classes.input} placeholder="Search" inputProps={{"aria-label": "search movdb"}} />
-            <IconButton type="submit" className={classes.searchButton} aria-label="search">
-                <SearchRoundedIcon />
-            </IconButton>
+            <form onSubmit={handleSubmit}>
+                <InputBase
+                    className={classes.input}
+                    placeholder="Search"
+                    inputProps={{"aria-label": "search movdb"}}
+                    onChange={handleChange}
+                    endAdornment={
+                        <IconButton type="submit" className={classes.searchButton} aria-label="search">
+                            <SearchRoundedIcon />
+                        </IconButton>
+                    }
+                />
+            </form>
         </Paper>
     );
 }
