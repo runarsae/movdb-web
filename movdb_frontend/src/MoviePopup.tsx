@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useRef} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -17,6 +17,8 @@ import CloseIcon from "@material-ui/icons/Close";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Chip from "@material-ui/core/Chip";
+import VolumeOffIcon from "@material-ui/icons/VolumeOff";
+import VolumeUpIcon from "@material-ui/icons/VolumeUp";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -34,8 +36,10 @@ const useStyles = makeStyles((theme: Theme) =>
             transition: "all 0.25s"
         },
         media: {
-            height: 0,
-            paddingTop: "56.25%" // 16:9
+            width: "100%",
+            height: "50vh",
+            minHeight: "300px"
+            //paddingTop: "56.25%" // 16:9
         },
         expand: {
             transform: "rotate(0deg)",
@@ -54,6 +58,28 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         chip: {
             margin: 2
+        },
+        holder: {
+            width: "100%",
+            height: "51vh",
+            minHeight: "301px",
+            position: "relative"
+        },
+        cover: {
+            position: "absolute",
+            top: "0",
+            width: "100%",
+            height: "51vh",
+            minHeight: "301px",
+            left: "0"
+        },
+        btnVolume: {
+            position: "absolute",
+            top: "40vh",
+            left: "90%",
+            zIndex: 9999,
+            fontSize: "large",
+            color: "white"
         }
     })
 );
@@ -79,7 +105,8 @@ interface Movie {
 
 function MoviePopup(props: Props) {
     const classes = useStyles();
-
+    const [volume, setVolume] = useState(false);
+    const video = useRef(null);
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(props.open);
 
@@ -90,6 +117,17 @@ function MoviePopup(props: Props) {
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
+
+    const handleVolume = () => {
+        setVolume(!volume);
+    };
+    useEffect(() => {
+        if (volume) {
+            //video.current?.
+        } else {
+            //video.current?.
+        }
+    }, [volume]);
 
     // Movie data
     const [movieData, setMovieData] = useState<Movie>();
@@ -122,11 +160,30 @@ function MoviePopup(props: Props) {
                                 </IconButton>
                             }
                         />
-                        <CardMedia
-                            className={classes.media}
-                            component={"iframe"}
-                            src="https://www.youtube.com/embed/TcMBFSGVi1c"
-                        />
+                        <div className={classes.holder}>
+                            {volume && (
+                                <IconButton aria-label="close" onClick={handleVolume} className={classes.btnVolume}>
+                                    <VolumeUpIcon />
+                                </IconButton>
+                            )}
+                            {!volume && (
+                                <IconButton aria-label="close" onClick={handleVolume} className={classes.btnVolume}>
+                                    <VolumeOffIcon />
+                                </IconButton>
+                            )}
+                            <div className={classes.cover}></div>
+                            <CardMedia
+                                className={classes.media}
+                                component={"iframe"}
+                                src={
+                                    "https://www.youtube.com/embed/" +
+                                    movieData.trailer +
+                                    "?mute=1&autoplay=1&controls=0&playlist=" +
+                                    movieData.trailer +
+                                    "&loop=1"
+                                }
+                            />
+                        </div>
                         <CardContent>
                             <Typography variant="body2">{movieData.overview}</Typography>
                         </CardContent>
