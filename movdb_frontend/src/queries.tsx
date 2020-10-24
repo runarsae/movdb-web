@@ -80,18 +80,14 @@ const MENU_VALUES = gql`
 `;
 
 const SORT = gql`
-    query sort {
-        sort @client {
-            sort
-        }
+    query sort @client {
+        sort
     }
 `;
 
 const SORT_DIRECTION = gql`
-    query sortDirection {
-        sortDirection @client {
-            sortDirection
-        }
+    query sortDirection @client {
+        sortDirection
     }
 `;
 

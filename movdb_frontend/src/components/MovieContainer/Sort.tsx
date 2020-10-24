@@ -61,7 +61,7 @@ function Sort(props: Props): JSX.Element {
         client.cache.writeQuery({
             query: SORT,
             data: {
-                sort: {sort: sort}
+                sort: sort
             }
         });
     }, [sort, client.cache]);
@@ -70,7 +70,7 @@ function Sort(props: Props): JSX.Element {
         client.cache.writeQuery({
             query: SORT_DIRECTION,
             data: {
-                sortDirection: {sortDirection: sortDirection}
+                sortDirection: sortDirection
             }
         });
     }, [sortDirection, client.cache]);
