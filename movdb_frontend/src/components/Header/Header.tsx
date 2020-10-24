@@ -51,9 +51,7 @@ function Header(): JSX.Element {
         client.cache.writeQuery({
             query: MENU_OPEN,
             data: {
-                menuOpen: {
-                    open: true
-                }
+                menuOpen: true
             }
         });
     };
