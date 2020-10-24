@@ -56,9 +56,7 @@ const MENU_OPTIONS = gql`
 // CACHE-ONLY QUERIES
 const MENU_OPEN = gql`
     query menuOpen {
-        menuOpen @client {
-            open
-        }
+        menuOpen @client
     }
 `;
 
@@ -66,10 +64,7 @@ const MENU_VALUES = gql`
     query menuValues {
         menuValues @client {
             genres
-            productionCountries {
-                start
-                end
-            }
+            productionCountries
             releaseDateInterval {
                 start
                 end
@@ -80,20 +75,20 @@ const MENU_VALUES = gql`
 `;
 
 const SORT = gql`
-    query sort @client {
-        sort
+    query sort {
+        sort @client
     }
 `;
 
 const SORT_DIRECTION = gql`
-    query sortDirection @client {
-        sortDirection
+    query sortDirection {
+        sortDirection @client
     }
 `;
 
 const SEARCH = gql`
-    query search @client {
-        search
+    query search {
+        search @client
     }
 `;
 

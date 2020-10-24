@@ -70,7 +70,7 @@ function Menu() {
 
     useEffect(() => {
         if (data) {
-            setMenuOpen(data.menuOpen.open);
+            setMenuOpen(data.menuOpen);
         }
     }, [data]);
 
@@ -119,14 +119,14 @@ function Menu() {
         client.cache.writeQuery({
             query: MENU_OPEN,
             data: {
-                menuOpen: {
-                    open: false
-                }
+                menuOpen: false
             }
         });
     };
 
     const handleValueChange = (type: string, value: string[] | Interval) => {
+        console.log(value);
+
         // Overwrite the old menu value with the updated one for the given type
         const updatedMenuValues = {
             ...menuValues!,
