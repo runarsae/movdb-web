@@ -7,6 +7,7 @@ import {ApolloProvider, createHttpLink} from "@apollo/client";
 import {ApolloClient, InMemoryCache, NormalizedCacheObject} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
 import {resolvers, typeDefs} from "./resolvers";
+import {createMuiTheme, MuiThemeProvider} from "@material-ui/core/styles";
 
 const httpLink = createHttpLink({
     uri: "http://localhost:4000"
@@ -44,10 +45,43 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     resolvers
 });
 
+declare module "@material-ui/core/styles/createBreakpoints" {
+    interface BreakpointOverrides {
+        xs: true;
+        sm: true;
+        md: true;
+        lg: true;
+        xl: true;
+    }
+}
+const theme = createMuiTheme({
+    breakpoints: {
+        values: {
+            xs: 0,
+            sm: 600,
+            md: 960,
+            lg: 1280,
+            xl: 1920
+        }
+    },
+    palette: {
+        primary: {
+            light: "#fff",
+            main: "rgb(23, 105, 170)",
+            dark: "#000"
+        },
+        secondary: {
+            main: "#f44336"
+        }
+    }
+});
+
 ReactDOM.render(
     <React.StrictMode>
         <ApolloProvider client={client}>
-            <App />
+            <MuiThemeProvider theme={theme}>
+                <App />
+            </MuiThemeProvider>
         </ApolloProvider>
     </React.StrictMode>,
     document.getElementById("root")
