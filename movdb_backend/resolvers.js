@@ -172,9 +172,7 @@ const resolvers = {
 
             return {
                 movies: movies,
-                page: args.page,
-                pageCount: pageCount,
-                pageSize: args.pageSize
+                pageCount: pageCount
             };
         },
 
