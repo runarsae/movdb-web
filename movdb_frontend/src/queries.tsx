@@ -25,13 +25,16 @@ const REGISTER = gql`
     }
 `;
 
-const MOVIE = gql`
+const MOVIES = gql`
     query movies($search: String, $filter: Filter, $sortBy: SortBy, $sortDirection: SortDirection) {
         movies(search: $search, filter: $filter, sortBy: $sortBy, sortDirection: $sortDirection) {
-            poster_path
-            original_title
-            rating
-            imdb_id
+            movies {
+                poster_path
+                original_title
+                rating
+                imdb_id
+            }
+            pageCount
         }
     }
 `;
@@ -92,4 +95,4 @@ const SEARCH = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER, MENU_OPEN, MENU_VALUES, MENU_OPTIONS, MOVIE, SORT, SORT_DIRECTION, SEARCH};
+export {CURRENT_USER, LOGIN, REGISTER, MENU_OPEN, MENU_VALUES, MENU_OPTIONS, MOVIES, SORT, SORT_DIRECTION, SEARCH};

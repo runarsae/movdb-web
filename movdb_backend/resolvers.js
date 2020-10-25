@@ -94,7 +94,7 @@ const resolvers = {
         },
 
         movies: async (obj, args, context) => {
-            query = [];
+            filter = [];
             sort = {};
 
             if (args.search) {
@@ -108,12 +108,12 @@ const resolvers = {
                     search += '"' + word + '" ';
                 });
 
-                query.push({$text: {$search: search.slice(0, -1)}});
+                filter.push({$text: {$search: search.slice(0, -1)}});
 
                 // [Optionally] OR each word in search string
                 // (title/overview only needs to contain some words in the search string)
 
-                //query.push({$text: {$search: args.search}})
+                //filter.push({$text: {$search: args.search}})
 
                 // Sort according to search result relevance
                 sort = {score: {$meta: "textScore"}};
@@ -121,19 +121,19 @@ const resolvers = {
 
             if (args.filter) {
                 if (args.filter.genres && args.filter.genres.length != 0) {
-                    query.push({genres: {$in: args.filter.genres}});
+                    filter.push({genres: {$in: args.filter.genres}});
                 }
 
                 if (args.filter.production_companies && args.filter.production_companies.length != 0) {
-                    query.push({production_companies: {$in: args.filter.production_companies}});
+                    filter.push({production_companies: {$in: args.filter.production_companies}});
                 }
 
                 if (args.filter.production_countries && args.filter.production_countries.length != 0) {
-                    query.push({"production_countries.name": {$in: args.filter.production_countries}});
+                    filter.push({"production_countries.name": {$in: args.filter.production_countries}});
                 }
 
                 if (args.filter.release_date) {
-                    query.push({
+                    filter.push({
                         release_date: {
                             $gte: new Date(args.filter.release_date.start + "-01-01"),
                             $lte: new Date(args.filter.release_date.end + "-12-31")
@@ -142,7 +142,7 @@ const resolvers = {
                 }
 
                 if (args.filter.runtime) {
-                    query.push({runtime: {$gte: args.filter.runtime.start, $lte: args.filter.runtime.end}});
+                    filter.push({runtime: {$gte: args.filter.runtime.start, $lte: args.filter.runtime.end}});
                 }
             }
 
@@ -151,16 +151,31 @@ const resolvers = {
                 sort[args.sortBy] = args.sortDirection == "DESC" ? -1 : 1;
             }
 
-            movies = await db
+            query = await db
                 .collection("movies")
-                .find(query.length==0?{}:{$and: query})
+                .find(filter.length == 0 ? {} : {$and: filter})
                 .sort(sort)
-                .toArray()
-                .then((res) => {
-                    return res;
-                });
+                .skip((args.page - 1) * args.pageSize)
+                .limit(args.pageSize);
 
-            return movies;
+            movies = await query.toArray().then((res) => {
+                return res;
+            });
+
+            // Compute the total number of pages
+            pageCount = Math.floor((await query.count()) / args.pageSize);
+            reminder = (await query.count()) % args.pageSize;
+
+            if (reminder > 0) {
+                pageCount++;
+            }
+
+            return {
+                movies: movies,
+                page: args.page,
+                pageCount: pageCount,
+                pageSize: args.pageSize
+            };
         },
 
         menuOptions: async (obj, args, context) => {

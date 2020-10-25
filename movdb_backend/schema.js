@@ -40,6 +40,11 @@ const typeDefs = gql`
         rating: Float
     }
 
+    type Movies {
+        movies: [Movie]
+        pageCount: Int
+    }
+
     enum SortBy {
         original_title
         release_date
@@ -82,7 +87,14 @@ const typeDefs = gql`
         currentUser: User
         users: [User] @isAuthenticated
         loginUser(username: String!, password: String!): Token
-        movies(search: String, filter: Filter, sortBy: SortBy, sortDirection: SortDirection = ASC): [Movie]
+        movies(
+            search: String
+            filter: Filter
+            sortBy: SortBy
+            sortDirection: SortDirection
+            page: Int = 1
+            pageSize: Int = 20
+        ): Movies
         menuOptions: MenuOptions
     }
 
