@@ -1,13 +1,11 @@
 import React, {useState} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
-import "./TopMovie.css"
-import VolumeOffRoundedIcon from '@material-ui/icons/VolumeOffRounded';
-import VolumeUpRoundedIcon from '@material-ui/icons/VolumeUpRounded';
+import VolumeOffRoundedIcon from "@material-ui/icons/VolumeOffRounded";
+import VolumeUpRoundedIcon from "@material-ui/icons/VolumeUpRounded";
 import {MOVIE} from "../../queries";
-import { useQuery } from "@apollo/client";
+import {useQuery} from "@apollo/client";
 
-
-interface Props{
+interface Props {
     link: string;
 }
 
@@ -17,37 +15,88 @@ const useStyles = makeStyles((theme: Theme) =>
             marginTop: 20
         },
         mute: {
-            position:"absolute",
-            zIndex:999,
-            bottom: 80,
-            right: 80
+            position: "absolute",
+            zIndex: 999,
+            bottom: "10%",
+            right: 30,
+            cursor: "pointer",
+            [theme.breakpoints.up("md")]: {
+                right: 100,
+                bottom: "20%"
+            }
         },
+        title: {
+            color: "#ffffff",
+            position: "absolute",
+            fontSize: "x-large",
+            bottom: "10%",
+            left: 30,
+            zIndex: 999,
+            maxWidth: "calc(100% - 105px)",
+            textOverflow: "ellipsis",
+            whiteSpace: "nowrap",
+            width: "100%",
+            overflow: "hidden",
+            [theme.breakpoints.up("md")]: {
+                maxWidth: "calc(100% - 245px)",
+                left: 100,
+                bottom: "20%",
+                fontSize: "xx-large"
+            }
+        },
+        video: {
+            height: "auto",
+            width: "100%",
+            marginTop: "132px",
+            [theme.breakpoints.up("sm")]: {
+                marginTop: "80px"
+            }
+        },
+        overlay: {
+            position: "absolute",
+            width: "100%",
+            height: "100%",
+            top: 0,
+            // Gradient from top to bottom: Transparent down to 75%, fade to black from 75% to 100%
+            background: "linear-gradient(transparent 75%, black 100%)"
+        }
     })
 );
-
-
-
 
 export default function TopMovie(props: Props) {
     const [muted, SetMute] = useState<boolean>(true);
     const classes = useStyles();
-    
-    function onClickHandler(){
-        muted?SetMute(false):SetMute(true);
+
+    function onClickHandler() {
+        muted ? SetMute(false) : SetMute(true);
     }
     const {data} = useQuery(MOVIE, {
-        variables: { search: "Thor: Ragnarok" }});
-    
-    return(
-        <div style={{position:"relative"}}>
-            <VolumeOffRoundedIcon onClick={onClickHandler} className={classes.mute} fontSize={"large"} style={{ color: "white", display: muted?"block":"none" }} />
-            <VolumeUpRoundedIcon onClick={onClickHandler} className={classes.mute} fontSize={"large"} style={{ color: "white", display: muted?"none":"block" }} />
-            <video autoPlay muted={muted} loop>
-                <source type="video/mp4" src="thor.mp4"/>
-            </video>
-            {/* {data?data.movies[0].rating:"loading"} */}
-            <div className="title">{data?data.movies[0].original_title:"loading"}</div>
-        </div>
-        )
+        variables: {search: "Thor: Ragnarok"}
+    });
 
+    return (
+        <div style={{position: "relative"}}>
+            <VolumeOffRoundedIcon
+                onClick={onClickHandler}
+                className={classes.mute}
+                fontSize={"large"}
+                style={{color: "white", display: muted ? "block" : "none"}}
+            />
+
+            <VolumeUpRoundedIcon
+                onClick={onClickHandler}
+                className={classes.mute}
+                fontSize={"large"}
+                style={{color: "white", display: muted ? "none" : "block"}}
+            />
+
+            <video autoPlay muted={muted} loop className={classes.video}>
+                <source type="video/mp4" src="thor.mp4" />
+            </video>
+
+            <div className={classes.title}>{data ? data.movies[0].original_title : "loading"}</div>
+
+            <div className={classes.overlay}></div>
+        </div>
+    );
 }
