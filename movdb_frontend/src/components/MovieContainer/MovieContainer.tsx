@@ -1,5 +1,6 @@
 import React from "react";
 import Movie from "./Movie";
+import TopMovie from "./TopMovie";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
 import {useQuery} from "@apollo/client";
 import {MOVIES} from "../../queries";
@@ -15,7 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
                 height: "calc(100% - 80px)"
             }
         },
-        movies: {
+        movieContainer: {
+            position: "relative",
             display: "flex",
             flexWrap: "wrap",
             justifyContent: "center"
@@ -50,7 +52,8 @@ export default function MovieContainer() {
     return (
         <div className={classes.root}>
             <Sort />
-            <div className={classes.movies}>{movies}</div>
+            <TopMovie />
+            <div className={classes.movieContainer}>{movies}</div>
         </div>
     );
 }
