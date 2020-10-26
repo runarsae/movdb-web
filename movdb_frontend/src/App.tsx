@@ -3,7 +3,7 @@ import Header from "./components/Header/Header";
 import MovieContainer from "./components/MovieContainer/MovieContainer";
 import Menu from "./components/Menu/Menu";
 import "./App.css";
-import MoviePopup from "./MoviePopup";
+import MoviePopup from "./components/MovieContainer/MoviePopup";
 
 function App(): JSX.Element {
     return (

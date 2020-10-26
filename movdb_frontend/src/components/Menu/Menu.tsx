@@ -24,9 +24,18 @@ const useStyles = makeStyles((theme: Theme) =>
             marginRight: "auto"
         },
         btnClose: {
-            width: "10%",
-            margin: "10px",
-            marginLeft: "415px"
+            position: "absolute",
+            right: "-12px",
+            top: 0
+        },
+        btnHolder: {
+            margin: 1,
+            width: "80%",
+            position: "relative",
+            height: "50px",
+            marginTop: "18px",
+            marginLeft: "auto",
+            marginRight: "auto"
         },
         "@global": {
             "*::-webkit-scrollbar": {
@@ -143,9 +152,11 @@ function Menu() {
         <div>
             {menuValues && menuOptions && (
                 <Drawer anchor="right" open={menuOpen} onClose={toggleDrawer} classes={{paper: classes.menuContainer}}>
-                    <IconButton aria-label="close" onClick={toggleDrawer} className={classes.btnClose}>
-                        <CloseIcon />
-                    </IconButton>
+                    <div className={classes.btnHolder}>
+                        <IconButton aria-label="close" onClick={toggleDrawer} className={classes.btnClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </div>
                     <Selection
                         label="Genres"
                         optionValues={menuOptions.genres}
