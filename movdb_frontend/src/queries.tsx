@@ -25,6 +25,22 @@ const REGISTER = gql`
     }
 `;
 
+const MOVIE_DATA = gql`
+    query movie($imdb_id: String!) {
+        movie(imdb_id: $imdb_id) {
+            original_title
+            overview
+            genres
+            production_countries {
+                name
+            }
+            runtime
+            release_date
+            trailer
+        }
+    }
+`;
+
 const MOVIES = gql`
     query movies($search: String, $filter: Filter, $sortBy: SortBy, $sortDirection: SortDirection) {
         movies(search: $search, filter: $filter, sortBy: $sortBy, sortDirection: $sortDirection) {
@@ -95,4 +111,16 @@ const SEARCH = gql`
     }
 `;
 
-export {CURRENT_USER, LOGIN, REGISTER, MENU_OPEN, MENU_VALUES, MENU_OPTIONS, MOVIES, SORT, SORT_DIRECTION, SEARCH};
+export {
+    CURRENT_USER,
+    LOGIN,
+    REGISTER,
+    MENU_OPEN,
+    MENU_VALUES,
+    MENU_OPTIONS,
+    MOVIES,
+    SORT,
+    SORT_DIRECTION,
+    SEARCH,
+    MOVIE_DATA
+};

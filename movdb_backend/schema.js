@@ -95,6 +95,7 @@ const typeDefs = gql`
             page: Int = 1
             pageSize: Int = 20
         ): Movies
+        movie(imdb_id: String!): Movie
         menuOptions: MenuOptions
     }
 

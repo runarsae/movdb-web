@@ -6,23 +6,34 @@ import Selection from "./Selection";
 import IntervalSlider from "./IntervalSlider";
 import {useApolloClient, useLazyQuery, useQuery} from "@apollo/client";
 import {MENU_OPEN, MENU_VALUES, MENU_OPTIONS} from "../../queries";
+import IconButton from "@material-ui/core/IconButton/IconButton";
+import CloseIcon from "@material-ui/icons/Close";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         menuContainer: {
             maxWidth: "500px",
             width: "100%",
-            height: "calc(100% - 132px)",
-            top: "132px",
-            backgroundColor: "white",
-            [theme.breakpoints.up("sm")]: {
-                top: "80px",
-                height: "calc(100% - 80px)"
-            }
+            height: "100%",
+            backgroundColor: "white"
         },
         btnConfirm: {
             marginTop: "50px",
             marginBottom: "50px",
+            marginLeft: "auto",
+            marginRight: "auto"
+        },
+        btnClose: {
+            position: "absolute",
+            right: "-12px",
+            top: 0
+        },
+        btnHolder: {
+            margin: 1,
+            width: "80%",
+            position: "relative",
+            height: "50px",
+            marginTop: "18px",
             marginLeft: "auto",
             marginRight: "auto"
         },
@@ -141,6 +152,11 @@ function Menu() {
         <div>
             {menuValues && menuOptions && (
                 <Drawer anchor="right" open={menuOpen} onClose={toggleDrawer} classes={{paper: classes.menuContainer}}>
+                    <div className={classes.btnHolder}>
+                        <IconButton aria-label="close" onClick={toggleDrawer} className={classes.btnClose}>
+                            <CloseIcon />
+                        </IconButton>
+                    </div>
                     <Selection
                         label="Genres"
                         optionValues={menuOptions.genres}

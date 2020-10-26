@@ -17,7 +17,7 @@ import {SORT, SORT_DIRECTION} from "../../queries";
 
 type Sort = "rating" | "original_title" | "runtime" | "release_date";
 type SortDirection = "ASC" | "DESC";
-type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
+type Breakpoint = "xs" | "sm" | "mr" | "md" | "lg" | "xl";
 
 interface Props {
     width: Breakpoint;

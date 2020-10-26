@@ -40,6 +40,12 @@ const resolvers = {
         }
     }),
     Query: {
+        movie: async (obj, args, context) => {
+            movie = await db.collection("movies").findOne({imdb_id: args.imdb_id});
+
+            return movie;
+        },
+
         users: async () => {
             // Access data layer and get users data
             users = await db
