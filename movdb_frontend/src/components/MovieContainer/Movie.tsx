@@ -25,6 +25,11 @@ const useStyles = makeStyles((theme: Theme) =>
             width: 150,
             height: 225,
             objectFit: "contain"
+        },
+        cardActionArea: {
+            "&:hover .MuiCardActionArea-focusHighlight": {
+                opacity: 0.25
+            }
         }
     })
 );
@@ -35,7 +40,7 @@ export default function Movie(props: Props) {
     return (
         <div>
             <Card raised={true} className={classes.root}>
-                <CardActionArea>
+                <CardActionArea classes={{root: classes.cardActionArea}}>
                     <Tooltip TransitionComponent={Zoom} title={props.title} interactive arrow>
                         <CardMedia className={classes.media} image={props.backgroundImage} />
                     </Tooltip>

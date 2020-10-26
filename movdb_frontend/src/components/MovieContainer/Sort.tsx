@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core";
 import withWidth, {isWidthUp} from "@material-ui/core/withWidth";
-import {useApolloClient} from "@apollo/client";
+import {useApolloClient, useQuery} from "@apollo/client";
 import Grid from "@material-ui/core/Grid/Grid";
 import Chip from "@material-ui/core/Chip/Chip";
 import {
@@ -13,9 +13,9 @@ import {
     ArrowDownwardRounded
 } from "@material-ui/icons";
 import ScrollContainer from "react-indiana-drag-scroll";
-import {SORT, SORT_DIRECTION} from "../../queries";
+import {SEARCH, SORT, SORT_DIRECTION} from "../../queries";
 
-type Sort = "rating" | "original_title" | "runtime" | "release_date";
+type Sort = "rating" | "original_title" | "runtime" | "release_date" | "none";
 type SortDirection = "ASC" | "DESC";
 type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
@@ -61,6 +61,14 @@ function Sort(props: Props): JSX.Element {
     const [sort, setSort] = useState<Sort>("rating");
     const [sortDirection, setSortDirection] = useState<SortDirection>("DESC");
 
+    const {data: searchData} = useQuery(SEARCH);
+
+    useEffect(() => {
+        if (searchData && searchData.search !== "") {
+            setSort("none");
+        }
+    }, [searchData]);
+
     useEffect(() => {
         client.cache.writeQuery({
             query: SORT,
@@ -82,6 +90,8 @@ function Sort(props: Props): JSX.Element {
     const handleSortByClick = (newSort: Sort) => {
         if (newSort !== sort) {
             setSort(newSort);
+        } else {
+            setSort("none");
         }
     };
 
@@ -101,7 +111,6 @@ function Sort(props: Props): JSX.Element {
                     color={sort === "rating" ? "secondary" : "default"}
                     icon={<StarBorderRounded fontSize="small" />}
                     onClick={() => handleSortByClick("rating")}
-                    clickable={sort !== "rating"}
                 />
                 <Chip
                     label="Title"
@@ -110,7 +119,6 @@ function Sort(props: Props): JSX.Element {
                     color={sort === "original_title" ? "secondary" : "default"}
                     icon={<SortByAlphaRounded fontSize="small" />}
                     onClick={() => handleSortByClick("original_title")}
-                    clickable={sort !== "original_title"}
                 />
                 <Chip
                     label="Runtime"
@@ -119,7 +127,6 @@ function Sort(props: Props): JSX.Element {
                     color={sort === "runtime" ? "secondary" : "default"}
                     icon={<AlarmRounded fontSize="small" />}
                     onClick={() => handleSortByClick("runtime")}
-                    clickable={sort !== "runtime"}
                 />
                 <Chip
                     label="Release Date"
@@ -128,7 +135,6 @@ function Sort(props: Props): JSX.Element {
                     color={sort === "release_date" ? "secondary" : "default"}
                     icon={<EventRounded fontSize="small" />}
                     onClick={() => handleSortByClick("release_date")}
-                    clickable={sort !== "release_date"}
                 />
             </ScrollContainer>
 
@@ -141,6 +147,7 @@ function Sort(props: Props): JSX.Element {
                     icon={<ArrowUpwardRounded fontSize="small" />}
                     onClick={() => handleSortDirectionClick("ASC")}
                     clickable={sortDirection !== "ASC"}
+                    disabled={sort === "none"}
                 />
                 <Chip
                     label="DESC"
@@ -150,6 +157,7 @@ function Sort(props: Props): JSX.Element {
                     icon={<ArrowDownwardRounded fontSize="small" />}
                     onClick={() => handleSortDirectionClick("DESC")}
                     clickable={sortDirection !== "DESC"}
+                    disabled={sort === "none"}
                 />
             </ScrollContainer>
         </Grid>

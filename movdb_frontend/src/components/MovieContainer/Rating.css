@@ -1,18 +1,16 @@
 .spec {
-    color: #000000 !important;
+    color: #000000;
     font-size: 14px;
-    border-radius: 50%;
+    border-radius: 4px;
     width: 30px;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border-color: #ffffff;
-    border-width: thin;
-    border-style: solid;
     font-weight: bold;
-    margin-left: 110px;
-    margin-top: -40px;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
 }
 .cl1 {
     background-color: #650000;
@@ -22,29 +20,22 @@
 }
 .cl3 {
     background-color: #d22300;
-    color: #222222;
 }
 .cl4 {
     background-color: #d17900;
-    color: #222222;
 }
 .cl5 {
     background-color: #cfa200;
-    color: #222222;
 }
 .cl6 {
     background-color: #d2d200;
-    color: #222222;
 }
 .cl7 {
     background-color: #90de00;
-    color: #222222;
 }
 .cl8 {
     background-color: #04d200;
-    color: #222222;
 }
 .cl9 {
     background-color: #00a11b;
-    color: #222222;
 }

@@ -146,7 +146,7 @@ const resolvers = {
                 }
             }
 
-            if (args.sortBy && args.sortDirection) {
+            if (args.sortBy && args.sortDirection && args.sortBy !== "none") {
                 sort = {};
                 sort[args.sortBy] = args.sortDirection == "DESC" ? -1 : 1;
             }
