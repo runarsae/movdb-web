@@ -10,6 +10,8 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
 import {MENU_OPEN} from "../../queries";
 import {useApolloClient} from "@apollo/client";
+import Sort from "./Sort";
+import ImportExportRoundedIcon from "@material-ui/icons/ImportExportRounded";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -21,13 +23,13 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         toolbar: {
             display: "grid",
-            gridTemplateColumns: "1fr auto auto",
-            gridTemplateAreas: `"logo userbutton menubutton" 
-                                "search search search"`,
+            gridTemplateColumns: "1fr auto auto auto",
+            gridTemplateAreas: `"logo userbutton sortButton menubutton" 
+                                "search search search search"`,
             gap: "8px",
             [theme.breakpoints.up("sm")]: {
-                gridTemplateColumns: "auto 1fr auto auto",
-                gridTemplateAreas: `"logo search userbutton menubutton"`
+                gridTemplateColumns: "auto 1fr auto auto auto",
+                gridTemplateAreas: `"logo search userbutton sortButton menubutton"`
             }
         },
         logo: {
@@ -38,13 +40,16 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         menuButton: {
             gridArea: "menubutton"
+        },
+        sortButton: {
+            girdArea: "sortButton"
         }
     })
 );
 
 function Header(): JSX.Element {
     const classes = useStyles();
-
+    const [sortVisible, toggleSort] = React.useState<boolean>(false);
     const client = useApolloClient();
 
     const toggleMenu = () => {
@@ -56,27 +61,43 @@ function Header(): JSX.Element {
         });
     };
 
+    const handleSortVisibility = () => {
+        toggleSort(!sortVisible);
+    };
+
     return (
-        <AppBar className={classes.header}>
-            <Toolbar variant="dense" className={classes.toolbar}>
-                <Typography className={classes.logo} variant="h5" color="initial">
-                    MovDB
-                </Typography>
+        <div>
+            <AppBar className={classes.header}>
+                <Toolbar variant="dense" className={classes.toolbar}>
+                    <Typography className={classes.logo} variant="h5" color="initial">
+                        MovDB
+                    </Typography>
 
-                <Search />
+                    <Search />
 
-                <UserButton />
+                    <UserButton />
 
-                <IconButton
-                    className={classes.menuButton}
-                    onClick={() => toggleMenu()}
-                    aria-label="filtering"
-                    color="inherit"
-                >
-                    <TuneRoundedIcon />
-                </IconButton>
-            </Toolbar>
-        </AppBar>
+                    <IconButton
+                        onClick={handleSortVisibility}
+                        aria-label="sorting"
+                        color="inherit"
+                        className={classes.sortButton}
+                    >
+                        <ImportExportRoundedIcon />
+                    </IconButton>
+
+                    <IconButton
+                        className={classes.menuButton}
+                        onClick={() => toggleMenu()}
+                        aria-label="filtering"
+                        color="inherit"
+                    >
+                        <TuneRoundedIcon />
+                    </IconButton>
+                </Toolbar>
+            </AppBar>
+            <Sort visible={sortVisible} />
+        </div>
     );
 }
 

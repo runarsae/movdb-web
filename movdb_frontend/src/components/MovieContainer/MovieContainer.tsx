@@ -4,7 +4,6 @@ import TopMovie from "./TopMovie";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
 import {useQuery} from "@apollo/client";
 import {MOVIES} from "../../queries";
-import Sort from "./Sort";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -51,7 +50,6 @@ export default function MovieContainer() {
 
     return (
         <div className={classes.root}>
-            <Sort />
             <TopMovie />
             <div className={classes.movieContainer}>{movies}</div>
         </div>

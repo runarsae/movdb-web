@@ -19,10 +19,6 @@ type Sort = "rating" | "original_title" | "runtime" | "release_date";
 type SortDirection = "ASC" | "DESC";
 type Breakpoint = "xs" | "sm" | "mr" | "md" | "lg" | "xl";
 
-interface Props {
-    width: Breakpoint;
-}
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         sort: {
@@ -32,7 +28,23 @@ const useStyles = makeStyles((theme: Theme) =>
             width: "100%",
             "& .MuiGrid-item": {
                 width: "100%"
+            },
+            position: "fixed",
+            zIndex: 1099,
+            backgroundColor: "white",
+            WebkitBoxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
+            MozBoxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
+            boxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
+            transition: "top 0.25s"
+        },
+        visible: {
+            top: "125px",
+            [theme.breakpoints.up("sm")]: {
+                top: "80px"
             }
+        },
+        notVisible: {
+            top: 0
         },
         sortContainer: {
             display: "flex",
@@ -52,6 +64,11 @@ const useStyles = makeStyles((theme: Theme) =>
         }
     })
 );
+
+interface Props {
+    width: Breakpoint;
+    visible: boolean;
+}
 
 function Sort(props: Props): JSX.Element {
     const classes = useStyles();
@@ -92,7 +109,13 @@ function Sort(props: Props): JSX.Element {
     };
 
     return (
-        <Grid container className={classes.sort} justify="space-between" alignItems="center" spacing={2}>
+        <Grid
+            container
+            className={`${classes.sort} ${props.visible ? classes.visible : classes.notVisible}`}
+            justify="space-between"
+            alignItems="center"
+            spacing={2}
+        >
             <ScrollContainer vertical={false} className={classes.sortContainer}>
                 <Chip
                     label="Rating"
