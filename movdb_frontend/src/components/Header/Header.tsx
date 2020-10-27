@@ -16,8 +16,8 @@ import ImportExportRoundedIcon from "@material-ui/icons/ImportExportRounded";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         header: {
-            color: "#fff",
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.secondary.main,
+            color: theme.palette.primary.light,
             paddingTop: theme.spacing(2),
             paddingBottom: theme.spacing(2)
         },

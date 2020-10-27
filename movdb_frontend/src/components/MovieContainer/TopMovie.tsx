@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme: Theme) =>
             height: "100%",
             top: 0,
             // Gradient from top to bottom: Transparent down to 75%, fade to black from 75% to 100%
-            background: "linear-gradient(transparent 75%, black 100%)"
+            background: "linear-gradient(transparent 75%, #221F1F 100%)"
         }
     })
 );

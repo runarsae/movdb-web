@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             maxWidth: "800px",
             width: "100%",
-            backgroundColor: theme.palette.primary.light,
+            backgroundColor: theme.palette.secondary.main,
             transition: "all 0.25s"
         },
         media: {

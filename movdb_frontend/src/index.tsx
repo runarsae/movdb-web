@@ -68,13 +68,12 @@ const theme = createMuiTheme({
     },
     palette: {
         primary: {
-            light: "#fff",
-            main: "rgb(23, 105, 170)",
-            dark: "#000"
+            main: "#83e377"
         },
         secondary: {
-            main: "#f44336"
-        }
+            main: "#221F1F"
+        },
+        type: "dark"
     }
 });
 

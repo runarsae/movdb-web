@@ -19,7 +19,8 @@ const useStyles = makeStyles((theme: Theme) =>
             position: "relative",
             display: "flex",
             flexWrap: "wrap",
-            justifyContent: "center"
+            justifyContent: "center",
+            backgroundColor: theme.palette.secondary.main
         }
     })
 );
