@@ -4,7 +4,7 @@ import Drawer from "@material-ui/core/Drawer";
 import Button from "@material-ui/core/Button";
 import Selection from "./Selection";
 import IntervalSlider from "./IntervalSlider";
-import {useApolloClient, useLazyQuery, useQuery} from "@apollo/client";
+import {useApolloClient, useQuery} from "@apollo/client";
 import {MENU_OPEN, MENU_VALUES, MENU_OPTIONS} from "../../queries";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
@@ -77,20 +77,26 @@ function Menu() {
     const [menuValues, setMenuValues] = useState<Parameters | null>();
     const [menuOptions, setMenuOptions] = useState<Parameters | null>();
 
-    const {data} = useQuery(MENU_OPEN);
+    const {data: menuOpenData} = useQuery(MENU_OPEN);
 
     useEffect(() => {
-        if (data) {
-            setMenuOpen(data.menuOpen);
+        if (menuOpenData) {
+            setMenuOpen(menuOpenData.menuOpen);
         }
-    }, [data]);
+    }, [menuOpenData]);
 
-    const [getMenuOptions] = useLazyQuery(MENU_OPTIONS, {
-        onCompleted: (data) => {
-            setMenuOptions(data.menuOptions);
-            setDefaultMenuValues(data.menuOptions);
+    const {data: menuOptionsData, refetch} = useQuery(MENU_OPTIONS);
+
+    if (!menuOptionsData) {
+        refetch();
+    }
+
+    useEffect(() => {
+        if (menuOptionsData) {
+            setMenuOptions(menuOptionsData.menuOptions);
+            setDefaultMenuValues(menuOptionsData.menuOptions);
         }
-    });
+    }, [menuOptionsData]);
 
     const setDefaultMenuValues = (options: Parameters) => {
         const defaultMenuValues: Parameters = {
@@ -110,12 +116,6 @@ function Menu() {
     };
 
     useEffect(() => {
-        // Get menu options and default menu values if they are not defined
-        if (!menuValues && !menuOptions) {
-            getMenuOptions();
-        }
-
-        // Write to cache if menu is closed and menu values are defined
         if (!menuOpen && menuValues) {
             client.cache.writeQuery({
                 query: MENU_VALUES,
@@ -124,7 +124,7 @@ function Menu() {
                 }
             });
         }
-    }, [getMenuOptions, menuOpen, menuValues, menuOptions, client]);
+    }, [menuValues, menuOpen, client.cache]);
 
     const toggleDrawer = () => {
         client.cache.writeQuery({

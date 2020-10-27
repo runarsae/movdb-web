@@ -86,7 +86,7 @@ export default function TopMovie() {
                 <source type="video/mp4" src="thor.mp4" />
             </video>
 
-            <div className={classes.title}>{data ? data.movie.original_title : "loading"}</div>
+            <div className={classes.title}>{data ? data.movie.original_title : "Loading.."}</div>
 
             <div className={classes.overlay}></div>
         </div>

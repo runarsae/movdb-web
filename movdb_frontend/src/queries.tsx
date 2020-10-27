@@ -84,10 +84,7 @@ const MENU_VALUES = gql`
         menuValues @client {
             genres
             productionCountries
-            releaseDateInterval {
-                start
-                end
-            }
+            releaseDateInterval
             runtimeInterval
         }
     }
