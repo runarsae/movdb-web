@@ -248,10 +248,21 @@ const resolvers = {
                     start: runtimeStart,
                     end: runtimeEnd
                 }
-            };
+            }},
 
-            return menuOptions;
-        }
+            likes: async (obj, args, context) => {
+                likes = await db.collection("likes");
+                likesCount = likes.find({imdb_id: args.imdb_id}).count();
+                userLiked = likes.find({imdb_id: args.imdb_id, username: args.username}).count();
+                hasLiked = userLiked==0;
+
+                return {
+                    likesCount: likesCount,
+                    hasLiked: hasLiked
+                };
+            },
+            
+
     },
 
     Mutation: {
@@ -285,6 +296,31 @@ const resolvers = {
                 });
 
             return newUser;
+        },
+
+        createLike: async(obj, args, context) => {
+            if (args.username){
+                const existingLike = await db
+                    .collection("likes")
+                    .findOne({imdb_id: args.imdb_id, username: args.username});
+                
+                if(existingLike){
+                    await db
+                    .collection("likes")
+                    .deleteOne({imdb_id: args.imdb_id, username: args.username})
+                    .then(() => {
+                    })
+                    return existingLike;
+                }
+                
+                const newLike = await db
+                    .collection("likes")
+                    .insertOne({imdb_id: args.imdb_id, username: args.username})
+                    .then(() => {
+                    })
+                
+                return existingLike;
+                }
         }
     },
 
