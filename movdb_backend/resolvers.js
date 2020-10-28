@@ -122,7 +122,8 @@ const resolvers = {
                 //filter.push({$text: {$search: args.search}})
 
                 // Sort according to search result relevance
-                sort = {score: {$meta: "textScore"}};
+                // If relevance is the same, sort by original title
+                sort = {score: {$meta: "textScore"}, original_title: 1};
             }
 
             if (args.filter) {
@@ -152,9 +153,15 @@ const resolvers = {
                 }
             }
 
-            if (args.sortBy && args.sortDirection) {
+            if (args.sortBy && args.sortDirection && args.sortBy !== "none") {
                 sort = {};
                 sort[args.sortBy] = args.sortDirection == "DESC" ? -1 : 1;
+                // If equal objects by first sorting attribute, sort by original title (or rating if first sorting attribute is original title)
+                if (args.sortBy !== "original_title") {
+                    sort["original_title"] = 1;
+                } else {
+                    sort["rating"] = -1;
+                }
             }
 
             query = await db

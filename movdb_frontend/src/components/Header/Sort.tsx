@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {createStyles, makeStyles, Theme} from "@material-ui/core";
 import withWidth, {isWidthUp} from "@material-ui/core/withWidth";
-import {useApolloClient} from "@apollo/client";
+import {useApolloClient, useQuery} from "@apollo/client";
 import Grid from "@material-ui/core/Grid/Grid";
 import Chip from "@material-ui/core/Chip/Chip";
 import {
@@ -13,11 +13,11 @@ import {
     ArrowDownwardRounded
 } from "@material-ui/icons";
 import ScrollContainer from "react-indiana-drag-scroll";
-import {SORT, SORT_DIRECTION} from "../../queries";
+import {SEARCH, SORT, SORT_DIRECTION} from "../../queries";
 
-type Sort = "rating" | "original_title" | "runtime" | "release_date";
+type Sort = "rating" | "original_title" | "runtime" | "release_date" | "none";
 type SortDirection = "ASC" | "DESC";
-type Breakpoint = "xs" | "sm" | "mr" | "md" | "lg" | "xl";
+type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
             },
             position: "fixed",
             zIndex: 1099,
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.background.paper,
             color: theme.palette.primary.light,
             WebkitBoxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
             MozBoxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
@@ -79,6 +79,17 @@ function Sort(props: Props): JSX.Element {
     const [sort, setSort] = useState<Sort>("rating");
     const [sortDirection, setSortDirection] = useState<SortDirection>("DESC");
 
+    const {data: searchData} = useQuery(SEARCH);
+
+    useEffect(() => {
+        if (searchData && searchData.search === "") {
+            setSort("rating");
+            setSortDirection("DESC");
+        } else if (searchData && searchData.search !== "") {
+            setSort("none");
+        }
+    }, [searchData]);
+
     useEffect(() => {
         client.cache.writeQuery({
             query: SORT,
@@ -100,6 +111,8 @@ function Sort(props: Props): JSX.Element {
     const handleSortByClick = (newSort: Sort) => {
         if (newSort !== sort) {
             setSort(newSort);
+        } else {
+            setSort("none");
         }
     };
 
@@ -122,37 +135,33 @@ function Sort(props: Props): JSX.Element {
                     label="Rating"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "rating" ? "secondary" : "default"}
+                    color={sort === "rating" ? "primary" : "default"}
                     icon={<StarBorderRounded fontSize="small" />}
                     onClick={() => handleSortByClick("rating")}
-                    clickable={sort !== "rating"}
                 />
                 <Chip
                     label="Title"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "original_title" ? "secondary" : "default"}
+                    color={sort === "original_title" ? "primary" : "default"}
                     icon={<SortByAlphaRounded fontSize="small" />}
                     onClick={() => handleSortByClick("original_title")}
-                    clickable={sort !== "original_title"}
                 />
                 <Chip
                     label="Runtime"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "runtime" ? "secondary" : "default"}
+                    color={sort === "runtime" ? "primary" : "default"}
                     icon={<AlarmRounded fontSize="small" />}
                     onClick={() => handleSortByClick("runtime")}
-                    clickable={sort !== "runtime"}
                 />
                 <Chip
                     label="Release Date"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "release_date" ? "secondary" : "default"}
+                    color={sort === "release_date" ? "primary" : "default"}
                     icon={<EventRounded fontSize="small" />}
                     onClick={() => handleSortByClick("release_date")}
-                    clickable={sort !== "release_date"}
                 />
             </ScrollContainer>
 
@@ -161,19 +170,21 @@ function Sort(props: Props): JSX.Element {
                     label="ASC"
                     size="small"
                     className={classes.chip}
-                    color={sortDirection === "ASC" ? "primary" : "default"}
+                    color={sortDirection === "ASC" ? "secondary" : "default"}
                     icon={<ArrowUpwardRounded fontSize="small" />}
                     onClick={() => handleSortDirectionClick("ASC")}
                     clickable={sortDirection !== "ASC"}
+                    disabled={sort === "none"}
                 />
                 <Chip
                     label="DESC"
                     size="small"
                     className={classes.chip}
-                    color={sortDirection === "DESC" ? "primary" : "default"}
+                    color={sortDirection === "DESC" ? "secondary" : "default"}
                     icon={<ArrowDownwardRounded fontSize="small" />}
                     onClick={() => handleSortDirectionClick("DESC")}
                     clickable={sortDirection !== "DESC"}
+                    disabled={sort === "none"}
                 />
             </ScrollContainer>
         </Grid>

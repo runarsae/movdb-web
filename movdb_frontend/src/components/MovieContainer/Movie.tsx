@@ -12,6 +12,7 @@ interface Props {
     backgroundImage: string;
     title: string;
     rating: number;
+    onClick: (imdbID: string) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -19,12 +20,18 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             width: 150,
             height: 225,
-            margin: 20
+            margin: 20,
+            backgroundColor: "#1c1c1c"
         },
         media: {
             width: 150,
             height: 225,
             objectFit: "contain"
+        },
+        cardActionArea: {
+            "&:hover .MuiCardActionArea-focusHighlight": {
+                opacity: 0.25
+            }
         }
     })
 );
@@ -34,8 +41,14 @@ export default function Movie(props: Props) {
 
     return (
         <div>
-            <Card raised={true} className={classes.root}>
-                <CardActionArea>
+            <Card
+                raised={true}
+                className={classes.root}
+                onClick={() => {
+                    props.onClick(props.imdbID);
+                }}
+            >
+                <CardActionArea classes={{root: classes.cardActionArea}}>
                     <Tooltip TransitionComponent={Zoom} title={props.title} interactive arrow>
                         <CardMedia className={classes.media} image={props.backgroundImage} />
                     </Tooltip>

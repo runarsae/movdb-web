@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core";
 import Input from "@material-ui/core/Input";
 import InputLabel from "@material-ui/core/InputLabel";
@@ -10,7 +10,6 @@ import Chip from "@material-ui/core/Chip";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {
-            margin: 1,
             width: "80%",
             marginTop: "50px",
             marginLeft: "auto",
@@ -54,6 +53,10 @@ function Selection(props: Props) {
     const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
         setSelected(event.target.value as string[]);
     };
+
+    useEffect(() => {
+        setSelected(props.values);
+    }, [props.values]);
 
     const MenuProps = {
         PaperProps: {

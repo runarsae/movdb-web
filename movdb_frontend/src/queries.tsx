@@ -34,6 +34,7 @@ const MOVIE_DATA = gql`
             production_countries {
                 name
             }
+            production_companies
             runtime
             release_date
             trailer
@@ -42,8 +43,22 @@ const MOVIE_DATA = gql`
 `;
 
 const MOVIES = gql`
-    query movies($search: String, $filter: Filter, $sortBy: SortBy, $sortDirection: SortDirection) {
-        movies(search: $search, filter: $filter, sortBy: $sortBy, sortDirection: $sortDirection) {
+    query movies(
+        $search: String
+        $filter: Filter
+        $sortBy: SortBy
+        $sortDirection: SortDirection
+        $page: Int
+        $pageSize: Int
+    ) {
+        movies(
+            search: $search
+            filter: $filter
+            sortBy: $sortBy
+            sortDirection: $sortDirection
+            page: $page
+            pageSize: $pageSize
+        ) {
             movies {
                 poster_path
                 original_title
@@ -84,10 +99,7 @@ const MENU_VALUES = gql`
         menuValues @client {
             genres
             productionCountries
-            releaseDateInterval {
-                start
-                end
-            }
+            releaseDateInterval
             runtimeInterval
         }
     }

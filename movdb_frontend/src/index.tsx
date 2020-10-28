@@ -45,33 +45,13 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
     resolvers
 });
 
-declare module "@material-ui/core/styles/createBreakpoints" {
-    interface BreakpointOverrides {
-        xs: true;
-        sm: true;
-        mr: true;
-        md: true;
-        lg: true;
-        xl: true;
-    }
-}
 const theme = createMuiTheme({
-    breakpoints: {
-        values: {
-            xs: 0,
-            sm: 600,
-            mr: 750,
-            md: 960,
-            lg: 1280,
-            xl: 1920
-        }
-    },
     palette: {
         primary: {
             main: "#83e377"
         },
         secondary: {
-            main: "#221F1F"
+            main: "#F1E9DB"
         },
         type: "dark"
     }

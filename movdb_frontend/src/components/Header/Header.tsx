@@ -7,6 +7,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton/IconButton";
+import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
 import {MENU_OPEN} from "../../queries";
 import {useApolloClient} from "@apollo/client";
@@ -16,7 +17,7 @@ import ImportExportRoundedIcon from "@material-ui/icons/ImportExportRounded";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         header: {
-            backgroundColor: theme.palette.secondary.main,
+            backgroundColor: theme.palette.background.default,
             color: theme.palette.primary.light,
             paddingTop: theme.spacing(2),
             paddingBottom: theme.spacing(2)
@@ -67,36 +68,46 @@ function Header(): JSX.Element {
 
     return (
         <div>
-            <AppBar className={classes.header}>
-                <Toolbar variant="dense" className={classes.toolbar}>
-                    <Typography className={classes.logo} variant="h5" color="initial">
-                        MovDB
-                    </Typography>
+            <ClickAwayListener
+                onClickAway={() => {
+                    if (sortVisible) {
+                        handleSortVisibility();
+                    }
+                }}
+            >
+                <div>
+                    <AppBar className={classes.header}>
+                        <Toolbar variant="dense" className={classes.toolbar}>
+                            <Typography className={classes.logo} variant="h5" color="initial">
+                                MovDB
+                            </Typography>
 
-                    <Search />
+                            <Search />
 
-                    <UserButton />
+                            <UserButton />
 
-                    <IconButton
-                        onClick={handleSortVisibility}
-                        aria-label="sorting"
-                        color="inherit"
-                        className={classes.sortButton}
-                    >
-                        <ImportExportRoundedIcon />
-                    </IconButton>
+                            <IconButton
+                                onClick={handleSortVisibility}
+                                aria-label="sorting"
+                                color="inherit"
+                                className={classes.sortButton}
+                            >
+                                <ImportExportRoundedIcon />
+                            </IconButton>
 
-                    <IconButton
-                        className={classes.menuButton}
-                        onClick={() => toggleMenu()}
-                        aria-label="filtering"
-                        color="inherit"
-                    >
-                        <TuneRoundedIcon />
-                    </IconButton>
-                </Toolbar>
-            </AppBar>
-            <Sort visible={sortVisible} />
+                            <IconButton
+                                className={classes.menuButton}
+                                onClick={() => toggleMenu()}
+                                aria-label="filtering"
+                                color="inherit"
+                            >
+                                <TuneRoundedIcon />
+                            </IconButton>
+                        </Toolbar>
+                    </AppBar>
+                    <Sort visible={sortVisible} />
+                </div>
+            </ClickAwayListener>
         </div>
     );
 }

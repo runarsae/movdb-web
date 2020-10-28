@@ -1,5 +1,5 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {makeStyles, Theme} from "@material-ui/core/styles";
+import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Slider from "@material-ui/core/Slider";
 import {Interval} from "./Menu";
@@ -10,6 +10,13 @@ const useStyles = makeStyles({
         marginTop: "50px",
         marginLeft: "auto",
         marginRight: "auto"
+    },
+    mark: {
+        backgroundColor: "transparent"
+    },
+    markText: {
+        color: "#CECECE",
+        fontSize: "12px"
     }
 });
 
@@ -37,6 +44,17 @@ function IntervalSlider(props: Props) {
         return value.toString();
     }
 
+    const marks = [
+        {
+            value: props.optionValues.start,
+            label: props.optionValues.start
+        },
+        {
+            value: props.optionValues.end,
+            label: props.optionValues.end
+        }
+    ];
+
     return (
         <div className={classes.root}>
             <Typography gutterBottom>{props.label}</Typography>
@@ -49,6 +67,12 @@ function IntervalSlider(props: Props) {
                 getAriaValueText={valuetext}
                 min={props.optionValues.start}
                 max={props.optionValues.end}
+                marks={marks}
+                classes={{
+                    mark: classes.mark,
+                    markLabel: classes.markText,
+                    markLabelActive: classes.markText
+                }}
             />
         </div>
     );

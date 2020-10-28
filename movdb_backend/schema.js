@@ -50,6 +50,7 @@ const typeDefs = gql`
         release_date
         runtime
         rating
+        none
     }
 
     enum SortDirection {
