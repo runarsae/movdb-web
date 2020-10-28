@@ -44,7 +44,7 @@ function UserButton(): JSX.Element {
 
     const handleLogoutButtonClick = () => {
         localStorage.clear();
-        client.resetStore();
+        refetch();
         setUserMenuOpen(false);
         setAlertType("logout");
         setSnackbarOpen(true);
@@ -85,9 +85,6 @@ function UserButton(): JSX.Element {
                         onClose={() => setUserMenuOpen(false)}
                         disableAutoFocusItem
                     >
-                        <MenuItem onClick={() => null}>
-                            Profile (<b>{data.currentUser.username}</b>)
-                        </MenuItem>
                         <MenuItem onClick={handleLogoutButtonClick}>Log out</MenuItem>
                     </Menu>
                 </div>
