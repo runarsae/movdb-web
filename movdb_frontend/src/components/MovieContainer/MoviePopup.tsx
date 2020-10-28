@@ -17,8 +17,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Chip from "@material-ui/core/Chip";
 
-const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         root: {
