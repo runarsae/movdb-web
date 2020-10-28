@@ -12,6 +12,7 @@ interface Props {
     backgroundImage: string;
     title: string;
     rating: number;
+    onClick: (imdbID: string) => void;
 }
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -39,7 +40,11 @@ export default function Movie(props: Props) {
     const classes = useStyles();
 
     return (
-        <div>
+        <div
+            onClick={() => {
+                props.onClick(props.imdbID);
+            }}
+        >
             <Card raised={true} className={classes.root}>
                 <CardActionArea classes={{root: classes.cardActionArea}}>
                     <Tooltip TransitionComponent={Zoom} title={props.title} interactive arrow>

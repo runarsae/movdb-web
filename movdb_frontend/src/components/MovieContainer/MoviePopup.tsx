@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
 import clsx from "clsx";
 import Card from "@material-ui/core/Card";
@@ -14,9 +14,10 @@ import {MOVIE_DATA} from "../../queries";
 import Backdrop from "@material-ui/core/Backdrop";
 import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
-import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Chip from "@material-ui/core/Chip";
+
+const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -31,7 +32,6 @@ const useStyles = makeStyles((theme: Theme) =>
             height: "50vh",
             minHeight: "300px",
             border: "none"
-            //paddingTop: "56.25%" // 16:9
         },
         expand: {
             transform: "rotate(0deg)",
@@ -41,10 +41,7 @@ const useStyles = makeStyles((theme: Theme) =>
             })
         },
         padder: {
-            padding: "10px",
-            [theme.breakpoints.down("mr")]: {
-                paddingTop: 0
-            }
+            padding: theme.spacing(2)
         },
         expandOpen: {
             transform: "rotate(180deg)"
@@ -55,16 +52,21 @@ const useStyles = makeStyles((theme: Theme) =>
             alignItems: "flex-start",
             overflowY: "auto"
         },
+        chipGroup: {
+            display: "block",
+            marginTop: theme.spacing(1)
+        },
         chip: {
             margin: 2
         }
     })
 );
 
-// The component takes the id of the movie, and then queries the information using this id.
+// The component takes the id of the movie, and then query the information using this id
 interface Props {
     movieId: string;
     open: boolean;
+    handlePopupClose: () => void;
 }
 interface ProductionCountry {
     name: string;
@@ -75,7 +77,8 @@ interface Movie {
     overview: string;
     genres: string[];
     production_countries: [ProductionCountry];
-    release_date: string;
+    production_companies: [string];
+    release_date: Date;
     runtime: number;
     trailer: string;
 }
@@ -83,11 +86,6 @@ interface Movie {
 function MoviePopup(props: Props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
-    const [open, setOpen] = useState(props.open);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -102,20 +100,33 @@ function MoviePopup(props: Props) {
 
     useEffect(() => {
         if (data) {
-            console.log(data);
-
             setMovieData(data.movie);
         }
     }, [data]);
+
+    useEffect(() => {
+        if (props.open) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
+    }, [props.open]);
+
+    const handleClose = () => {
+        if (props.open) {
+            props.handlePopupClose();
+            setExpanded(false);
+        }
+    };
 
     const handleFavorite = () => {};
 
     return (
         <div>
             {movieData && (
-                <Backdrop className={classes.backdrop} open={open}>
+                <Backdrop className={classes.backdrop} open={props.open} onClick={handleClose}>
                     <div className={classes.padder}>
-                        <Card className={classes.root}>
+                        <Card className={classes.root} onClick={(e) => e.stopPropagation()}>
                             <CardHeader
                                 title={movieData.original_title}
                                 subheader={new Date(movieData.release_date).toDateString()}
@@ -141,10 +152,12 @@ function MoviePopup(props: Props) {
                             <CardContent>
                                 <Typography variant="body2">{movieData.overview}</Typography>
                             </CardContent>
+
                             <CardActions disableSpacing>
                                 <IconButton aria-label="add to favorites" onClick={handleFavorite}>
                                     <FavoriteIcon />
                                 </IconButton>
+
                                 <IconButton
                                     className={clsx(classes.expand, {
                                         [classes.expandOpen]: expanded
@@ -156,10 +169,22 @@ function MoviePopup(props: Props) {
                                     <ExpandMoreIcon />
                                 </IconButton>
                             </CardActions>
+
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <CardContent>
-                                    <Typography paragraph>Runtime: {movieData.runtime} min</Typography>
-                                    <Typography paragraph>
+                                    <Typography>
+                                        <b>Runtime:</b> {movieData.runtime} min
+                                    </Typography>
+
+                                    <Typography>
+                                        <b>
+                                            Production
+                                            {movieData.production_companies.length > 1 ? " companies: " : " company: "}
+                                        </b>
+                                        {movieData.production_companies.join(", ")}
+                                    </Typography>
+
+                                    <div className={classes.chipGroup}>
                                         {movieData.production_countries.map((list) => (
                                             <Chip
                                                 key={list.name}
@@ -168,8 +193,9 @@ function MoviePopup(props: Props) {
                                                 color="primary"
                                             />
                                         ))}
-                                    </Typography>
-                                    <Typography paragraph>
+                                    </div>
+
+                                    <div className={classes.chipGroup}>
                                         {movieData.genres.map((genre) => (
                                             <Chip
                                                 key={genre}
@@ -178,7 +204,7 @@ function MoviePopup(props: Props) {
                                                 color="secondary"
                                             />
                                         ))}
-                                    </Typography>
+                                    </div>
                                 </CardContent>
                             </Collapse>
                         </Card>

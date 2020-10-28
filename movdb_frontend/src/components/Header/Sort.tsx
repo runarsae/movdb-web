@@ -17,7 +17,7 @@ import {SEARCH, SORT, SORT_DIRECTION} from "../../queries";
 
 type Sort = "rating" | "original_title" | "runtime" | "release_date" | "none";
 type SortDirection = "ASC" | "DESC";
-type Breakpoint = "xs" | "sm" | "mr" | "md" | "lg" | "xl";
+type Breakpoint = "xs" | "sm" | "md" | "lg" | "xl";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({

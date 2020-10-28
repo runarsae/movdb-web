@@ -33,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
             whiteSpace: "nowrap",
             width: "100%",
             overflow: "hidden",
+            cursor: "pointer",
             [theme.breakpoints.up("md")]: {
                 maxWidth: "calc(100% - 245px)",
                 left: 100,
@@ -49,34 +50,41 @@ const useStyles = makeStyles((theme: Theme) =>
             width: "100%",
             height: "100%",
             top: 0,
+            cursor: "pointer",
             // Gradient from top to bottom: Transparent down to 75%, fade to black from 75% to 100%
             background: "linear-gradient(transparent 75%, black 100%)"
         }
     })
 );
 
-export default function TopMovie() {
+interface Props {
+    onClick: (imdbID: string) => void;
+}
+
+export default function TopMovie(props: Props) {
     const [muted, SetMute] = useState<boolean>(true);
     const classes = useStyles();
 
-    function onClickHandler() {
+    const IMDB_ID = "tt3501632";
+
+    function volumeHandler() {
         muted ? SetMute(false) : SetMute(true);
     }
     const {data} = useQuery(MOVIE_DATA, {
-        variables: {imdb_id: "tt3501632"}
+        variables: {imdb_id: IMDB_ID}
     });
 
     return (
         <div style={{position: "relative"}}>
             <VolumeOffRoundedIcon
-                onClick={onClickHandler}
+                onClick={volumeHandler}
                 className={classes.mute}
                 fontSize={"large"}
                 style={{color: "white", display: muted ? "block" : "none"}}
             />
 
             <VolumeUpRoundedIcon
-                onClick={onClickHandler}
+                onClick={volumeHandler}
                 className={classes.mute}
                 fontSize={"large"}
                 style={{color: "white", display: muted ? "none" : "block"}}
@@ -86,9 +94,11 @@ export default function TopMovie() {
                 <source type="video/mp4" src="thor.mp4" />
             </video>
 
-            <div className={classes.title}>{data ? data.movie.original_title : "Loading.."}</div>
+            <div className={classes.title} onClick={() => props.onClick(IMDB_ID)}>
+                {data ? data.movie.original_title : "Loading.."}
+            </div>
 
-            <div className={classes.overlay}></div>
+            <div className={classes.overlay} onClick={() => props.onClick(IMDB_ID)}></div>
         </div>
     );
 }

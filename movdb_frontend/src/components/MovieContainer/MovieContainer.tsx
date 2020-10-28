@@ -7,6 +7,7 @@ import {MENU_VALUES, SORT, SORT_DIRECTION, SEARCH, MOVIES} from "../../queries";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Typography from "@material-ui/core/Typography";
 import InfiniteScroll from "react-infinite-scroller";
+import MoviePopup from "./MoviePopup";
 
 interface Movie {
     imdb_id: string;
@@ -109,6 +110,9 @@ export default function MovieContainer() {
 
     const [pageLoaded, setPageLoaded] = useState<boolean>(false);
 
+    const [currentMovie, setCurrentMovie] = useState<string>("");
+    const [popupOpen, setPopupOpen] = useState<boolean>(false);
+
     // Get filter, search and sort values from cache
     // Called automatically when cache is updated
     const {data: menuValuesData} = useQuery(MENU_VALUES);
@@ -146,7 +150,7 @@ export default function MovieContainer() {
 
     // If options or currentPage changes, update the variables used in the query
     useEffect(() => {
-        if (options) {
+        if (options && currentPage) {
             setVariables({
                 search: options.search,
                 sortBy: options.sort,
@@ -166,7 +170,8 @@ export default function MovieContainer() {
     // Fetch movies based on variables
     // Called on mount and when variables are changed
     const {data: moviesData, loading: queryLoading} = useQuery(MOVIES, {
-        variables: variables
+        variables: variables,
+        skip: !variables
     });
 
     const posterBaseURL = "https://image.tmdb.org/t/p/w400/";
@@ -181,6 +186,10 @@ export default function MovieContainer() {
                     rating={movie.rating}
                     title={movie.original_title}
                     backgroundImage={posterBaseURL + movie.poster_path}
+                    onClick={(imdbID) => {
+                        setCurrentMovie(imdbID);
+                        setPopupOpen(true);
+                    }}
                 />
             ));
 
@@ -200,9 +209,18 @@ export default function MovieContainer() {
 
     return (
         <div className={classes.root}>
+            <MoviePopup movieId={currentMovie} open={popupOpen} handlePopupClose={() => setPopupOpen(false)} />
+
             {
                 // Hide top movie after first query
-                queryCount <= 1 && <TopMovie />
+                queryCount <= 1 && (
+                    <TopMovie
+                        onClick={(imdbID) => {
+                            setCurrentMovie(imdbID);
+                            setPopupOpen(true);
+                        }}
+                    />
+                )
             }
 
             {movies && movies.length !== 0 ? (
