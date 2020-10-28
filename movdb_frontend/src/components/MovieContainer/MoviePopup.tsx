@@ -93,7 +93,8 @@ function MoviePopup(props: Props) {
     const [movieData, setMovieData] = useState<Movie>();
 
     const {data} = useQuery(MOVIE_DATA, {
-        variables: {imdb_id: props.movieId}
+        variables: {imdb_id: props.movieId},
+        skip: !props.movieId
     });
 
     useEffect(() => {
