@@ -34,6 +34,7 @@ const MOVIE_DATA = gql`
             production_countries {
                 name
             }
+            production_companies
             runtime
             release_date
             trailer
