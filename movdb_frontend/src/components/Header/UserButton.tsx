@@ -6,7 +6,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import Menu from "@material-ui/core/Menu/Menu";
 import MenuItem from "@material-ui/core/MenuItem/MenuItem";
 import UserForm from "./UserForm";
-import {useQuery, useApolloClient} from "@apollo/client";
+import {useQuery} from "@apollo/client";
 import {CURRENT_USER} from "../../queries";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
@@ -26,7 +26,6 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function UserButton(): JSX.Element {
     const classes = useStyles();
-    const client = useApolloClient();
 
     const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
     const [userFormOpen, setUserFormOpen] = useState<boolean>(false);
