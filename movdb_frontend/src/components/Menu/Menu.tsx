@@ -8,6 +8,7 @@ import {useApolloClient, useQuery} from "@apollo/client";
 import {MENU_OPEN, MENU_VALUES, MENU_OPTIONS} from "../../queries";
 import IconButton from "@material-ui/core/IconButton/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
+import Typography from "@material-ui/core/Typography/Typography";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -17,11 +18,20 @@ const useStyles = makeStyles((theme: Theme) =>
             height: "100%",
             backgroundColor: "white"
         },
-        btnConfirm: {
+        buttonGroup: {
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
             marginTop: "50px",
-            marginBottom: "50px",
-            marginLeft: "auto",
-            marginRight: "auto"
+            marginBottom: "50px"
+        },
+        button: {
+            width: "auto",
+            display: "block",
+            "&:first-child": {
+                marginRight: theme.spacing(2)
+            }
         },
         btnClose: {
             position: "absolute",
@@ -29,13 +39,16 @@ const useStyles = makeStyles((theme: Theme) =>
             top: 0
         },
         btnHolder: {
-            margin: 1,
             width: "80%",
             position: "relative",
             height: "50px",
             marginTop: "18px",
             marginLeft: "auto",
             marginRight: "auto"
+        },
+        heading: {
+            position: "absolute",
+            top: "12px"
         },
         "@global": {
             "*::-webkit-scrollbar": {
@@ -136,8 +149,6 @@ function Menu() {
     };
 
     const handleValueChange = (type: string, value: string[] | Interval) => {
-        console.log(value);
-
         // Overwrite the old menu value with the updated one for the given type
         const updatedMenuValues = {
             ...menuValues!,
@@ -153,6 +164,9 @@ function Menu() {
             {menuValues && menuOptions && (
                 <Drawer anchor="right" open={menuOpen} onClose={toggleDrawer} classes={{paper: classes.menuContainer}}>
                     <div className={classes.btnHolder}>
+                        <Typography variant="h5" color="initial" className={classes.heading}>
+                            Filter
+                        </Typography>
                         <IconButton aria-label="close" onClick={toggleDrawer} className={classes.btnClose}>
                             <CloseIcon />
                         </IconButton>
@@ -185,14 +199,19 @@ function Menu() {
                         onValueChange={(value: Interval) => handleValueChange("runtimeInterval", value)}
                     />
 
-                    <Button
-                        variant="contained"
-                        classes={{root: classes.btnConfirm}}
-                        onClick={toggleDrawer}
-                        color="primary"
-                    >
-                        Confirm
-                    </Button>
+                    <div className={classes.buttonGroup}>
+                        <Button
+                            color="secondary"
+                            className={classes.button}
+                            onClick={() => setDefaultMenuValues(menuOptionsData.menuOptions)}
+                        >
+                            Reset
+                        </Button>
+
+                        <Button variant="contained" className={classes.button} onClick={toggleDrawer} color="primary">
+                            Confirm
+                        </Button>
+                    </div>
                 </Drawer>
             )}
         </div>
