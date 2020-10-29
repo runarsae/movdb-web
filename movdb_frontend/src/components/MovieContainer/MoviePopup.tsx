@@ -204,7 +204,7 @@ function MoviePopup(props: Props) {
 
                             <CardActions disableSpacing>
                                 <IconButton
-                                    color={hasLiked ? "secondary" : "default"}
+                                    color={userData && userData.currentUser && hasLiked ? "secondary" : "default"}
                                     aria-label="add to favorites"
                                     onClick={handleFavorite}
                                 >
