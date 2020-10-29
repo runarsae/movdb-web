@@ -135,18 +135,19 @@ function MoviePopup(props: Props) {
                                     </IconButton>
                                 }
                             />
-
-                            <CardMedia
-                                className={classes.media}
-                                component={"iframe"}
-                                src={
-                                    "https://www.youtube.com/embed/" +
-                                    movieData.trailer +
-                                    "?mute=1&autoplay=1&playlist=" +
-                                    movieData.trailer +
-                                    "&loop=1"
-                                }
-                            />
+                            {props.open && (
+                                <CardMedia
+                                    className={classes.media}
+                                    component={"iframe"}
+                                    src={
+                                        "https://www.youtube.com/embed/" +
+                                        movieData.trailer +
+                                        "?mute=1&autoplay=1&playlist=" +
+                                        movieData.trailer +
+                                        "&loop=1"
+                                    }
+                                />
+                            )}
 
                             <CardContent>
                                 <Typography variant="body2">{movieData.overview}</Typography>
