@@ -26,8 +26,8 @@ const REGISTER = gql`
 `;
 
 const LIKE = gql`
-    mutation createLike($imdb_id: String!, $username: String!) {
-        createLike(imdb_id: $imdb_id, username: $username) {
+    mutation createLike($imdb_id: String!) {
+        createLike(imdb_id: $imdb_id) {
             _id
             username
             imdb_id
@@ -98,14 +98,13 @@ const MENU_OPTIONS = gql`
 `;
 
 const LIKES = gql`
-    query likes($imdb_id: String!, $username: String) {
-            likes(imdb_id: $imdb_id, username: $username) {
-                likesCount
-                hasLiked
-            }
+    query likes($imdb_id: String!) {
+        likes(imdb_id: $imdb_id) {
+            likesCount
+            hasLiked
+        }
     }
 `;
-
 
 // CACHE-ONLY QUERIES
 const MENU_OPEN = gql`
