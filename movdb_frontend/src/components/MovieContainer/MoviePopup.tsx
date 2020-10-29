@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {useQuery} from "@apollo/client";
-import {MOVIE_DATA, LIKES, CURRENT_USER, LIKE} from "../../queries";
+import {MOVIE_DATA, LIKES, LIKE, CURRENT_USER} from "../../queries";
 import Backdrop from "@material-ui/core/Backdrop";
 import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
@@ -92,13 +92,13 @@ interface MovieLikes {
 function MoviePopup(props: Props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
-    const {data: userData} = useQuery(CURRENT_USER);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    // Movie data
+    const {data: userData} = useQuery(CURRENT_USER);
+
     const [movieData, setMovieData] = useState<Movie>();
 
     const {data} = useQuery(MOVIE_DATA, {
@@ -106,11 +106,25 @@ function MoviePopup(props: Props) {
         skip: !props.movieId
     });
 
-    const [movieLikes, setLikeData] = useState<MovieLikes>();
+    useEffect(() => {
+        if (data) {
+            setMovieData(data.movie);
+        }
+    }, [data]);
 
-    const {data: likeData} = useQuery(LIKES, {
+    const [hasLiked, setHasLiked] = useState<boolean>();
+    const [likesCount, setLikesCount] = useState<number>();
+
+    const {data: likeData, refetch} = useQuery(LIKES, {
         variables: {imdb_id: props.movieId}
     });
+
+    useEffect(() => {
+        if (likeData) {
+            setHasLiked(likeData.likes.hasLiked);
+            setLikesCount(likeData.likes.likesCount);
+        }
+    }, [likeData]);
 
     const [snackOpen, setSnackOpen] = React.useState(false);
     const snackHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
@@ -124,35 +138,22 @@ function MoviePopup(props: Props) {
         setSnackOpen(true);
     };
 
-    useEffect(() => {
-        if (data) {
-            setMovieData(data.movie);
-        }
-        if (likeData) {
-            setLikeData(likeData.likes);
-        }
-    }, [data, likeData]);
-
-    const [like] = useMutation(LIKE, {
-        onError: (error) => {
-            console.log(error);
-        },
-        onCompleted: (response) => {
-            if (response.createLike && movieLikes) {
-                setLikeData({hasLiked: false, likesCount: movieLikes.likesCount - 1});
-            } else if (movieLikes) {
-                setLikeData({hasLiked: true, likesCount: movieLikes.likesCount + 1});
-            }
-        }
+    const [like, {data: likeResponse}] = useMutation(LIKE, {
+        variables: {imdb_id: props.movieId}
     });
 
+    useEffect(() => {
+        refetch();
+    }, [likeResponse, refetch]);
+
     const handleFavorite = () => {
-        if (movieLikes && userData.currentUser != null) {
-            like({variables: {imdb_id: props.movieId, username: userData.currentUser.username}});
+        if (userData && userData.currentUser) {
+            like();
         } else {
             snackHandleClick();
         }
     };
+
     useEffect(() => {
         if (props.open) {
             document.body.style.overflow = "hidden";
@@ -170,7 +171,7 @@ function MoviePopup(props: Props) {
 
     return (
         <div>
-            {movieData && movieLikes && (
+            {movieData && (likesCount === 0 || likesCount) && (
                 <Backdrop className={classes.backdrop} open={props.open} onClick={handleClose}>
                     <div className={classes.padder}>
                         <Card className={classes.root} onClick={(e) => e.stopPropagation()}>
@@ -203,13 +204,13 @@ function MoviePopup(props: Props) {
 
                             <CardActions disableSpacing>
                                 <IconButton
-                                    color={movieLikes?.hasLiked ? "secondary" : "default"}
+                                    color={userData && userData.currentUser && hasLiked ? "secondary" : "default"}
                                     aria-label="add to favorites"
                                     onClick={handleFavorite}
                                 >
-                                    {movieLikes?.likesCount}
                                     <FavoriteIcon />
                                 </IconButton>
+                                {likesCount}
 
                                 <IconButton
                                     className={clsx(classes.expand, {

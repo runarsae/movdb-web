@@ -108,13 +108,13 @@ const typeDefs = gql`
             pageSize: Int = 20
         ): Movies
         movie(imdb_id: String!): Movie
-        likes(imdb_id: String!, username: String): Like
+        likes(imdb_id: String!): Like
         menuOptions: MenuOptions
     }
 
     type Mutation {
         createUser(username: String!, password: String!): User
-        createLike(imdb_id: String!, username: String!): AddLike
+        createLike(imdb_id: String!): AddLike
     }
 `;
 
