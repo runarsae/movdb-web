@@ -3,7 +3,6 @@ import Header from "./components/Header/Header";
 import MovieContainer from "./components/MovieContainer/MovieContainer";
 import Menu from "./components/Menu/Menu";
 import "./App.css";
-import MoviePopup from "./components/MovieContainer/MoviePopup";
 
 function App(): JSX.Element {
     return (
@@ -11,7 +10,6 @@ function App(): JSX.Element {
             <Header />
             <Menu />
             <MovieContainer />
-            <MoviePopup movieId={"tt0035423"} open={true} />
         </div>
     );
 }
