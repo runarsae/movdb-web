@@ -25,6 +25,16 @@ const REGISTER = gql`
     }
 `;
 
+const LIKE = gql`
+    mutation createLike($imdb_id: String!, $username: String!) {
+        createLike(imdb_id: $imdb_id, username: $username) {
+            _id
+            username
+            imdb_id
+        }
+    }
+`;
+
 const MOVIE_DATA = gql`
     query movie($imdb_id: String!) {
         movie(imdb_id: $imdb_id) {
@@ -87,6 +97,16 @@ const MENU_OPTIONS = gql`
     }
 `;
 
+const LIKES = gql`
+    query likes($imdb_id: String!, $username: String) {
+            likes(imdb_id: $imdb_id, username: $username) {
+                likesCount
+                hasLiked
+            }
+    }
+`;
+
+
 // CACHE-ONLY QUERIES
 const MENU_OPEN = gql`
     query menuOpen {
@@ -134,5 +154,7 @@ export {
     SORT,
     SORT_DIRECTION,
     SEARCH,
-    MOVIE_DATA
+    MOVIE_DATA,
+    LIKES,
+    LIKE
 };

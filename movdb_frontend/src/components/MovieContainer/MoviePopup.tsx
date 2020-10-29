@@ -10,12 +10,15 @@ import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import {useQuery} from "@apollo/client";
-import {MOVIE_DATA} from "../../queries";
+import {MOVIE_DATA, LIKES, CURRENT_USER, LIKE} from "../../queries";
 import Backdrop from "@material-ui/core/Backdrop";
 import CardHeader from "@material-ui/core/CardHeader";
 import CloseIcon from "@material-ui/icons/Close";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Chip from "@material-ui/core/Chip";
+import {useMutation} from "@apollo/client";
+import Snackbar from "@material-ui/core/Snackbar/Snackbar";
+import Alert from "@material-ui/lab/Alert/Alert";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -81,9 +84,15 @@ interface Movie {
     trailer: string;
 }
 
+interface MovieLikes {
+    hasLiked: boolean;
+    likesCount: number;
+}
+
 function MoviePopup(props: Props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
+    const {data: userData} = useQuery(CURRENT_USER);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -97,12 +106,53 @@ function MoviePopup(props: Props) {
         skip: !props.movieId
     });
 
+    const [movieLikes, setLikeData] = useState<MovieLikes>();
+
+    const {data: likeData} = useQuery(LIKES, {
+        variables: {imdb_id: props.movieId}
+    });
+
+    const [snackOpen, setSnackOpen] = React.useState(false);
+    const snackHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
+        if (reason === "clickaway") {
+            return;
+        }
+        setSnackOpen(false);
+    };
+
+    const snackHandleClick = () => {
+        setSnackOpen(true);
+    };
+
     useEffect(() => {
         if (data) {
             setMovieData(data.movie);
         }
-    }, [data]);
+        if (likeData) {
+            setLikeData(likeData.likes);
+        }
+    }, [data, likeData]);
 
+    const [like] = useMutation(LIKE, {
+        onError: (error) => {
+            console.log(error);
+        },
+        onCompleted: (response) => {
+            if (response.createLike && movieLikes) {
+                setLikeData({hasLiked: false, likesCount: movieLikes.likesCount - 1});
+            } else if (movieLikes) {
+                setLikeData({hasLiked: true, likesCount: movieLikes.likesCount + 1});
+            }
+        }
+    });
+
+    const handleFavorite = () => {
+        if (movieLikes && userData.currentUser != null) {
+            like({variables: {imdb_id: props.movieId, username: userData.currentUser.username}});
+        } else {
+            snackHandleClick();
+        }
+    };
     useEffect(() => {
         if (props.open) {
             document.body.style.overflow = "hidden";
@@ -118,11 +168,9 @@ function MoviePopup(props: Props) {
         }
     };
 
-    const handleFavorite = () => {};
-
     return (
         <div>
-            {movieData && (
+            {movieData && movieLikes && (
                 <Backdrop className={classes.backdrop} open={props.open} onClick={handleClose}>
                     <div className={classes.padder}>
                         <Card className={classes.root} onClick={(e) => e.stopPropagation()}>
@@ -154,7 +202,12 @@ function MoviePopup(props: Props) {
                             </CardContent>
 
                             <CardActions disableSpacing>
-                                <IconButton aria-label="add to favorites" onClick={handleFavorite}>
+                                <IconButton
+                                    color={movieLikes?.hasLiked ? "secondary" : "default"}
+                                    aria-label="add to favorites"
+                                    onClick={handleFavorite}
+                                >
+                                    {movieLikes?.likesCount}
                                     <FavoriteIcon />
                                 </IconButton>
 
@@ -168,6 +221,11 @@ function MoviePopup(props: Props) {
                                 >
                                     <ExpandMoreIcon />
                                 </IconButton>
+                                <Snackbar open={snackOpen} autoHideDuration={2000} onClose={snackHandleClose}>
+                                    <Alert onClose={snackHandleClose} severity="info">
+                                        Log in to favorite movies.
+                                    </Alert>
+                                </Snackbar>
                             </CardActions>
 
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
