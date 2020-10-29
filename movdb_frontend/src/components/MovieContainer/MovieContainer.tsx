@@ -219,6 +219,7 @@ export default function MovieContainer() {
                             setCurrentMovie(imdbID);
                             setPopupOpen(true);
                         }}
+                        muted={popupOpen}
                     />
                 )
             }
