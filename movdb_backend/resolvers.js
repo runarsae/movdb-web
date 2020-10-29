@@ -262,8 +262,8 @@ const resolvers = {
             likes: async (obj, args, context) => {
                 likes = await db.collection("likes");
                 likesCount = likes.find({imdb_id: args.imdb_id}).count();
-                userLiked = likes.find({imdb_id: args.imdb_id, username: args.username}).count();
-                hasLiked = userLiked==0;
+                userLiked = await likes.find({imdb_id: args.imdb_id, username: context.username}).count();
+                hasLiked = userLiked==1;
 
                 return {
                     likesCount: likesCount,

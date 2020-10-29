@@ -17,7 +17,6 @@ import CloseIcon from "@material-ui/icons/Close";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import Chip from "@material-ui/core/Chip";
 import {useMutation} from "@apollo/client";
-import {colors} from "@material-ui/core";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
 
@@ -93,7 +92,6 @@ interface MovieLikes {
 function MoviePopup(props: Props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
-    const [open, setOpen] = useState(props.open);
     const {data: userData} = useQuery(CURRENT_USER);
 
     const handleExpandClick = () => {
@@ -135,7 +133,7 @@ function MoviePopup(props: Props) {
         }
     }, [data, likeData]);
 
-    const [like, {called, loading, data: response, error}] = useMutation(LIKE, {
+    const [like] = useMutation(LIKE, {
         onError: (error) => {
             console.log(error);
         },
@@ -172,7 +170,7 @@ function MoviePopup(props: Props) {
 
     return (
         <div>
-            {movieData && (
+            {movieData && movieLikes && (
                 <Backdrop className={classes.backdrop} open={props.open} onClick={handleClose}>
                     <div className={classes.padder}>
                         <Card className={classes.root} onClick={(e) => e.stopPropagation()}>
