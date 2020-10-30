@@ -18,7 +18,7 @@ Følgende er nødvendig for å kunne kjøre prosjektet:
 
 ### Installering
 
-#### Steg 1 - Klon prosjektet
+#### 1 - Klon prosjektet
 Åpne en terminal, og naviger til mappen du ønsker å installere prosjektet i.
 Klon repoet ved å skrive: 
 
@@ -26,10 +26,10 @@ Klon repoet ved å skrive:
 git clone https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3.git
 ```
 
-#### Step 2 - Koble til NTNUs nettverk
+#### 2 - Koble til NTNUs nettverk
 Koble til NTNUs nettverk enten direkte, eller gjennom VPN.
 
-#### Step 3 - Installer og start backend
+#### 3 - Installer og start backend
 1. Åpne terminal
 
 2. Fra prosjektets rotmappe, naviger til backend-mappen: 
@@ -47,7 +47,7 @@ Koble til NTNUs nettverk enten direkte, eller gjennom VPN.
     node index.js
     ```
 
-#### Steg 4 - Installer og kjør frontend:
+#### 4 - Installer og kjør frontend:
 1. Åpne en ny terminal, men hold terminalen du brukte over åpen
 
 2. I prosjektets rotmappe, naviger til frontend-mappen: 
@@ -65,7 +65,7 @@ Koble til NTNUs nettverk enten direkte, eller gjennom VPN.
     npm start
     ```
 
-#### Steg 5 - Bruk applikasjonen:
+#### 5 - Bruk applikasjonen:
 I en nettleser, gå til [localhost:3000](localhost:3000). Hvis applikasjonen er ferdig kompilert, vil forsiden av MovDB dukke opp.
 
 ![MovDB Frontend](Documentation/front.png)
