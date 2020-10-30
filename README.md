@@ -49,15 +49,33 @@ Connect to NTNUs network either directly or through a VPN.
 #### Step 3 - Install and run the backend: 
 Now we're ready to install dependencies. 
 1. Open up your terminal
-2. While in the project's root folder, navigate to the backend folder: ``` movdb_backend ```
-2. Install the backend dependencies using: ``` npm install ```
-3. Start the backend using: ``` node index.js ```
+2. While in the project's root folder, navigate to the backend folder: 
+    ``` 
+    movdb_backend 
+    ```
+2. Install the backend dependencies using: 
+    ```
+    npm install
+    ```
+3. Start the backend using: 
+    ``` 
+    node index.js
+    ```
 
 #### Step 4 - Install and run frontend:
 1. Open another terminal (keep the previous one open)
-2. While in the project's root folder, navigate to the frontend folder: ``` movdb_frontend ```
-3. Install the frontend dependencies using: ``` npm install ```
-4. Start the frontend using: ``` npm start ```
+2. While in the project's root folder, navigate to the frontend folder: 
+    ``` 
+    movdb_frontend 
+    ```
+3. Install the frontend dependencies using: 
+    ``` 
+    npm install
+    ```
+4. Start the frontend using: 
+    ``` 
+    npm start
+    ```
 
 #### Step 5 - Start using the application:
 Open up your favorite web browser and go to [localhost:3000](localhost:3000).
