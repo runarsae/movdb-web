@@ -40,12 +40,14 @@ export default function Movie(props: Props) {
     const classes = useStyles();
 
     return (
-        <div
-            onClick={() => {
-                props.onClick(props.imdbID);
-            }}
-        >
-            <Card raised={true} className={classes.root}>
+        <div>
+            <Card
+                raised={true}
+                className={classes.root}
+                onClick={() => {
+                    props.onClick(props.imdbID);
+                }}
+            >
                 <CardActionArea classes={{root: classes.cardActionArea}}>
                     <Tooltip TransitionComponent={Zoom} title={props.title} interactive arrow>
                         <CardMedia className={classes.media} image={props.backgroundImage} />

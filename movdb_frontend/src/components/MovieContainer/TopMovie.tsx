@@ -25,6 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
             color: "#ffffff",
             position: "absolute",
             fontSize: "x-large",
+            fontFamily: "Aldrich",
             bottom: "10%",
             left: 30,
             zIndex: 999,
@@ -52,7 +53,7 @@ const useStyles = makeStyles((theme: Theme) =>
             top: 0,
             cursor: "pointer",
             // Gradient from top to bottom: Transparent down to 75%, fade to black from 75% to 100%
-            background: "linear-gradient(transparent 75%, black 100%)"
+            background: "linear-gradient(transparent 75%, #111010 100%)"
         }
     })
 );

@@ -18,8 +18,8 @@ import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         header: {
-            color: "#fff",
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.primary.light,
             paddingTop: theme.spacing(2),
             paddingBottom: theme.spacing(2)
         },
@@ -39,7 +39,9 @@ const useStyles = makeStyles((theme: Theme) =>
             cursor: "pointer",
             [theme.breakpoints.up("sm")]: {
                 paddingRight: "8px"
-            }
+            },
+            fontFamily: "Aldrich",
+            fontSize: 28
         },
         menuButton: {
             gridArea: "menubutton"

@@ -13,7 +13,8 @@ const useStyles = makeStyles((theme: Theme) =>
             width: "80%",
             marginTop: "50px",
             marginLeft: "auto",
-            marginRight: "auto"
+            marginRight: "auto",
+            color: theme.palette.primary.light
         },
         chips: {
             display: "flex",

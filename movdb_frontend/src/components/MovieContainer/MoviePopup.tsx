@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             maxWidth: "800px",
             width: "100%",
-            backgroundColor: theme.palette.primary.light,
+            backgroundColor: theme.palette.background.paper,
             transition: "all 0.25s"
         },
         media: {
@@ -231,11 +231,11 @@ function MoviePopup(props: Props) {
 
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <CardContent>
-                                    <Typography>
+                                    <Typography variant="body2" paragraph>
                                         <b>Runtime:</b> {movieData.runtime} min
                                     </Typography>
 
-                                    <Typography>
+                                    <Typography variant="body2" paragraph>
                                         <b>
                                             Production
                                             {movieData.production_companies.length > 1 ? " companies: " : " company: "}
