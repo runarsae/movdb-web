@@ -1,26 +1,17 @@
-import React from 'react';
-import './App.css';
-import { useQuery, gql } from '@apollo/client';
+import React from "react";
+import Header from "./components/Header/Header";
+import MovieContainer from "./components/MovieContainer/MovieContainer";
+import Menu from "./components/Menu/Menu";
+import "./App.css";
 
-const test = gql`
-  query movies {
-      movies{
-        _id
-        title
-      }
-    }
-`
-;
-
-function App() {
-  const { loading, error, data } = useQuery(test);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
+function App(): JSX.Element {
     return (
-      <div>
-        {data}
-      </div>
-    )
+        <div>
+            <Header />
+            <Menu />
+            <MovieContainer />
+        </div>
+    );
 }
 
 export default App;

@@ -1,0 +1,42 @@
+.spec {
+    color: #000000;
+    font-size: 14px;
+    border-radius: 15%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+}
+
+.cl1 {
+    background-color: #650000;
+}
+.cl2 {
+    background-color: #a20000;
+}
+.cl3 {
+    background-color: #d22300;
+}
+.cl4 {
+    background-color: #d17900;
+}
+.cl5 {
+    background-color: #cfa200;
+}
+.cl6 {
+    background-color: #d2d200;
+}
+.cl7 {
+    background-color: #90de00;
+}
+.cl8 {
+    background-color: #04d200;
+}
+.cl9 {
+    background-color: #00a11b;
+}

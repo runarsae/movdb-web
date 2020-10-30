@@ -6,7 +6,7 @@
     "@apollo/client": "^3.2.2",
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
-    "@reduxjs/toolkit": "^1.4.0",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
@@ -14,17 +14,20 @@
     "@types/node": "^12.12.62",
     "@types/react": "^16.9.50",
     "@types/react-dom": "^16.9.8",
-    "@typescript-eslint/eslint-plugin": "^4.3.0",
-    "@typescript-eslint/parser": "^4.3.0",
-    "eslint-config-prettier": "^6.12.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.21.2",
+    "@types/react-test-renderer": "^16.9.3",
+    "apollo-client": "^2.6.10",
+    "cypress": "^5.5.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
     "graphql": "^15.3.0",
     "prettier": "^2.1.2",
     "react": "^16.13.1",
+    "react-apollo": "^3.1.5",
     "react-dom": "^16.13.1",
-    "react-redux": "^7.2.1",
+    "react-indiana-drag-scroll": "^1.7.2",
+    "react-infinite-scroller": "^1.2.4",
     "react-scripts": "3.4.3",
+    "react-test-renderer": "^17.0.1",
     "typescript": "^3.7.5"
   },
   "scripts": {
@@ -49,6 +52,8 @@
     ]
   },
   "devDependencies": {
-    "redux-devtools": "^3.7.0"
+    "@types/enzyme": "^3.10.8",
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/react-infinite-scroller": "^1.2.1"
   }
 }
