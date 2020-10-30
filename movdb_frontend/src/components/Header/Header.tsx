@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
 import {MENU_OPEN} from "../../queries";
-import {useApolloClient} from "@apollo/client";
+import {useApolloClient, useQuery} from "@apollo/client";
 import Sort from "./Sort";
 import ImportExportRoundedIcon from "@material-ui/icons/ImportExportRounded";
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
@@ -60,6 +60,8 @@ function Header(): JSX.Element {
     const [sortVisible, toggleSort] = React.useState<boolean>(false);
     const client = useApolloClient();
 
+    const {data} = useQuery(MENU_OPEN);
+
     const toggleMenu = () => {
         client.cache.writeQuery({
             query: MENU_OPEN,
@@ -77,7 +79,7 @@ function Header(): JSX.Element {
         <div>
             <ClickAwayListener
                 onClickAway={() => {
-                    if (sortVisible) {
+                    if (sortVisible && !data.menuOpen) {
                         handleSortVisibility();
                     }
                 }}
