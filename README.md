@@ -1,6 +1,6 @@
+# ![MovDB](Documentation/head.png)
 # MovDB - A movie database
 
-<!--# ![Cool image](path)-->
 
 The web application MovDB provides users with information on over 2000 movies!
 First, users can search for their desired movies using keywords from titles and description. Then they can click on the movies
