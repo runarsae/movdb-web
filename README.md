@@ -121,6 +121,8 @@ I enhetstestingen valgte vi å ikke fokusere mye på testing av selve logikken t
 
 End-2-end-testing er gjennomført for stort sett alle deler av nettsiden; innlasting, innlogging, registrering, se mer informasjon om filmer, like/unlike filmer, søking, sortering og filtrering. Her har vi tatt i bruk Cypress, som er et alt-i-ett rammeverk for automatisk testing som blant annet gir visuell/headless testing, assertion-bibliotek og mocking. Dette var hovedgrunnen til at vi valgte nettopp Cypress. Alt vi trengte for å gjennomføre end-2-end-testingen var inkludert og det var lite vi måtte sette oss inn i for å komme i gang.
 
+I tilegg til enhetstesting og end-2-end testing har vi lagt til snapshottest for Menu. 
+
 ## Git og samarbeid
 
 På GitLab tok vi i bruk det meste av den funksjonaliteten som blir tilbudt. Med dette menes issues, branches, labels og commit-tagging for å sørge for at vi hadde god oversikt over hva som foregikk. For hver feature, og andre utviklingsoppgaver, ble det opprettet et issue med en tilsvarende WIP-branch. Dette issuet fikk relevante labels som skilte det fra andre issues. Hvis noen skulle jobbe med dette issuet tildelte de det til seg selv. Ved commit, tagget vi meldingen med issue-nummeret slik at det var tydelig at denne endringen tilhørte dette issuet. Alt dette førte til at det var tydelig hvem som jobbet på hva, og hvor langt vi hadde kommet. Vi valgte også å ta i bruk milestones fordi vi hadde flere issues som hørte sammen. Dette gjorde det enklere for gruppen å se progresjonen fra et øvre perspektiv. 
