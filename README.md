@@ -114,9 +114,10 @@ ApolloServer tar imot spørringene fra frontend. ApolloServer var et naturlig va
 
 ## Testing
 
--enhetstesting
-	- mocking pga. Apollo queries
-	- logikk testing
+For å foreta enhetstesting på komponenter var vi nødt til å mocke queries som komponentene bruker. Dette ble løst med ApolloClient sin MockedProvider-komponent. MockedProvider tar en mock som prop der all returdata for ulike queries er predefinert. Vi mocker spørringsresultat fordi det ikke er best practice å manipulere remote data, med mindre man har en dedikert testdatabase. Vi lagde enhetstester som testet at ved gitt data, så ville komponenten rendre på tilsvarende måte. 
+
+I enhetstestingen valgte vi å ikke fokusere mye på testing av selve logikken til komponentene. Dette begrunnes i at vi brukte mange komponenter fra Material-UI, og det skal ikke være nødvendig å teste disse, da de kommer fra en tredjepart. Likevel utførte vi manuell testing underveis, ved å bruke React Developer Tools i Chrome for å sjekke state og props i og mellom komponenter.
+
 
 End-2-end-testing er gjennomført for stort sett alle deler av nettsiden; innlasting, innlogging, registrering, se mer informasjon om filmer, like/unlike filmer, søking, sortering og filtrering. Her har vi tatt i bruk Cypress, som er et alt-i-ett rammeverk for automatisk testing som blant annet gir visuell/headless testing, assertion-bibliotek og mocking. Dette var hovedgrunnen til at vi valgte nettopp Cypress. Alt vi trengte for å gjennomføre end-2-end-testingen var inkludert og det var lite vi måtte sette oss inn i for å komme i gang.
 
