@@ -51,30 +51,30 @@ Now we're ready to install dependencies.
 1. Open up your terminal
 2. While in the project's root folder, navigate to the backend folder: 
     ``` 
-    movdb_backend 
+    ...\prosjekt-3\movdb_backend 
     ```
 2. Install the backend dependencies using: 
     ```
-    npm install
+    ...\prosjekt-3\movdb_backend npm install
     ```
 3. Start the backend using: 
     ``` 
-    node index.js
+    ...\prosjekt-3\movdb_backend node index.js
     ```
 
 #### Step 4 - Install and run frontend:
 1. Open another terminal (keep the previous one open)
 2. While in the project's root folder, navigate to the frontend folder: 
     ``` 
-    movdb_frontend 
+    ...\prosjekt-3\movdb_frontend 
     ```
 3. Install the frontend dependencies using: 
     ``` 
-    npm install
+    ...\prosjekt-3\movdb_frontend npm install
     ```
 4. Start the frontend using: 
     ``` 
-    npm start
+    ...\prosjekt-3\movdb_frontend npm start
     ```
 
 #### Step 5 - Start using the application:
@@ -90,7 +90,3 @@ To run the project's tests, you can try typing:
 ```
 npm run test
 ```
-
-## Wiki
-
-More to come
