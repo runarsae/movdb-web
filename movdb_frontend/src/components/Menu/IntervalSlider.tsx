@@ -5,12 +5,6 @@ import Slider from "@material-ui/core/Slider";
 import {Interval} from "./Menu";
 
 const useStyles = makeStyles({
-    root: {
-        width: "80%",
-        marginTop: "50px",
-        marginLeft: "auto",
-        marginRight: "auto"
-    },
     mark: {
         backgroundColor: "transparent"
     },
@@ -32,18 +26,22 @@ function IntervalSlider(props: Props) {
 
     const [value, setValue] = useState<Interval>(props.values);
 
+    // Update internal state when values prop changes
     useEffect(() => {
         setValue(props.values);
     }, [props.values]);
 
+    // Update internal state on slider change
     const handleChange = (event: ChangeEvent<{}>, value: number | number[]) => {
         setValue({start: (value as number[])[0], end: (value as number[])[1]});
     };
 
+    // Convert number to text
     function valuetext(value: number) {
         return value.toString();
     }
 
+    // Marks below the slider
     const marks = [
         {
             value: props.optionValues.start,
@@ -56,7 +54,7 @@ function IntervalSlider(props: Props) {
     ];
 
     return (
-        <div className={classes.root}>
+        <div>
             <Typography gutterBottom>{props.label}</Typography>
 
             <Slider

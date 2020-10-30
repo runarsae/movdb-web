@@ -10,10 +10,7 @@ import Chip from "@material-ui/core/Chip";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         formControl: {
-            width: "80%",
-            marginTop: "50px",
-            marginLeft: "auto",
-            marginRight: "auto"
+            color: theme.palette.primary.light
         },
         chips: {
             display: "flex",
@@ -49,10 +46,12 @@ function Selection(props: Props) {
 
     const [selected, setSelected] = useState<string[]>(props.values);
 
+    // Update internal state when new values are selected
     const handleChange = (event: React.ChangeEvent<{value: unknown}>) => {
         setSelected(event.target.value as string[]);
     };
 
+    // Update internal state when values prop changes
     useEffect(() => {
         setSelected(props.values);
     }, [props.values]);

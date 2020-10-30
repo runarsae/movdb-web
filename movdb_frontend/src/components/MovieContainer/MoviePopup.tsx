@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme: Theme) =>
         root: {
             maxWidth: "800px",
             width: "100%",
-            backgroundColor: theme.palette.primary.light,
+            backgroundColor: theme.palette.background.paper,
             transition: "all 0.25s"
         },
         media: {
@@ -63,7 +63,6 @@ const useStyles = makeStyles((theme: Theme) =>
     })
 );
 
-// The component takes the id of the movie, and then query the information using this id
 interface Props {
     movieId: string;
     open: boolean;
@@ -82,30 +81,30 @@ interface Movie {
     release_date: Date;
     runtime: number;
     trailer: string;
-}
-
-interface MovieLikes {
-    hasLiked: boolean;
-    likesCount: number;
+    rating: number;
 }
 
 function MoviePopup(props: Props) {
     const classes = useStyles();
     const [expanded, setExpanded] = useState(false);
 
+    // Show more/less information in the popup
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
-    const {data: userData} = useQuery(CURRENT_USER);
+    // Get current user (check if logged in)
+    const {data: userData, refetch: refetchUser} = useQuery(CURRENT_USER);
 
     const [movieData, setMovieData] = useState<Movie>();
 
+    // Get movie data for the given movie id (prop)
     const {data} = useQuery(MOVIE_DATA, {
         variables: {imdb_id: props.movieId},
         skip: !props.movieId
     });
 
+    // When movie data is fetched, store it internally
     useEffect(() => {
         if (data) {
             setMovieData(data.movie);
@@ -115,10 +114,13 @@ function MoviePopup(props: Props) {
     const [hasLiked, setHasLiked] = useState<boolean>();
     const [likesCount, setLikesCount] = useState<number>();
 
+    // Get the likes for the given movie id (prop)
     const {data: likeData, refetch} = useQuery(LIKES, {
-        variables: {imdb_id: props.movieId}
+        variables: {imdb_id: props.movieId},
+        skip: !props.movieId
     });
 
+    // When likes data is fetched, store it internally
     useEffect(() => {
         if (likeData) {
             setHasLiked(likeData.likes.hasLiked);
@@ -126,26 +128,23 @@ function MoviePopup(props: Props) {
         }
     }, [likeData]);
 
-    const [snackOpen, setSnackOpen] = React.useState(false);
-    const snackHandleClose = (event?: React.SyntheticEvent, reason?: string) => {
-        if (reason === "clickaway") {
-            return;
-        }
-        setSnackOpen(false);
-    };
+    const [snackOpen, setSnackOpen] = useState(false);
 
     const snackHandleClick = () => {
         setSnackOpen(true);
     };
 
+    // Like/unlike the given movie
     const [like, {data: likeResponse}] = useMutation(LIKE, {
         variables: {imdb_id: props.movieId}
     });
 
+    // When like/unlike completed, refetch likes for given movie
     useEffect(() => {
         refetch();
     }, [likeResponse, refetch]);
 
+    // On like button click, call the like mutation, else show snackbar
     const handleFavorite = () => {
         if (userData && userData.currentUser) {
             like();
@@ -154,13 +153,15 @@ function MoviePopup(props: Props) {
         }
     };
 
+    // When popup opens refetch current user (check if logged in or not) and hide body scroll bar
     useEffect(() => {
         if (props.open) {
+            refetchUser();
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "visible";
         }
-    }, [props.open]);
+    }, [props.open, refetchUser]);
 
     const handleClose = () => {
         if (props.open) {
@@ -204,13 +205,13 @@ function MoviePopup(props: Props) {
 
                             <CardActions disableSpacing>
                                 <IconButton
-                                    color={userData && userData.currentUser && hasLiked ? "secondary" : "default"}
+                                    color={userData && userData.currentUser && hasLiked ? "primary" : "default"}
                                     aria-label="add to favorites"
                                     onClick={handleFavorite}
                                 >
                                     <FavoriteIcon />
                                 </IconButton>
-                                {likesCount}
+                                <span id="likesCount">{likesCount}</span>
 
                                 <IconButton
                                     className={clsx(classes.expand, {
@@ -222,8 +223,13 @@ function MoviePopup(props: Props) {
                                 >
                                     <ExpandMoreIcon />
                                 </IconButton>
-                                <Snackbar open={snackOpen} autoHideDuration={2000} onClose={snackHandleClose}>
-                                    <Alert onClose={snackHandleClose} severity="info">
+                                <Snackbar
+                                    open={snackOpen}
+                                    autoHideDuration={6000}
+                                    anchorOrigin={{vertical: "bottom", horizontal: "right"}}
+                                    onClose={() => setSnackOpen(false)}
+                                >
+                                    <Alert onClose={() => setSnackOpen(false)} severity="info">
                                         Log in to favorite movies.
                                     </Alert>
                                 </Snackbar>
@@ -231,11 +237,15 @@ function MoviePopup(props: Props) {
 
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <CardContent>
-                                    <Typography>
-                                        <b>Runtime:</b> {movieData.runtime} min
+                                    <Typography variant="body2" paragraph>
+                                        <b>Rating:</b> {movieData.rating}
                                     </Typography>
 
-                                    <Typography>
+                                    <Typography variant="body2" paragraph>
+                                        <b>Runtime:</b> <span id="runtime">{movieData.runtime}</span> min
+                                    </Typography>
+
+                                    <Typography variant="body2" paragraph>
                                         <b>
                                             Production
                                             {movieData.production_companies.length > 1 ? " companies: " : " company: "}

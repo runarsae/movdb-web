@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Search from "./Search";
 import UserButton from "./UserButton";
 
@@ -10,7 +10,7 @@ import IconButton from "@material-ui/core/IconButton/IconButton";
 import ClickAwayListener from "@material-ui/core/ClickAwayListener";
 import TuneRoundedIcon from "@material-ui/icons/TuneRounded";
 import {MENU_OPEN} from "../../queries";
-import {useApolloClient} from "@apollo/client";
+import {useApolloClient, useQuery} from "@apollo/client";
 import Sort from "./Sort";
 import ImportExportRoundedIcon from "@material-ui/icons/ImportExportRounded";
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
@@ -18,8 +18,8 @@ import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         header: {
-            color: "#fff",
-            backgroundColor: theme.palette.primary.main,
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.primary.light,
             paddingTop: theme.spacing(2),
             paddingBottom: theme.spacing(2)
         },
@@ -39,7 +39,9 @@ const useStyles = makeStyles((theme: Theme) =>
             cursor: "pointer",
             [theme.breakpoints.up("sm")]: {
                 paddingRight: "8px"
-            }
+            },
+            fontFamily: "Aldrich",
+            fontSize: 28
         },
         menuButton: {
             gridArea: "menubutton"
@@ -55,9 +57,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Header(): JSX.Element {
     const classes = useStyles();
-    const [sortVisible, toggleSort] = React.useState<boolean>(false);
+    const [sortVisible, toggleSort] = useState<boolean>(false);
     const client = useApolloClient();
 
+    const {data} = useQuery(MENU_OPEN);
+
+    // Set menu open field in cache to true when menu button is clicked
     const toggleMenu = () => {
         client.cache.writeQuery({
             query: MENU_OPEN,
@@ -75,7 +80,8 @@ function Header(): JSX.Element {
         <div>
             <ClickAwayListener
                 onClickAway={() => {
-                    if (sortVisible) {
+                    // On click away, hide sort bar
+                    if (sortVisible && !data.menuOpen) {
                         handleSortVisibility();
                     }
                 }}
