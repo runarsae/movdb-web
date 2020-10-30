@@ -72,7 +72,7 @@ I en nettleser, gå til [localhost:3000](localhost:3000). Hvis applikasjonen er 
 
 ## Testing
 
-Prosjektet er end-to-end-testet med [Cypress](https://www.cypress.io/) og unit-testet med Jest.
+Prosjektet er end-to-end-testet med [Cypress](https://www.cypress.io/) og unit-testet med Jest/Enzyme.
 * For å kjøre unit-testene må du navigere til frontend-mappen. Deretter skriver du:
     ``` 
     npm test
