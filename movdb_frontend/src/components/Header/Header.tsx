@@ -37,7 +37,9 @@ const useStyles = makeStyles((theme: Theme) =>
             gridArea: "logo",
             [theme.breakpoints.up("sm")]: {
                 paddingRight: "8px"
-            }
+            },
+            fontFamily: "Aldrich",
+            fontSize: 28
         },
         menuButton: {
             gridArea: "menubutton"

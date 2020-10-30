@@ -48,7 +48,7 @@ const client: ApolloClient<NormalizedCacheObject> = new ApolloClient({
 const theme = createMuiTheme({
     palette: {
         primary: {
-            main: "#83e377"
+            main: "#edd12b"
         },
         secondary: {
             main: "#F1E9DB"
