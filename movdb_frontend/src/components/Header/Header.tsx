@@ -40,8 +40,8 @@ const useStyles = makeStyles((theme: Theme) =>
             [theme.breakpoints.up("sm")]: {
                 paddingRight: "8px"
             },
-            fontFamily: "Aldrich",
-            fontSize: 28
+            fontFamily: "Aldrich !important",
+            fontSize: "28px !important"
         },
         menuButton: {
             gridArea: "menubutton"
@@ -81,7 +81,7 @@ function Header(): JSX.Element {
             <ClickAwayListener
                 onClickAway={() => {
                     // On click away, hide sort bar
-                    if (sortVisible && !data.menuOpen) {
+                    if (sortVisible && data && !data.menuOpen) {
                         handleSortVisibility();
                     }
                 }}

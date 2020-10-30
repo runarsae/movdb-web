@@ -43,7 +43,7 @@ function UserButton(): JSX.Element {
     const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
     const [alertType, setAlertType] = useState<AlertType>(null);
 
-    const [userTooltipOpen, setUserTooltipOpen] = useState<boolean>();
+    const [userTooltipOpen, setUserTooltipOpen] = useState<boolean>(false);
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
