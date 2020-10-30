@@ -1,5 +1,5 @@
 describe("Filter", () => {
-    it("Open menu", () => {
+    it("Filter on genres and production countries", () => {
         cy.visit("/");
         cy.get("button[aria-label='filtering']").click();
         cy.contains("Confirm");

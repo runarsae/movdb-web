@@ -6,6 +6,6 @@ describe("Page loads", () => {
 
     it("Has movies", () => {
         cy.get(".MuiCardMedia-root");
-        cy.get(".makeStyles-video-43");
+        cy.get("video");
     });
 });

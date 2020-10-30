@@ -3,11 +3,8 @@ describe("Sort", () => {
         cy.visit("/");
     });
 
-    beforeEach(() => {
-        cy.get("button[aria-label='sorting']").click();
-    });
-
     it("Sort by runtime", () => {
+        cy.get("button[aria-label='sorting']").click();
         cy.contains("Runtime").click();
 
         cy.get(".MuiCardMedia-root").first().click();
@@ -27,6 +24,7 @@ describe("Sort", () => {
                 cy.get("button[aria-label='close']").click();
             });
         });
+        cy.get("button[aria-label='sorting']").click();
     });
 
     it("ASC/DESC", () => {
@@ -35,7 +33,10 @@ describe("Sort", () => {
             .then(($ratingDESC) => {
                 const ratingDESC = parseInt($ratingDESC.text());
 
+                cy.get("button[aria-label='sorting']").click();
                 cy.contains("ASC").click();
+
+                cy.get("button[aria-label='sorting']").click();
 
                 cy.get(".spec")
                     .first()
