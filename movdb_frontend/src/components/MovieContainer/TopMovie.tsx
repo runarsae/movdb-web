@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {makeStyles, Theme, createStyles} from "@material-ui/core/styles";
 import VolumeOffRoundedIcon from "@material-ui/icons/VolumeOffRounded";
 import VolumeUpRoundedIcon from "@material-ui/icons/VolumeUpRounded";
@@ -60,6 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 interface Props {
     onClick: (imdbID: string) => void;
+    muted: boolean;
 }
 
 export default function TopMovie(props: Props) {
@@ -67,6 +68,10 @@ export default function TopMovie(props: Props) {
     const classes = useStyles();
 
     const IMDB_ID = "tt3501632";
+
+    useEffect(() => {
+        SetMute(true);
+    }, [props.muted]);
 
     function volumeHandler() {
         muted ? SetMute(false) : SetMute(true);

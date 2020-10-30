@@ -13,6 +13,7 @@ import {MENU_OPEN} from "../../queries";
 import {useApolloClient} from "@apollo/client";
 import Sort from "./Sort";
 import ImportExportRoundedIcon from "@material-ui/icons/ImportExportRounded";
+import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -35,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         logo: {
             gridArea: "logo",
+            cursor: "pointer",
             [theme.breakpoints.up("sm")]: {
                 paddingRight: "8px"
             },
@@ -46,6 +48,9 @@ const useStyles = makeStyles((theme: Theme) =>
         },
         sortButton: {
             girdArea: "sortButton"
+        },
+        tooltip: {
+            marginTop: "4px"
         }
     })
 );
@@ -80,31 +85,45 @@ function Header(): JSX.Element {
                 <div>
                     <AppBar className={classes.header}>
                         <Toolbar variant="dense" className={classes.toolbar}>
-                            <Typography className={classes.logo} variant="h5" color="initial">
-                                MovDB
-                            </Typography>
+                            <div
+                                onClick={() => {
+                                    window.location.reload();
+                                }}
+                            >
+                                <Typography className={classes.logo} variant="h5" color="initial">
+                                    MovDB
+                                </Typography>
+                            </div>
 
                             <Search />
 
                             <UserButton />
 
-                            <IconButton
-                                onClick={handleSortVisibility}
-                                aria-label="sorting"
-                                color="inherit"
-                                className={classes.sortButton}
-                            >
-                                <ImportExportRoundedIcon />
-                            </IconButton>
+                            <Tooltip title="Sort" aria-label="Sort" classes={{tooltipPlacementBottom: classes.tooltip}}>
+                                <IconButton
+                                    onClick={handleSortVisibility}
+                                    aria-label="sorting"
+                                    color="inherit"
+                                    className={classes.sortButton}
+                                >
+                                    <ImportExportRoundedIcon />
+                                </IconButton>
+                            </Tooltip>
 
-                            <IconButton
-                                className={classes.menuButton}
-                                onClick={() => toggleMenu()}
-                                aria-label="filtering"
-                                color="inherit"
+                            <Tooltip
+                                title="Filter"
+                                aria-label="Filter"
+                                classes={{tooltipPlacementBottom: classes.tooltip}}
                             >
-                                <TuneRoundedIcon />
-                            </IconButton>
+                                <IconButton
+                                    className={classes.menuButton}
+                                    onClick={() => toggleMenu()}
+                                    aria-label="filtering"
+                                    color="inherit"
+                                >
+                                    <TuneRoundedIcon />
+                                </IconButton>
+                            </Tooltip>
                         </Toolbar>
                     </AppBar>
                     <Sort visible={sortVisible} />

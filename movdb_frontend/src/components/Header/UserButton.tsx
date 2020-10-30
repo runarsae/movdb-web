@@ -10,6 +10,7 @@ import {useQuery} from "@apollo/client";
 import {CURRENT_USER} from "../../queries";
 import Snackbar from "@material-ui/core/Snackbar/Snackbar";
 import Alert from "@material-ui/lab/Alert/Alert";
+import Tooltip from "@material-ui/core/Tooltip/Tooltip";
 
 export type UserFormCloseEvent = "login" | "register" | null;
 
@@ -20,6 +21,9 @@ const useStyles = makeStyles((theme: Theme) =>
         userButton: {
             gridArea: "userbutton",
             marginLeft: theme.spacing(1)
+        },
+        tooltip: {
+            marginTop: "4px"
         }
     })
 );
@@ -36,6 +40,8 @@ function UserButton(): JSX.Element {
 
     const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
     const [alertType, setAlertType] = useState<AlertType>(null);
+
+    const [userTooltipOpen, setUserTooltipOpen] = useState<boolean>();
 
     const handleSnackbarClose = () => {
         setSnackbarOpen(false);
@@ -64,16 +70,27 @@ function UserButton(): JSX.Element {
         <div>
             {data && data.currentUser ? (
                 <div>
-                    <IconButton
-                        ref={userButtonRef}
-                        onClick={() => setUserMenuOpen(!userMenuOpen)}
-                        className={classes.userButton}
-                        aria-label="account"
-                        color="inherit"
-                        disableRipple
+                    <Tooltip
+                        title={data.currentUser.username}
+                        aria-label={data.currentUser.username}
+                        classes={{tooltipPlacementBottom: classes.tooltip}}
+                        PopperProps={{
+                            open: userTooltipOpen
+                        }}
+                        onClose={() => setUserTooltipOpen(false)}
+                        onOpen={() => setUserTooltipOpen(true)}
                     >
-                        <AccountCircleIcon />
-                    </IconButton>
+                        <IconButton
+                            ref={userButtonRef}
+                            onClick={() => setUserMenuOpen(!userMenuOpen)}
+                            className={classes.userButton}
+                            aria-label="account"
+                            color="inherit"
+                            disableRipple
+                        >
+                            <AccountCircleIcon />
+                        </IconButton>
+                    </Tooltip>
 
                     <Menu
                         anchorEl={userButtonRef.current}
@@ -89,14 +106,16 @@ function UserButton(): JSX.Element {
                 </div>
             ) : (
                 <div>
-                    <IconButton
-                        onClick={() => setUserFormOpen(!userFormOpen)}
-                        className={classes.userButton}
-                        aria-label="log in"
-                        color="inherit"
-                    >
-                        <ExitToAppRoundedIcon />
-                    </IconButton>
+                    <Tooltip title="Log in" aria-label="Log in" classes={{tooltipPlacementBottom: classes.tooltip}}>
+                        <IconButton
+                            onClick={() => setUserFormOpen(!userFormOpen)}
+                            className={classes.userButton}
+                            aria-label="log in"
+                            color="inherit"
+                        >
+                            <ExitToAppRoundedIcon />
+                        </IconButton>
+                    </Tooltip>
 
                     <UserForm
                         open={userFormOpen}
