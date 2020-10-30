@@ -89,16 +89,16 @@ For å kjøre end-to-end-testene må du navigere til backend-mappen. Deretter sk
     ...\prosjekt-3\movdb_backend npx cypress run
     ```
 
-#Dokumentasjon
+# Dokumentasjon
 
-##React og TypeScript
+## React og TypeScript
 
 Prosjektet er basert på Node.js og vi har brukt create-react-app for å sette opp prosjektet med Typescript som spesifisert språk. I dette prosjektet har det i stor grad blitt tatt i bruk tredjepartskomponenter for å bygge nettsiden. I hovedsak dreier dette seg om React-komponenter fra Material-UI, men også andre komponenter som ApolloClient for state management, Indiana Drag Scroll for å kunne dra for å scrolle og Infinite Scroller for pagination. 
 
 Material-UI gjorde at vi sparte mye tid på styling og implementering av logikk for basiskomponenter. Styling for de implementerte funksjonelle komponentene ligger i .tsx-filene, da vi har tatt i bruk MakeStyles i Material-UI. Dette minner om styled-components biblioteket, og vi valgte å bruke dette fordi det er godt dokumentert og samler alt som har med en komponent å gjøre i samme fil. I tillegg blir styling basert på tilstand lettere.
 
 
-##State Management
+## State Management
 
 Apollo Client ble tatt i bruk for å kommunisere med backend, og dette gjorde vi via GraphQL. På samme måte som Redux, så har Apollo Client en provider som gir komponentene tilgang til en cache, der states kan lagres ved hjelp av queries. Derfor valgte vi å ikke ta i bruk Redux eller MobX i tillegg til Apollo Client, fordi dette ville vært redundant. Dette poenget argumenteres også for på Apollo sine [sider](https://www.apollographql.com/docs/tutorial/local-state/).
 
@@ -109,7 +109,7 @@ Hvis vi skulle ha brukt Redux ville det vært en del overhead å legge til før 
 Når det kommer til MobX har det i motsetning til Redux veldig lite overhead, og er mer effektivt fordi det kan gjøre selektiv rendering på komponenttreet. Dette vil gjøre at applikasjonen kjører mer effektiv enn den ville gjort med f.eks. Redux. Grunnen til at vi ikke valgte å bruke MobX var at vi så fordelene til Apollo som mer verdifulle enn fordelene til MobX. 
 
 
-##API og database
+## API og database
 
 I dette prosjektet gikk vi inn for å bruke GraphQL som spørrespråk. Dette fant vi ut at ville være veldig gunstig for oss, fordi det i mange tilfeller ville være unødvendig å hente alle feltene for en film i databasen. Et eksempel på dette er i MovieContainer. Her trengte vi kun poster, title og rating, men Movie-tabellen inneholder mange flere felter. Med GraphQL spesifiserte vi kun de feltene vi ville ha. Dette ville vært tungvint å gjøre med REST, fordi i en REST arkitektur er ressursene statiske. Dette er fordi beskrivelsen av en ressurs og hva man kan fetche er koblet sammen. I GraphQL er det omvendt: man definerer et schema, og schema sier ikke hva man får, men hva man kan få. Et annet argument for å bruke GraphQL var at REST ikke var like gunstig å bruke med Apollo, som vi gjerne ville bruke på grunn av alle fordelene nevnt i forrige avsnitt.
 
@@ -118,7 +118,7 @@ Vi valgte å bruke MongoDB som vår databaseløsning. Dette var fordi data i Mon
 ApolloServer tar imot spørringene fra frontend. ApolloServer var et naturlig valg fordi vi brukte ApolloClient og GraphQL. (ApolloServer er dog også mulig å bruke sammen med f.eks. Express (REST) hvis dette er ønskelig).
 
 
-##Testing
+## Testing
 
 -enhetstesting
 	- mocking pga. Apollo queries
@@ -126,7 +126,7 @@ ApolloServer tar imot spørringene fra frontend. ApolloServer var et naturlig va
 
 End-2-end-testing er gjennomført for stort sett alle deler av nettsiden; innlasting, innlogging, registrering, se mer informasjon om filmer, like/unlike filmer, søking, sortering og filtrering. Her har vi tatt i bruk Cypress, som er et alt-i-ett rammeverk for automatisk testing som blant annet gir visuell/headless testing, assertion-bibliotek og mocking. Dette var hovedgrunnen til at vi valgte nettopp Cypress. Alt vi trengte for å gjennomføre end-2-end-testingen var inkludert og det var lite vi måtte sette oss inn i for å komme i gang.
 
-##Git og samarbeid
+## Git og samarbeid
 
 På GitLab tok vi i bruk det meste av den funksjonaliteten som blir tilbudt. Med dette menes issues, branches, labels og commit-tagging for å sørge for at vi hadde god oversikt over hva som foregikk. For hver feature, og andre utviklingsoppgaver, ble det opprettet et issue med en tilsvarende WIP-branch. Dette issuet fikk relevante labels som skilte det fra andre issues. Hvis noen skulle jobbe med dette issuet tildelte de det til seg selv. Ved commit, tagget vi meldingen med issue-nummeret slik at det var tydelig at denne endringen tilhørte dette issuet. Alt dette førte til at det var tydelig hvem som jobbet på hva, og hvor langt vi hadde kommet. Vi valgte også å ta i bruk milestones fordi vi hadde flere issues som hørte sammen. Dette gjorde det enklere for gruppen å se progresjonen fra et øvre perspektiv. 
 
