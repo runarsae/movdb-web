@@ -52,6 +52,7 @@ export const useStyles = makeStyles((theme: Theme) =>
 function UserForm(props: Props): JSX.Element {
     const classes = useStyles();
 
+    // Toggles between login form and register form
     const [form, setForm] = useState<FormTypes>("login");
 
     return (

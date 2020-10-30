@@ -40,7 +40,7 @@ function Search(): JSX.Element {
     const [search, setSearch] = useState<string>();
 
     useEffect(() => {
-        // Write default value
+        // Write default value ("") to cache
         client.cache.writeQuery({
             query: SEARCH,
             data: {
@@ -49,6 +49,7 @@ function Search(): JSX.Element {
         });
     }, [client.cache]);
 
+    // On submit, blur input field and write the search text to cache
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         (document.activeElement! as HTMLElement).blur();
@@ -61,6 +62,7 @@ function Search(): JSX.Element {
         });
     };
 
+    // On search input change, update search value state
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSearch(event.target.value);
     };

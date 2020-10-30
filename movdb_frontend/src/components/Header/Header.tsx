@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Search from "./Search";
 import UserButton from "./UserButton";
 
@@ -57,11 +57,12 @@ const useStyles = makeStyles((theme: Theme) =>
 
 function Header(): JSX.Element {
     const classes = useStyles();
-    const [sortVisible, toggleSort] = React.useState<boolean>(false);
+    const [sortVisible, toggleSort] = useState<boolean>(false);
     const client = useApolloClient();
 
     const {data} = useQuery(MENU_OPEN);
 
+    // Set menu open field in cache to true when menu button is clicked
     const toggleMenu = () => {
         client.cache.writeQuery({
             query: MENU_OPEN,
@@ -79,6 +80,7 @@ function Header(): JSX.Element {
         <div>
             <ClickAwayListener
                 onClickAway={() => {
+                    // On click away, hide sort bar
                     if (sortVisible && !data.menuOpen) {
                         handleSortVisibility();
                     }

@@ -76,6 +76,8 @@ export default function TopMovie(props: Props) {
     function volumeHandler() {
         muted ? SetMute(false) : SetMute(true);
     }
+
+    // Fetch movie data for the given movie
     const {data} = useQuery(MOVIE_DATA, {
         variables: {imdb_id: IMDB_ID}
     });

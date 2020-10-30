@@ -190,6 +190,9 @@ const resolvers = {
         },
 
         menuOptions: async (obj, args, context) => {
+            // Get all possible values for genres, production companies and production countries,
+            // and get min and max value for release date and runtime
+
             movies = await db.collection("movies");
 
             genres = [];
@@ -261,7 +264,11 @@ const resolvers = {
 
         likes: async (obj, args, context) => {
             likes = await db.collection("likes");
+
+            // Get the number of likes for the given movie
             likesCount = likes.find({imdb_id: args.imdb_id}).count();
+
+            // Check if user has liked the given movie
             userLiked = await likes.find({imdb_id: args.imdb_id, username: context.username}).count();
             hasLiked = userLiked == 1;
 
@@ -319,7 +326,7 @@ const resolvers = {
                     return existingLike;
                 }
 
-                const newLike = await db
+                await db
                     .collection("likes")
                     .insertOne({imdb_id: args.imdb_id, username: context.username})
                     .then(() => {});

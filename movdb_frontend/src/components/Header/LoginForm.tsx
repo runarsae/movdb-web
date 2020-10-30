@@ -27,6 +27,7 @@ function LoginForm(props: Props): JSX.Element {
 
     const [submitted, setSubmitted] = useState<boolean>(false);
 
+    // Login query to backend, if token is returned, login is successful
     const [login, {called, loading, data, error}] = useLazyQuery(LOGIN, {
         onCompleted: (data) => {
             if (data) {
@@ -40,12 +41,14 @@ function LoginForm(props: Props): JSX.Element {
         }
     });
 
+    // When "Enter" key is pressed, submit login form
     const keyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             handleSubmit(e);
         }
     };
 
+    // On submit, call login query with input values
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         setSubmitted(true);

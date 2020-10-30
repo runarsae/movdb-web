@@ -79,8 +79,11 @@ function Sort(props: Props): JSX.Element {
     const [sort, setSort] = useState<Sort>("rating");
     const [sortDirection, setSortDirection] = useState<SortDirection>("DESC");
 
+    // Get search value from cache
     const {data: searchData} = useQuery(SEARCH);
 
+    // If search value is none, set sorting to rating DESC,
+    // else, set sort to "none", which means sort by relevance to search
     useEffect(() => {
         if (searchData && searchData.search === "") {
             setSort("rating");
@@ -90,6 +93,7 @@ function Sort(props: Props): JSX.Element {
         }
     }, [searchData]);
 
+    // Write sort value to cache
     useEffect(() => {
         client.cache.writeQuery({
             query: SORT,
@@ -99,6 +103,7 @@ function Sort(props: Props): JSX.Element {
         });
     }, [sort, client.cache]);
 
+    // Write sort direction value to cache
     useEffect(() => {
         client.cache.writeQuery({
             query: SORT_DIRECTION,
@@ -108,6 +113,7 @@ function Sort(props: Props): JSX.Element {
         });
     }, [sortDirection, client.cache]);
 
+    // Update sort state when a new sort is clicked
     const handleSortByClick = (newSort: Sort) => {
         if (newSort !== sort) {
             setSort(newSort);
@@ -116,6 +122,7 @@ function Sort(props: Props): JSX.Element {
         }
     };
 
+    // Update sort direction state when a new sort direction is clicked
     const handleSortDirectionClick = (newSortDirection: SortDirection) => {
         if (newSortDirection !== sortDirection) {
             setSortDirection(newSortDirection);

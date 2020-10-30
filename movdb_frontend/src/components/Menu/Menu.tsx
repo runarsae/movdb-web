@@ -88,20 +88,24 @@ function Menu() {
     const [menuValues, setMenuValues] = useState<Parameters | null>();
     const [menuOptions, setMenuOptions] = useState<Parameters | null>();
 
+    // Get menu open data from cache, updates when field change in cache
     const {data: menuOpenData} = useQuery(MENU_OPEN);
 
+    // When menu open data in cachche is changed, set the new value in internal state
     useEffect(() => {
         if (menuOpenData) {
             setMenuOpen(menuOpenData.menuOpen);
         }
     }, [menuOpenData]);
 
+    // Get menu options
     const {data: menuOptionsData, refetch} = useQuery(MENU_OPTIONS);
 
     if (!menuOptionsData) {
         refetch();
     }
 
+    // When menu options are fetched, store them internally and use them to set default values
     useEffect(() => {
         if (menuOptionsData) {
             setMenuOptions(menuOptionsData.menuOptions);
@@ -109,6 +113,7 @@ function Menu() {
         }
     }, [menuOptionsData]);
 
+    // Set default menu values from the given options
     const setDefaultMenuValues = (options: Parameters) => {
         const defaultMenuValues: Parameters = {
             genres: [],
@@ -126,6 +131,7 @@ function Menu() {
         setMenuValues(defaultMenuValues);
     };
 
+    // When menu is closed and menu values are defined, write the menu values to cache
     useEffect(() => {
         if (!menuOpen && menuValues) {
             client.cache.writeQuery({
@@ -137,6 +143,7 @@ function Menu() {
         }
     }, [menuValues, menuOpen, client.cache]);
 
+    // On menu close, write to cache
     const toggleDrawer = () => {
         client.cache.writeQuery({
             query: MENU_OPEN,

@@ -34,8 +34,10 @@ function UserButton(): JSX.Element {
     const [userMenuOpen, setUserMenuOpen] = useState<boolean>(false);
     const [userFormOpen, setUserFormOpen] = useState<boolean>(false);
 
+    // Reference to user button (when logged in); used as an anchor for placing the submenu
     const userButtonRef = useRef(null);
 
+    // Get current (logged in) user from backend (using authorization token from local storage)
     const {data, refetch} = useQuery(CURRENT_USER);
 
     const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
@@ -48,8 +50,12 @@ function UserButton(): JSX.Element {
     };
 
     const handleLogoutButtonClick = () => {
+        // Clear local storage (containing authorization token) on logout
         localStorage.clear();
+
+        // Refetch current user
         refetch();
+
         setUserMenuOpen(false);
         setAlertType("logout");
         setSnackbarOpen(true);
@@ -58,9 +64,11 @@ function UserButton(): JSX.Element {
     const handleUserFormClose = (e: UserFormCloseEvent) => {
         setUserFormOpen(false);
         if (e && (e === "login" || e === "register")) {
+            // On login, refetch current user
             if (e === "login") {
                 refetch();
             }
+
             setAlertType(e);
             setSnackbarOpen(true);
         }

@@ -28,6 +28,7 @@ function RegisterForm(props: Props): JSX.Element {
 
     const [submitted, setSubmitted] = useState<boolean>(false);
 
+    // Register mutation to backend
     const [register, {called, loading, data, error}] = useMutation(REGISTER, {
         onError: () => {},
         onCompleted: (data) => {
@@ -42,16 +43,18 @@ function RegisterForm(props: Props): JSX.Element {
         }
     });
 
+    // When "Enter" key is pressed, submit register form
     const keyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter") {
             handleSubmit(e);
         }
     };
 
+    // On submit, check if input fields has values and if the passwords match, then perform register mutation
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         setSubmitted(true);
-        
+
         if (error) {
             error.message = "";
         }
