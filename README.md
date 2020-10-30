@@ -69,7 +69,9 @@ To stop the server, go to the terminal where it is running, and press "ctrl + C"
 
 To run the project's tests, you can try typing:
 
-``` npm run test ```
+```
+npm run test
+```
 
 ## Wiki
 
