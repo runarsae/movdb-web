@@ -9,6 +9,9 @@ import Chip from "@material-ui/core/Chip";
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
+        formControl: {
+            color: theme.palette.primary.light
+        },
         chips: {
             display: "flex",
             flexWrap: "wrap"
@@ -62,7 +65,7 @@ function Selection(props: Props) {
     };
 
     return (
-        <FormControl>
+        <FormControl className={classes.formControl}>
             <InputLabel classes={{root: classes.inputLabel}}>{props.label}</InputLabel>
 
             <Select

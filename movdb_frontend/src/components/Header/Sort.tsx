@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme: Theme) =>
             },
             position: "fixed",
             zIndex: 1099,
-            backgroundColor: "white",
+            backgroundColor: theme.palette.background.paper,
+            color: theme.palette.primary.light,
             WebkitBoxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
             MozBoxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
             boxShadow: "0px 4px 10px 0px rgba(0,0,0,0.40)",
@@ -134,7 +135,7 @@ function Sort(props: Props): JSX.Element {
                     label="Rating"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "rating" ? "secondary" : "default"}
+                    color={sort === "rating" ? "primary" : "default"}
                     icon={<StarBorderRounded fontSize="small" />}
                     onClick={() => handleSortByClick("rating")}
                 />
@@ -142,7 +143,7 @@ function Sort(props: Props): JSX.Element {
                     label="Title"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "original_title" ? "secondary" : "default"}
+                    color={sort === "original_title" ? "primary" : "default"}
                     icon={<SortByAlphaRounded fontSize="small" />}
                     onClick={() => handleSortByClick("original_title")}
                 />
@@ -150,7 +151,7 @@ function Sort(props: Props): JSX.Element {
                     label="Runtime"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "runtime" ? "secondary" : "default"}
+                    color={sort === "runtime" ? "primary" : "default"}
                     icon={<AlarmRounded fontSize="small" />}
                     onClick={() => handleSortByClick("runtime")}
                 />
@@ -158,7 +159,7 @@ function Sort(props: Props): JSX.Element {
                     label="Release Date"
                     size={isWidthUp("sm", props.width) ? "medium" : "small"}
                     className={classes.chip}
-                    color={sort === "release_date" ? "secondary" : "default"}
+                    color={sort === "release_date" ? "primary" : "default"}
                     icon={<EventRounded fontSize="small" />}
                     onClick={() => handleSortByClick("release_date")}
                 />
@@ -169,7 +170,7 @@ function Sort(props: Props): JSX.Element {
                     label="ASC"
                     size="small"
                     className={classes.chip}
-                    color={sortDirection === "ASC" ? "primary" : "default"}
+                    color={sortDirection === "ASC" ? "secondary" : "default"}
                     icon={<ArrowUpwardRounded fontSize="small" />}
                     onClick={() => handleSortDirectionClick("ASC")}
                     clickable={sortDirection !== "ASC"}
@@ -179,7 +180,7 @@ function Sort(props: Props): JSX.Element {
                     label="DESC"
                     size="small"
                     className={classes.chip}
-                    color={sortDirection === "DESC" ? "primary" : "default"}
+                    color={sortDirection === "DESC" ? "secondary" : "default"}
                     icon={<ArrowDownwardRounded fontSize="small" />}
                     onClick={() => handleSortDirectionClick("DESC")}
                     clickable={sortDirection !== "DESC"}

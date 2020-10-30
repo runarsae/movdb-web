@@ -8,5 +8,5 @@ interface Props {
 export default function Rating(props: Props) {
     let value: string = "cl" + Math.round(props.rating).toString();
     let spec: string = "spec";
-    return <div className={`${value} ${spec}`}>{props.rating}</div>;
+    return <div className={`${value} ${spec}`}>{props.rating.toFixed(1)}</div>;
 }

@@ -16,9 +16,9 @@ const useStyles = makeStyles((theme: Theme) =>
             maxWidth: "500px",
             width: "100%",
             height: "100%",
-            backgroundColor: "white",
             padding: "50px",
             boxSizing: "border-box",
+            backgroundColor: theme.palette.background.default,
             "& > *": {
                 marginBottom: "50px"
             }
