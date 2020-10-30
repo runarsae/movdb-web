@@ -4,16 +4,7 @@
 
 Web-applikasjonen MovDB skaffer brukere informasjon om over 2000 filmer! Gjennom søkefeltet øverst på siden, kan brukerne finne filmer ved å skrive inn nøkkelord fra filmens tittel eller beskrivelse. Deretter kan de trykke på de enkelte filmene fra resultatet av søket. Da åpnes en popup, hvor brukeren kan se filmens trailer, se hvilke produksjonsselskap som lagde den, se hvilke(t) land filmen ble spilt inn i og se lengden av filmen. Dersom brukeren er registrert på siden, og har logget inn, kan den vise hvilke filmer som er dens favoritter ved å trykke på hjerteikonet. Det totale antallet av brukere som har likt filmen vises i ved siden av ikonet. Hvis brukeren ikke leter etter én bestemt film, kan den bruke applikasjonens filtrering og sortering til å finne filmer den vil se. Mens det er mulig å sortere på rating, lengde og lanseringsdato, kan man filtrere filmer på sjangre, produksjonsselskap, lanseringsdato og lendge. For å laste inn flere filmer som passer til søket/sorteringen/filtreringen, scroller man ned til bunnen av siden.  
 
-## Verktøy
-
-* [React](https://reactjs.org/)
-* [Apollo Client](https://www.apollographql.com/docs/react/)
-* [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
-* [GraphQL](https://graphql.org/)
-* [MongoDB](https://www.mongodb.com/)
-* [Material-UI](https://material-ui.com/)
-
-## Nedlasting
+## Installering og kjøring
 
 Ved å følge instruksjonene under, vil du kunne kjøre prosjektet på din lokale maskin både for utvikling og testing. 
 
@@ -22,33 +13,35 @@ Ved å følge instruksjonene under, vil du kunne kjøre prosjektet på din lokal
 Følgende er nødvendig for å kunne kjøre prosjektet:
 
 - [Node.js and npm](https://nodejs.org/en/download/)
-- [VPN](https://innsida.ntnu.no/wiki/-/wiki/Norsk/Installere+VPN) or a direct connection to the NTNU network.
+- [VPN](https://innsida.ntnu.no/wiki/-/wiki/Norsk/Installere+VPN) eller direkte tilkobling til NTNUs nettverk
 
-Du må muligens omstarte maskinen din etter at installeringen er ferdig.
 
 ### Installering
 
 #### Steg 1 - Klon Prosjektet
 Åpne en ny terminal, og naviger til mappen du ønsker å installere prosjektet i.
-Klone [repoet](https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3) ved å skrive: 
+Klonn [repoet](https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3) ved å skrive: 
 
 ```
 git clone https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3.git
 ```
+
 #### Step 2 - Koble til NTNUs nettverk
-Koble til NTNUs nettverk enten direkte, eller gjennom en VPN.
+Koble til NTNUs nettverk enten direkte, eller gjennom VPN.
 
 #### Step 3 - Installer og start backend
-Nå er vi klare til å installere avhengighetene:
 1. Åpne terminalen igjen
+
 2. Mens du er prosjektets rotmappe, naviger til backend-mappen: 
     ``` 
     ...\prosjekt-3\movdb_backend 
     ```
+    
 4. Installer avhengighetene til backend med: 
     ```
     npm install
     ```
+    
 5. Start backend med: 
     ``` 
     node index.js
@@ -56,35 +49,36 @@ Nå er vi klare til å installere avhengighetene:
 
 #### Steg 4 - Installer og kjør frontend:
 1. Åpne en ny terminal, men hold terminalen du brukte over åpen
+
 2. Mens du er i prosjektets rotmappe, naviger til frontend-mappen med: 
     ``` 
     ...\prosjekt-3\movdb_frontend 
     ```
-3. Installer avhengihetene til frontend med: 
+    
+3. Installer avhengighetene til frontend med: 
     ``` 
     npm install
     ```
+    
 4. Start frontend med: 
     ``` 
     npm start
     ```
 
 #### Steg 5 - Bruk applikasjonen:
-Åpne favorittnettleseren din og gå til [localhost:3000](localhost:3000). Hvis applikasjonen er ferdig med å komplilere, vil du bli møtt med forsiden av MovDB.
+I en nettleser, gå til [localhost:3000](localhost:3000). Hvis applikasjonen er ferdig kompilert, vil forsiden av MovDB dukke opp.
 
-# ![MovDBFront](Documentation/front.png)
-
-
-For å stoppe applikasjonen, gå til terminalene du åpnet for å starte frontend og backend og trykk "ctrl + C" på Windows, eller "cmd + C" på Mac.
+![MovDB Frontend](Documentation/front.png)
 
 ## Testing
 
-Prosjektet er testet med end-to-end testing med [Cypress](https://www.cypress.io/) og unit-testing med Jest. For å kjøre unit-testene må du igjen navigere til frontend-mappen. Deretter skriver du:
+Prosjektet er end-to-end-testet med [Cypress](https://www.cypress.io/) og unit-testet med Jest.
+* For å kjøre unit-testene må du igjen navigere til frontend-mappen. Deretter skriver du:
     ``` 
     npm test
     ```
 
-For å kjøre end-to-end-testene må du også være i frontend-mappen. Deretter skriver du:
+* For å kjøre end-to-end-testene må du også være i frontend-mappen. Merk at både backend og frontend må kjøre. Start testene med:
     ``` 
     npx cypress run
     ```
@@ -132,8 +126,18 @@ På GitLab tok vi i bruk det meste av den funksjonaliteten som blir tilbudt. Med
 
 I dette prosjektet var det mange forskjellige ting som skulle gjennomføres. Dette førte til at gruppemedlemmene ble gode på sine egne ting, og at man i starten ble stuck i sine “roller”. For å fikse dette satte vi fokus på å lære opp hverandre i det man hadde gjort slik at de som hadde gjort mye frontend fikk innføring i backend og omvendt. Dette førte til at gruppen ble mer effektiv fordi medlemmene kunne fullføre den fullstendige stacken til en utviklingsoppgave.
 
+# Verktøy
 
-## Bidragsytere
+* [React](https://reactjs.org/)
+* [Material-UI](https://material-ui.com/)
+* [Apollo Client](https://www.apollographql.com/docs/react/)
+* [GraphQL](https://graphql.org/)
+* [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
+* [MongoDB](https://www.mongodb.com/)
+* [React Indiana Drag Scroll](https://www.npmjs.com/package/react-indiana-drag-scroll)
+* [React Infinite Scroller](https://www.npmjs.com/package/react-infinite-scroller)
+
+# Bidragsytere
 * **Aleksander** - aleksawk@stud.ntnu.no - Gitlab: [aleksawk](https://gitlab.stud.idi.ntnu.no/aleksawk)
 * **Runar** - runarsae@stud.ntnu.no - Gitlab: [runarsae](https://gitlab.stud.idi.ntnu.no/runarsae)
 * **Erlend** - erlenmom@stud.ntnu.no - Gitlab: [erlenmom](https://gitlab.stud.idi.ntnu.no/erlenmom)
