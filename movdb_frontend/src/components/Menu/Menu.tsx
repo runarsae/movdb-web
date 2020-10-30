@@ -16,15 +16,18 @@ const useStyles = makeStyles((theme: Theme) =>
             maxWidth: "500px",
             width: "100%",
             height: "100%",
-            backgroundColor: "white"
+            backgroundColor: "white",
+            padding: "50px",
+            boxSizing: "border-box",
+            "& > *": {
+                marginBottom: "50px"
+            }
         },
         buttonGroup: {
             width: "100%",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            marginTop: "50px",
-            marginBottom: "50px"
+            justifyContent: "center"
         },
         button: {
             width: "auto",
@@ -36,19 +39,14 @@ const useStyles = makeStyles((theme: Theme) =>
         btnClose: {
             position: "absolute",
             right: "-12px",
-            top: 0
+            top: "-12px"
         },
         btnHolder: {
-            width: "80%",
+            width: "100%",
             position: "relative",
             height: "50px",
-            marginTop: "18px",
             marginLeft: "auto",
             marginRight: "auto"
-        },
-        heading: {
-            position: "absolute",
-            top: "12px"
         },
         "@global": {
             "*::-webkit-scrollbar": {
@@ -164,7 +162,7 @@ function Menu() {
             {menuValues && menuOptions && (
                 <Drawer anchor="right" open={menuOpen} onClose={toggleDrawer} classes={{paper: classes.menuContainer}}>
                     <div className={classes.btnHolder}>
-                        <Typography variant="h5" color="initial" className={classes.heading}>
+                        <Typography variant="h5" color="initial">
                             Filter
                         </Typography>
                         <IconButton aria-label="close" onClick={toggleDrawer} className={classes.btnClose}>
