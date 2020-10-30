@@ -82,6 +82,7 @@ interface Movie {
     release_date: Date;
     runtime: number;
     trailer: string;
+    rating: number;
 }
 
 interface MovieLikes {
@@ -97,7 +98,7 @@ function MoviePopup(props: Props) {
         setExpanded(!expanded);
     };
 
-    const {data: userData} = useQuery(CURRENT_USER);
+    const {data: userData, refetch: refetchUser} = useQuery(CURRENT_USER);
 
     const [movieData, setMovieData] = useState<Movie>();
 
@@ -156,11 +157,12 @@ function MoviePopup(props: Props) {
 
     useEffect(() => {
         if (props.open) {
+            refetchUser();
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "visible";
         }
-    }, [props.open]);
+    }, [props.open, refetchUser]);
 
     const handleClose = () => {
         if (props.open) {
@@ -210,7 +212,7 @@ function MoviePopup(props: Props) {
                                 >
                                     <FavoriteIcon />
                                 </IconButton>
-                                {likesCount}
+                                <span id="likesCount">{likesCount}</span>
 
                                 <IconButton
                                     className={clsx(classes.expand, {
@@ -232,7 +234,11 @@ function MoviePopup(props: Props) {
                             <Collapse in={expanded} timeout="auto" unmountOnExit>
                                 <CardContent>
                                     <Typography>
-                                        <b>Runtime:</b> {movieData.runtime} min
+                                        <b>Rating:</b> <span id="runtime">{movieData.rating}</span>
+                                    </Typography>
+
+                                    <Typography>
+                                        <b>Runtime:</b> <span id="runtime">{movieData.runtime}</span> min
                                     </Typography>
 
                                     <Typography>

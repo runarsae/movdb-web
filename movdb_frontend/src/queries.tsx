@@ -48,6 +48,7 @@ const MOVIE_DATA = gql`
             runtime
             release_date
             trailer
+            rating
         }
     }
 `;
