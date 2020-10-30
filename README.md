@@ -47,11 +47,11 @@ Nå er vi klare til å installere avhengighetene:
     ```
 4. Installer avhengighetene til backend med: 
     ```
-    ...\prosjekt-3\movdb_backend npm install
+    npm install
     ```
 5. Start backend med: 
     ``` 
-    ...\prosjekt-3\movdb_backend node index.js
+    node index.js
     ```
 
 #### Steg 4 - Installer og kjør frontend:
@@ -62,11 +62,11 @@ Nå er vi klare til å installere avhengighetene:
     ```
 3. Installer avhengihetene til frontend med: 
     ``` 
-    ...\prosjekt-3\movdb_frontend npm install
+    npm install
     ```
 4. Start frontend med: 
     ``` 
-    ...\prosjekt-3\movdb_frontend npm start
+    npm start
     ```
 
 #### Steg 5 - Bruk applikasjonen:
@@ -81,12 +81,12 @@ For å stoppe applikasjonen, gå til terminalene du åpnet for å starte fronten
 
 Prosjektet er testet med end-to-end testing med [Cypress](https://www.cypress.io/) og unit-testing med Jest. For å kjøre unit-testene må du igjen navigere til frontend-mappen. Deretter skriver du:
     ``` 
-    ...\prosjekt-3\movdb_frontend npm test
+    npm test
     ```
 
-For å kjøre end-to-end-testene må du navigere til backend-mappen. Deretter skriver du:
+For å kjøre end-to-end-testene må du også være i frontend-mappen. Deretter skriver du:
     ``` 
-    ...\prosjekt-3\movdb_backend npx cypress run
+    npx cypress run
     ```
 
 # Dokumentasjon
