@@ -126,7 +126,7 @@ På GitLab tok vi i bruk det meste av den funksjonaliteten som blir tilbudt. Med
 
 I dette prosjektet var det mange forskjellige ting som skulle gjennomføres. Dette førte til at gruppemedlemmene ble gode på sine egne ting, og at man i starten ble stuck i sine “roller”. For å fikse dette satte vi fokus på å lære opp hverandre i det man hadde gjort slik at de som hadde gjort mye frontend fikk innføring i backend og omvendt. Dette førte til at gruppen ble mer effektiv fordi medlemmene kunne fullføre den fullstendige stacken til en utviklingsoppgave.
 
-# Verktøy
+# Verktøy og tredjepartskomponenter
 
 * [React](https://reactjs.org/)
 * [Material-UI](https://material-ui.com/)
