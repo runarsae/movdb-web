@@ -18,9 +18,9 @@ Følgende er nødvendig for å kunne kjøre prosjektet:
 
 ### Installering
 
-#### Steg 1 - Klon Prosjektet
-Åpne en ny terminal, og naviger til mappen du ønsker å installere prosjektet i.
-Klonn [repoet](https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3) ved å skrive: 
+#### Steg 1 - Klon prosjektet
+Åpne en terminal, og naviger til mappen du ønsker å installere prosjektet i.
+Klon repoet ved å skrive: 
 
 ```
 git clone https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3.git
@@ -30,9 +30,9 @@ git clone https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3.git
 Koble til NTNUs nettverk enten direkte, eller gjennom VPN.
 
 #### Step 3 - Installer og start backend
-1. Åpne terminalen igjen
+1. Åpne terminal
 
-2. Mens du er prosjektets rotmappe, naviger til backend-mappen: 
+2. Fra prosjektets rotmappe, naviger til backend-mappen: 
     ``` 
     ...\prosjekt-3\movdb_backend 
     ```
@@ -50,7 +50,7 @@ Koble til NTNUs nettverk enten direkte, eller gjennom VPN.
 #### Steg 4 - Installer og kjør frontend:
 1. Åpne en ny terminal, men hold terminalen du brukte over åpen
 
-2. Mens du er i prosjektets rotmappe, naviger til frontend-mappen med: 
+2. I prosjektets rotmappe, naviger til frontend-mappen: 
     ``` 
     ...\prosjekt-3\movdb_frontend 
     ```
@@ -73,7 +73,7 @@ I en nettleser, gå til [localhost:3000](localhost:3000). Hvis applikasjonen er 
 ## Testing
 
 Prosjektet er end-to-end-testet med [Cypress](https://www.cypress.io/) og unit-testet med Jest.
-* For å kjøre unit-testene må du igjen navigere til frontend-mappen. Deretter skriver du:
+* For å kjøre unit-testene må du navigere til frontend-mappen. Deretter skriver du:
     ``` 
     npm test
     ```
