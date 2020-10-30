@@ -45,6 +45,17 @@ const typeDefs = gql`
         pageCount: Int
     }
 
+    type Like {
+        hasLiked: Boolean
+        likesCount: Int
+    }
+
+    type AddLike {
+        _id: ID
+        imdb_id: String!
+        username: String!
+    }
+
     enum SortBy {
         original_title
         release_date
@@ -97,11 +108,13 @@ const typeDefs = gql`
             pageSize: Int = 20
         ): Movies
         movie(imdb_id: String!): Movie
+        likes(imdb_id: String!): Like
         menuOptions: MenuOptions
     }
 
     type Mutation {
         createUser(username: String!, password: String!): User
+        createLike(imdb_id: String!): AddLike
     }
 `;
 
