@@ -23,7 +23,7 @@ Følgende er nødvendig for å kunne kjøre prosjektet:
 Klon repoet ved å skrive: 
 
 ```
-git clone https://gitlab.stud.idi.ntnu.no/it2810-h20/team-23/prosjekt-3.git
+git clone https://github.com/runarsae/movdb-web.git
 ```
 
 #### 2 - Koble til NTNUs nettverk
